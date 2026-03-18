@@ -17,7 +17,7 @@ const HeroSection = () => (
           Read the Paper →
         </a>
         <a
-          href="https://github.com/kairos-framework"
+          href="https://github.com/kairos-dev-kairos-ecl"
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-md hover:opacity-90 transition-opacity text-sm font-medium"

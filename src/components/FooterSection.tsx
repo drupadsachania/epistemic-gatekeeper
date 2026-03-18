@@ -7,7 +7,7 @@ const FooterSection = () => (
       </div>
       <div className="flex items-center gap-6">
         <a href="#paper" className="text-xs text-muted-foreground hover:text-foreground transition-colors">Paper</a>
-        <a href="https://github.com/kairos-framework" target="_blank" rel="noopener noreferrer" className="text-xs text-muted-foreground hover:text-foreground transition-colors">GitHub</a>
+        <a href="https://github.com/kairos-dev-kairos-ecl" target="_blank" rel="noopener noreferrer" className="text-xs text-muted-foreground hover:text-foreground transition-colors">GitHub</a>
         <a href="#" className="text-xs text-muted-foreground hover:text-foreground transition-colors">License (MIT)</a>
       </div>
     </div>
