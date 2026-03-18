@@ -7,7 +7,7 @@ const CommunitySection = () => (
       <div className="grid md:grid-cols-2 gap-16 mb-12">
         <div className="space-y-4">
           <a
-            href="https://github.com/kairos-framework/kairos-core"
+            href="https://github.com/kairos-dev-kairos-ecl/kairos-core"
             target="_blank"
             rel="noopener noreferrer"
             className="block font-mono text-sm text-foreground hover:text-primary transition-colors"
@@ -15,7 +15,7 @@ const CommunitySection = () => (
             kairos-framework/kairos-core →
           </a>
           <a
-            href="https://github.com/kairos-framework/kairos-security"
+            href="https://github.com/kairos-dev-kairos-ecl/kairos-security"
             target="_blank"
             rel="noopener noreferrer"
             className="block font-mono text-sm text-foreground hover:text-primary transition-colors"
@@ -30,7 +30,7 @@ const CommunitySection = () => (
         </div>
       </div>
       <a
-        href="https://github.com/kairos-framework"
+        href="https://github.com/kairos-dev-kairos-ecl"
         target="_blank"
         rel="noopener noreferrer"
         className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-md hover:opacity-90 transition-opacity text-sm font-medium"
