@@ -7,7 +7,7 @@ const CommunitySection = () => (
       <div className="grid md:grid-cols-2 gap-16 mb-12">
         <div className="space-y-4">
           <a
-            href="https://github.com/kairos-framework/kairos-core"
+            href="https://github.com/kairos-dev-kairos-ecl/kairos-core"
             target="_blank"
             rel="noopener noreferrer"
             className="block font-mono text-sm text-foreground hover:text-primary transition-colors"
