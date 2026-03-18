@@ -15,7 +15,7 @@ const CommunitySection = () => (
             kairos-framework/kairos-core →
           </a>
           <a
-            href="https://github.com/kairos-framework/kairos-security"
+            href="https://github.com/kairos-dev-kairos-ecl/kairos-security"
             target="_blank"
             rel="noopener noreferrer"
             className="block font-mono text-sm text-foreground hover:text-primary transition-colors"
