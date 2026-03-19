@@ -1,6 +1,11 @@
 const HeroSection = () => (
   <section className="min-h-screen flex items-center justify-center px-6">
     <div className="max-w-4xl mx-auto text-center">
+      <img
+        src="/kairos-logo.png"
+        alt="Kairos"
+        className="h-20 md:h-28 mx-auto mb-10"
+      />
       <h1 className="text-4xl sm:text-5xl md:text-7xl font-semibold tracking-tight leading-[1.1] mb-8 text-foreground">
         Know when to act.
         <br />

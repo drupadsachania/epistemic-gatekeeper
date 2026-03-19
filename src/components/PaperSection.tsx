@@ -13,7 +13,7 @@ const PaperSection = () => (
       </span>
       <div className="mb-12">
         <a
-          href="#"
+          href="/EARNING_THE_RIGHT_TO_ACT.pdf"
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex items-center gap-2 px-6 py-3 border border-border rounded-md text-foreground hover:bg-secondary transition-colors text-sm font-medium"

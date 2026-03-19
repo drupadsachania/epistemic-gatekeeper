@@ -41,6 +41,17 @@ const FrameworkSection = () => (
           <p className="text-primary">It is a hypothesis source. Nothing more.</p>
         </div>
       </div>
+
+      <div className="mt-8">
+        <a
+          href="https://github.com/kairos-dev-kairos-ecl/kairos-core"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 text-sm font-mono text-muted-foreground hover:text-primary transition-colors"
+        >
+          Explore the framework documentation →
+        </a>
+      </div>
     </div>
   </section>
 );

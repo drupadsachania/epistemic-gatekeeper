@@ -1,9 +1,12 @@
 const FooterSection = () => (
   <footer className="border-t border-border py-16 px-6">
     <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-      <div>
-        <p className="font-mono text-sm text-foreground mb-1">Kairos</p>
-        <p className="text-xs text-muted-foreground">Open Epistemic Decision Framework</p>
+      <div className="flex items-center gap-3">
+        <img src="/kairos-logo.png" alt="Kairos" className="h-8" />
+        <div>
+          <p className="font-mono text-sm text-foreground mb-1">Kairos</p>
+          <p className="text-xs text-muted-foreground">Open Epistemic Decision Framework</p>
+        </div>
       </div>
       <div className="flex items-center gap-6">
         <a href="#paper" className="text-xs text-muted-foreground hover:text-foreground transition-colors">Paper</a>
