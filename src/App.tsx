@@ -3,8 +3,22 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import Index from "./pages/Index.tsx";
-import NotFound from "./pages/NotFound.tsx";
+import ScrollToTop from "./components/ScrollToTop";
+import Layout from "./components/Layout";
+import Index from "./pages/Index";
+import NotFound from "./pages/NotFound";
+import Problem from "./pages/Problem";
+import FrameworkOverview from "./pages/FrameworkOverview";
+import DecisionStates from "./pages/DecisionStates";
+import SignalReference from "./pages/SignalReference";
+import OodaMapping from "./pages/OodaMapping";
+import ArgusOverview from "./pages/ArgusOverview";
+import ArgusExamples from "./pages/ArgusExamples";
+import SignalFrameworkMap from "./pages/SignalFrameworkMap";
+import Research from "./pages/Research";
+import Adoption from "./pages/Adoption";
+import Community from "./pages/Community";
+import ComingSoon from "./pages/ComingSoon";
 
 const queryClient = new QueryClient();
 
@@ -14,9 +28,25 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter basename="/">
+        <ScrollToTop />
         <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="*" element={<NotFound />} />
+          <Route element={<Layout />}>
+            <Route path="/" element={<Index />} />
+            <Route path="/problem" element={<Problem />} />
+            <Route path="/framework" element={<FrameworkOverview />} />
+            <Route path="/framework/decision-states" element={<DecisionStates />} />
+            <Route path="/framework/signal-reference" element={<SignalReference />} />
+            <Route path="/framework/ooda-mapping" element={<OodaMapping />} />
+            <Route path="/argus" element={<ArgusOverview />} />
+            <Route path="/argus/examples" element={<ArgusExamples />} />
+            <Route path="/docs/signal-framework-map" element={<SignalFrameworkMap />} />
+            <Route path="/research" element={<Research />} />
+            <Route path="/adoption" element={<Adoption />} />
+            <Route path="/community" element={<Community />} />
+            <Route path="/docs/signals" element={<ComingSoon title="Signal Documentation" />} />
+            <Route path="/docs/decision-criteria" element={<ComingSoon title="Decision Criteria" />} />
+            <Route path="*" element={<NotFound />} />
+          </Route>
         </Routes>
       </BrowserRouter>
     </TooltipProvider>

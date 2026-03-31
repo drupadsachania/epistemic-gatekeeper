@@ -51,6 +51,12 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        state: {
+          act: "hsl(var(--state-act))",
+          escalate: "hsl(var(--state-escalate))",
+          defer: "hsl(var(--state-defer))",
+          "fail-safe": "hsl(var(--state-fail-safe))",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
