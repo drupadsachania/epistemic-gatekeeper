@@ -5,8 +5,8 @@ import ReactiveTextOverlay from '../Common/ReactiveTextOverlay';
 export const HeroSection: React.FC = () => {
   return (
     <Section id="problem" className="relative overflow-hidden">
-      {/* Reactive LLM token text overlay - DISABLED for performance */}
-      {/* <ReactiveTextOverlay /> */}
+      {/* Reactive LLM token text overlay */}
+      <ReactiveTextOverlay />
 
       {/* Content */}
       <div className="relative z-10 max-w-4xl mx-auto text-center px-4 sm:px-6">
