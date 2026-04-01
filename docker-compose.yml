@@ -1,0 +1,76 @@
+version: '3.8'
+
+services:
+  # Main application container
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: kairos-ecl-app
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - VITE_API_URL=${VITE_API_URL:-https://api.kairos-ecl.com}
+      - VITE_SENTRY_DSN=${VITE_SENTRY_DSN:-}
+      - VITE_ANALYTICS_ID=${VITE_ANALYTICS_ID:-}
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 5s
+    networks:
+      - kairos-network
+    volumes:
+      - ./dist:/app/dist:ro
+    labels:
+      - "com.example.description=Kairos ECL Application"
+
+  # Optional: Reverse proxy with Nginx
+  nginx:
+    image: nginx:alpine
+    container_name: kairos-ecl-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./ssl:/etc/nginx/ssl:ro
+    depends_on:
+      - app
+    restart: unless-stopped
+    networks:
+      - kairos-network
+    profiles:
+      - production
+
+  # Optional: Database for analytics (PostgreSQL)
+  postgres:
+    image: postgres:15-alpine
+    container_name: kairos-ecl-postgres
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB:-kairos}
+      - POSTGRES_USER=${POSTGRES_USER:-postgres}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-changeme}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+    networks:
+      - kairos-network
+    profiles:
+      - with-db
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+networks:
+  kairos-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+    driver: local

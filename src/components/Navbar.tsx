@@ -70,8 +70,8 @@ const DesktopNav = () => {
               to="/problem"
               className={cn(
                 navigationMenuTriggerStyle(),
-                "bg-transparent",
-                isActive("/problem") && "text-primary"
+                "bg-transparent text-foreground/70 hover:text-foreground transition-colors",
+                isActive("/problem") && "text-foreground font-semibold"
               )}
             >
               Problem
@@ -81,7 +81,7 @@ const DesktopNav = () => {
 
         <NavigationMenuItem>
           <NavigationMenuTrigger
-            className={cn("bg-transparent", isActive("/framework") && "text-primary")}
+            className={cn("bg-transparent text-foreground/70 hover:text-foreground transition-colors", isActive("/framework") && "text-foreground font-semibold")}
           >
             Framework
           </NavigationMenuTrigger>
@@ -96,7 +96,7 @@ const DesktopNav = () => {
 
         <NavigationMenuItem>
           <NavigationMenuTrigger
-            className={cn("bg-transparent", isActive("/argus") && "text-primary")}
+            className={cn("bg-transparent text-foreground/70 hover:text-foreground transition-colors", isActive("/argus") && "text-foreground font-semibold")}
           >
             Argus
           </NavigationMenuTrigger>
@@ -115,8 +115,8 @@ const DesktopNav = () => {
               to="/docs/signal-framework-map"
               className={cn(
                 navigationMenuTriggerStyle(),
-                "bg-transparent",
-                isActive("/docs") && "text-primary"
+                "bg-transparent text-foreground/70 hover:text-foreground transition-colors",
+                isActive("/docs") && "text-foreground font-semibold"
               )}
             >
               Docs
@@ -130,8 +130,8 @@ const DesktopNav = () => {
               to="/research"
               className={cn(
                 navigationMenuTriggerStyle(),
-                "bg-transparent",
-                isActive("/research") && "text-primary"
+                "bg-transparent text-foreground/70 hover:text-foreground transition-colors",
+                isActive("/research") && "text-foreground font-semibold"
               )}
             >
               Research
@@ -145,8 +145,8 @@ const DesktopNav = () => {
               to="/adoption"
               className={cn(
                 navigationMenuTriggerStyle(),
-                "bg-transparent",
-                isActive("/adoption") && "text-primary"
+                "bg-transparent text-foreground/70 hover:text-foreground transition-colors",
+                isActive("/adoption") && "text-foreground font-semibold"
               )}
             >
               Adoption
@@ -246,7 +246,7 @@ const Navbar = () => {
   const isMobile = useIsMobile();
 
   return (
-    <nav className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <nav className="sticky top-0 z-50 border-b backdrop-blur-xl" style={{ backgroundColor: 'hsl(0, 0%, 18%)', borderBottomColor: 'hsl(0, 0%, 25%)', WebkitBackdropFilter: 'blur(10px)' }}>
       <div className="max-w-5xl mx-auto px-6 flex items-center justify-between h-14">
         <Link to="/" className="flex items-center gap-2 shrink-0">
           <img src="/kairos-logo.png" alt="Kairos" className="h-7" />

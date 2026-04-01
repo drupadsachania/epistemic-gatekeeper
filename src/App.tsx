@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { useEffect } from "react";
 import ScrollToTop from "./components/ScrollToTop";
 import Layout from "./components/Layout";
 import Index from "./pages/Index";
@@ -19,10 +20,19 @@ import Research from "./pages/Research";
 import Adoption from "./pages/Adoption";
 import Community from "./pages/Community";
 import ComingSoon from "./pages/ComingSoon";
+import InteractivePage from './pages/InteractivePage';
+import { initServiceWorker } from "./lib/serviceWorker";
+import { initializeErrorTracking } from "./lib/errorTracking";
+import { initializeSecurity } from "./lib/security";
+import { initializeMonitoring } from "./lib/monitoring";
+import { config } from "./lib/env";
+import ErrorBoundary from "./components/ErrorBoundary";
+import './styles/globals.css';
 
 const queryClient = new QueryClient();
 
-const App = () => (
+// App component with error boundary and production configuration
+const AppContent = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <Toaster />
@@ -32,6 +42,7 @@ const App = () => (
         <Routes>
           <Route element={<Layout />}>
             <Route path="/" element={<Index />} />
+            <Route path="/interactive" element={<InteractivePage />} />
             <Route path="/problem" element={<Problem />} />
             <Route path="/framework" element={<FrameworkOverview />} />
             <Route path="/framework/decision-states" element={<DecisionStates />} />
@@ -52,5 +63,29 @@ const App = () => (
     </TooltipProvider>
   </QueryClientProvider>
 );
+
+// Wrap app with error boundary for production safety
+const App = () => {
+  // Initialize systems after React mounts
+  useEffect(() => {
+    initializeSecurity();
+    initializeErrorTracking();
+    initializeMonitoring();
+
+    if (config.serviceWorkerEnabled) {
+      initServiceWorker({
+        enabled: true,
+        onUpdate: () => console.log('✅ Service worker updated'),
+        onInstall: () => console.log('✅ Service worker installed'),
+      });
+    }
+  }, []);
+
+  return (
+    <ErrorBoundary>
+      <AppContent />
+    </ErrorBoundary>
+  );
+};
 
 export default App;

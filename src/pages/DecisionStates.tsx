@@ -118,59 +118,46 @@ const DecisionStates = () => (
       </div>
     </section>
 
-    {/* State Tabs */}
+    {/* State Grid - All 4 states visible at once */}
     <section className="px-6 pb-16">
-      <div className="max-w-3xl mx-auto">
-        <Tabs defaultValue="act">
-          <TabsList className="grid grid-cols-4 w-full mb-8">
-            {states.map((s) => (
-              <TabsTrigger key={s.id} value={s.id} className="text-xs sm:text-sm font-mono">
-                {s.name}
-              </TabsTrigger>
-            ))}
-          </TabsList>
-
+      <div className="max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {states.map((s) => (
-            <TabsContent key={s.id} value={s.id}>
-              <div className={`border rounded-lg p-6 ${s.borderColor}`}>
-                <div className="flex items-center gap-3 mb-4">
-                  <span className={`inline-block w-3 h-3 rounded-full ${s.color}`} />
-                  <h3 className={`text-xl font-mono font-semibold ${s.textColor}`}>{s.name}</h3>
+            <div key={s.id} className={`border rounded-lg p-4 ${s.borderColor} hover:bg-secondary/10 transition-colors`}>
+              <div className="flex items-center gap-2 mb-3">
+                <span className={`inline-block w-2 h-2 rounded-full ${s.color}`} />
+                <h3 className={`text-lg font-mono font-semibold ${s.textColor}`}>{s.name}</h3>
+              </div>
+
+              <div className="space-y-3 text-sm">
+                <div>
+                  <p className="font-medium text-foreground/80 mb-1">When</p>
+                  <p className="text-muted-foreground line-clamp-3">{s.when}</p>
                 </div>
 
-                <div className="space-y-6">
-                  <div>
-                    <p className="text-sm font-medium text-foreground mb-1">When to use</p>
-                    <p className="text-sm text-muted-foreground leading-relaxed">{s.when}</p>
-                  </div>
+                <div className="pt-2 border-t border-border/50">
+                  <p className="font-medium text-foreground/80 mb-1">Example</p>
+                  <p className="text-muted-foreground text-xs line-clamp-2">{s.example.scenario}</p>
+                </div>
 
-                  <div>
-                    <p className="text-sm font-medium text-foreground mb-1">Example</p>
-                    <div className="border border-border rounded-lg p-4 bg-secondary/20">
-                      <p className="text-sm font-medium text-foreground mb-1">{s.example.scenario}</p>
-                      <p className="text-sm text-muted-foreground">{s.example.detail}</p>
-                    </div>
-                  </div>
+                <div>
+                  <p className="font-medium text-foreground/80 mb-1 text-xs">Conditions</p>
+                  <ul className="space-y-0.5">
+                    {s.conditions.slice(0, 2).map((c, i) => (
+                      <li key={i} className="text-muted-foreground text-xs flex items-start gap-1">
+                        <span className="mt-0.5">•</span> <span className="line-clamp-1">{c}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
 
-                  <div>
-                    <p className="text-sm font-medium text-foreground mb-2">Trigger conditions</p>
-                    <ul className="space-y-1">
-                      {s.conditions.map((c, i) => (
-                        <li key={i} className="text-sm text-muted-foreground flex items-start gap-2">
-                          <span className="text-muted-foreground/50 mt-0.5">•</span> {c}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  <div>
-                    <p className="text-xs font-mono text-muted-foreground">{s.policyRule}</p>
-                  </div>
+                <div className="pt-2 border-t border-border/50">
+                  <p className="text-xs font-mono text-muted-foreground/70">{s.policyRule}</p>
                 </div>
               </div>
-            </TabsContent>
+            </div>
           ))}
-        </Tabs>
+        </div>
       </div>
     </section>
 

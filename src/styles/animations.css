@@ -1,0 +1,81 @@
+/* Section entry */
+@keyframes sectionFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Pulsing glow */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
+}
+
+/* Glitch effect */
+@keyframes glitch {
+  0% {
+    text-shadow: 2px 2px var(--glitch-red), -2px -2px var(--glitch-cyan);
+  }
+  50% {
+    text-shadow: -2px 2px var(--glitch-cyan), 2px -2px var(--glitch-red);
+  }
+  100% {
+    text-shadow: 0 0 transparent;
+  }
+}
+
+/* Character reveal */
+@keyframes charReveal {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Glow animation */
+@keyframes glow {
+  0%, 100% {
+    box-shadow: 0 0 5px currentColor;
+  }
+  50% {
+    box-shadow: 0 0 20px currentColor;
+  }
+}
+
+/* Count up (for AnimatedNumber) */
+@keyframes countUp {
+  from {
+    counter-increment: value 0;
+  }
+  to {
+    counter-increment: value var(--value);
+  }
+}
+
+/* Apply utilities */
+.animate-section-in {
+  animation: sectionFadeIn 0.6s ease-out forwards;
+}
+
+.animate-pulse {
+  animation: pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.animate-glitch {
+  animation: glitch 0.3s ease-in-out;
+}
+
+.animate-glow {
+  animation: glow 2s ease-in-out infinite;
+}
