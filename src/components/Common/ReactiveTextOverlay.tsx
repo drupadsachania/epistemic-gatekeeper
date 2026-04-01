@@ -112,7 +112,7 @@ const ReactiveTextOverlay: React.FC = () => {
 
     let particleCount = 0;
     const targetParticleCount = 35;
-    let tokenSequence = generateTokenSequence();
+    const tokenSequence = generateTokenSequence();
     let tokenIndex = 0;
 
     const generateParticle = (): TextParticle => {
