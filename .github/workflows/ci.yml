@@ -46,101 +46,102 @@ jobs:
             echo "⚠️ Bundle size warning: exceeds 1MB threshold"
           fi
 
-  # Job 2: Build and Push Docker Image
-  docker:
-    runs-on: ubuntu-latest
-    needs: test
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+  # Job 2: Build and Push Docker Image (requires secrets - configure as needed)
+  # Uncomment when Docker Hub credentials are configured
+  # docker:
+  #   runs-on: ubuntu-latest
+  #   needs: test
+  #   if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+  #
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #
+  #     - name: Set up Docker Buildx
+  #       uses: docker/setup-buildx-action@v3
+  #
+  #     - name: Login to Docker Hub
+  #       uses: docker/login-action@v3
+  #       with:
+  #         username: ${{ secrets.DOCKER_USERNAME }}
+  #         password: ${{ secrets.DOCKER_PASSWORD }}
+  #
+  #     - name: Build and push Docker image
+  #       uses: docker/build-push-action@v5
+  #       with:
+  #         context: .
+  #         push: true
+  #         tags: |
+  #           ${{ secrets.DOCKER_USERNAME }}/kairos-ecl:latest
+  #           ${{ secrets.DOCKER_USERNAME }}/kairos-ecl:${{ github.sha }}
+  #         cache-from: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/kairos-ecl:buildcache
+  #         cache-to: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/kairos-ecl:buildcache,mode=max
 
-    steps:
-      - uses: actions/checkout@v4
+  # Job 3: Deploy to Staging (requires secrets - configure as needed)
+  # deploy-staging:
+  #   runs-on: ubuntu-latest
+  #   needs: docker
+  #   if: github.ref == 'refs/heads/develop' && github.event_name == 'push'
+  #
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #
+  #     - name: Deploy to Staging
+  #       env:
+  #         DEPLOY_KEY: ${{ secrets.STAGING_DEPLOY_KEY }}
+  #         DEPLOY_HOST: ${{ secrets.STAGING_DEPLOY_HOST }}
+  #         DEPLOY_PATH: ${{ secrets.STAGING_DEPLOY_PATH }}
+  #       run: |
+  #         mkdir -p ~/.ssh
+  #         echo "$DEPLOY_KEY" > ~/.ssh/id_rsa
+  #         chmod 600 ~/.ssh/id_rsa
+  #         ssh-keyscan -H $DEPLOY_HOST >> ~/.ssh/known_hosts
+  #
+  #         ssh -i ~/.ssh/id_rsa $DEPLOY_HOST "cd $DEPLOY_PATH && \
+  #           docker pull ${{ secrets.DOCKER_USERNAME }}/kairos-ecl:latest && \
+  #           docker-compose up -d"
+  #
+  #     - name: Run smoke tests
+  #       env:
+  #         STAGING_URL: ${{ secrets.STAGING_URL }}
+  #       run: |
+  #         echo "Running smoke tests against $STAGING_URL"
+  #         curl -f $STAGING_URL || exit 1
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
-      - name: Login to Docker Hub
-        uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          push: true
-          tags: |
-            ${{ secrets.DOCKER_USERNAME }}/kairos-ecl:latest
-            ${{ secrets.DOCKER_USERNAME }}/kairos-ecl:${{ github.sha }}
-          cache-from: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/kairos-ecl:buildcache
-          cache-to: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/kairos-ecl:buildcache,mode=max
-
-  # Job 3: Deploy to Staging
-  deploy-staging:
-    runs-on: ubuntu-latest
-    needs: docker
-    if: github.ref == 'refs/heads/develop' && github.event_name == 'push'
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Deploy to Staging
-        env:
-          DEPLOY_KEY: ${{ secrets.STAGING_DEPLOY_KEY }}
-          DEPLOY_HOST: ${{ secrets.STAGING_DEPLOY_HOST }}
-          DEPLOY_PATH: ${{ secrets.STAGING_DEPLOY_PATH }}
-        run: |
-          mkdir -p ~/.ssh
-          echo "$DEPLOY_KEY" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -H $DEPLOY_HOST >> ~/.ssh/known_hosts
-
-          ssh -i ~/.ssh/id_rsa $DEPLOY_HOST "cd $DEPLOY_PATH && \
-            docker pull ${{ secrets.DOCKER_USERNAME }}/kairos-ecl:latest && \
-            docker-compose up -d"
-
-      - name: Run smoke tests
-        env:
-          STAGING_URL: ${{ secrets.STAGING_URL }}
-        run: |
-          echo "Running smoke tests against $STAGING_URL"
-          curl -f $STAGING_URL || exit 1
-
-  # Job 4: Deploy to Production
-  deploy-production:
-    runs-on: ubuntu-latest
-    needs: docker
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-    environment:
-      name: production
-      url: https://kairos-ecl.com
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Deploy to Production
-        env:
-          DEPLOY_KEY: ${{ secrets.PROD_DEPLOY_KEY }}
-          DEPLOY_HOST: ${{ secrets.PROD_DEPLOY_HOST }}
-          DEPLOY_PATH: ${{ secrets.PROD_DEPLOY_PATH }}
-        run: |
-          mkdir -p ~/.ssh
-          echo "$DEPLOY_KEY" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -H $DEPLOY_HOST >> ~/.ssh/known_hosts
-
-          ssh -i ~/.ssh/id_rsa $DEPLOY_HOST "cd $DEPLOY_PATH && \
-            docker pull ${{ secrets.DOCKER_USERNAME }}/kairos-ecl:latest && \
-            docker-compose up -d && \
-            docker-compose exec -T app npm run health-check"
-
-      - name: Notify Slack on deployment
-        if: always()
-        uses: 8398a7/action-slack@v3
-        with:
-          status: ${{ job.status }}
-          text: 'Production deployment ${{ job.status }}'
-          webhook_url: ${{ secrets.SLACK_WEBHOOK }}
+  # Job 4: Deploy to Production (requires secrets - configure as needed)
+  # deploy-production:
+  #   runs-on: ubuntu-latest
+  #   needs: docker
+  #   if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+  #   environment:
+  #     name: production
+  #     url: https://kairos-ecl.com
+  #
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #
+  #     - name: Deploy to Production
+  #       env:
+  #         DEPLOY_KEY: ${{ secrets.PROD_DEPLOY_KEY }}
+  #         DEPLOY_HOST: ${{ secrets.PROD_DEPLOY_HOST }}
+  #         DEPLOY_PATH: ${{ secrets.PROD_DEPLOY_PATH }}
+  #       run: |
+  #         mkdir -p ~/.ssh
+  #         echo "$DEPLOY_KEY" > ~/.ssh/id_rsa
+  #         chmod 600 ~/.ssh/id_rsa
+  #         ssh-keyscan -H $DEPLOY_HOST >> ~/.ssh/known_hosts
+  #
+  #         ssh -i ~/.ssh/id_rsa $DEPLOY_HOST "cd $DEPLOY_PATH && \
+  #           docker pull ${{ secrets.DOCKER_USERNAME }}/kairos-ecl:latest && \
+  #           docker-compose up -d && \
+  #           docker-compose exec -T app npm run health-check"
+  #
+  #     - name: Notify Slack on deployment
+  #       if: always()
+  #       uses: 8398a7/action-slack@v3
+  #       with:
+  #         status: ${{ job.status }}
+  #         text: 'Production deployment ${{ job.status }}'
+  #         webhook_url: ${{ secrets.SLACK_WEBHOOK }}
 
   # Job 5: Security Scan
   security:
