@@ -16,6 +16,32 @@ export const BottomNav: React.FC = () => {
   const [lastScrollY, setLastScrollY] = useState(0);
 
   useEffect(() => {
+    // Intersection Observer for scroll detection (fires only when section enters viewport)
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActive(entry.target.id);
+          }
+        });
+      },
+      { threshold: 0.5 }
+    );
+
+    sections.forEach(({ id }) => {
+      const element = document.getElementById(id);
+      if (element) {
+        observer.observe(element);
+      }
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    // Throttled scroll listener for nav visibility (much lower frequency)
+    let throttleTimer: NodeJS.Timeout;
+
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
 
@@ -29,21 +55,18 @@ export const BottomNav: React.FC = () => {
       }
 
       setLastScrollY(currentScrollY);
-
-      // Update active based on scroll position
-      sections.forEach(({ id }) => {
-        const element = document.getElementById(id);
-        if (element) {
-          const rect = element.getBoundingClientRect();
-          if (rect.top < window.innerHeight / 2) {
-            setActive(id);
-          }
-        }
-      });
     };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    const throttledScroll = () => {
+      clearTimeout(throttleTimer);
+      throttleTimer = setTimeout(handleScroll, 100);
+    };
+
+    window.addEventListener('scroll', throttledScroll);
+    return () => {
+      window.removeEventListener('scroll', throttledScroll);
+      clearTimeout(throttleTimer);
+    };
   }, [lastScrollY]);
 
   const handleNavClick = (sectionId: string) => {
@@ -55,35 +78,29 @@ export const BottomNav: React.FC = () => {
   };
 
   return (
-    <motion.nav
-      className="fixed bottom-0 left-0 right-0 z-[1000] h-20 bg-[rgba(10,14,39,0.95)] backdrop-blur-md border-t border-[var(--grid-color)]"
-      animate={{ y: isVisible ? 0 : 100 }}
-      transition={{ duration: 0.3, ease: 'easeOut' }}
+    <nav
+      className={`fixed bottom-0 left-0 right-0 z-[1000] h-20 bg-[rgba(10,14,39,0.95)] backdrop-blur-md border-t border-[var(--grid-color)] will-change-transform transition-transform duration-300 ease-out ${
+        isVisible ? 'translate-y-0' : 'translate-y-full'
+      }`}
     >
       <div className="h-full flex justify-center items-center gap-6 px-6 flex-wrap">
         {sections.map(({ id, label }) => (
-          <motion.button
+          <button
             key={id}
             onClick={() => handleNavClick(id)}
-            className={`relative px-4 py-2 uppercase text-sm font-medium tracking-wider transition-all duration-200 ${
+            className={`relative px-4 py-2 uppercase text-sm font-medium tracking-wider will-change-transform transition-colors duration-200 ${
               active === id
                 ? 'text-[var(--act)] drop-shadow-[0_0_10px_rgba(0,255,65,0.3)]'
                 : 'text-[var(--text-secondary)] hover:text-[var(--act)]'
             }`}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
           >
             {label}
             {active === id && (
-              <motion.div
-                className="absolute bottom-0 left-0 right-0 h-1 bg-[var(--act)] rounded-t"
-                layoutId="active-nav-indicator"
-                transition={{ duration: 0.3 }}
-              />
+              <div className="absolute bottom-0 left-0 right-0 h-1 bg-[var(--act)] rounded-t animate-in fade-in duration-300" />
             )}
-          </motion.button>
+          </button>
         ))}
       </div>
-    </motion.nav>
+    </nav>
   );
 };

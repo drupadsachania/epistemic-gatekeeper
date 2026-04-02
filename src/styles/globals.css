@@ -42,3 +42,38 @@ body {
   background: var(--accent-cyan);
   color: var(--primary-bg);
 }
+
+/* Performance optimizations */
+
+/* Tell browser what will change - prevents layout thrashing */
+[class*="animate"] {
+  will-change: transform, opacity;
+}
+
+.pulse {
+  will-change: box-shadow;
+}
+
+.transition-all {
+  will-change: auto;
+}
+
+/* Optimize off-screen content */
+[data-offscreen] {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 500px;
+}
+
+/* Reduce paint areas for cards */
+[class*="card"],
+[class*="section"] {
+  contain: layout style paint;
+}
+
+/* GPU acceleration for transforms */
+[class*="translate"],
+[class*="scale"],
+[class*="rotate"] {
+  will-change: transform;
+  transform: translateZ(0);
+}
