@@ -1,5 +1,5 @@
 import { Section } from '../Common/Section';
-import { AgentSimulation } from '../Visualizations/AgentSimulation';
+import { PretextInferenceFlow } from '../Visualizations/PretextInferenceFlow';
 import { SignalInspector } from '../Visualizations/SignalInspector';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
@@ -118,7 +118,7 @@ export const ArgusSection: React.FC = () => {
             signals change.
           </p>
           <div style={{ borderTop: '1px solid hsl(0, 0%, 12%)', paddingTop: '16px' }}>
-            <AgentSimulation signals={signals} />
+            <PretextInferenceFlow signals={signals} />
           </div>
         </motion.div>
 
