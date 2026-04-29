@@ -74,12 +74,12 @@ const Research = () => (
               </div>
               <div className="flex gap-4 mt-5">
                 <a
-                  href="https://github.com/kairos-dev-kairos-ecl/kairos-core"
+                  href="/EARNING_THE_RIGHT_TO_ACT.pdf"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1.5 text-sm text-primary font-medium hover:gap-2.5 transition-all"
                 >
-                  View on GitHub <ExternalLink className="h-3.5 w-3.5" />
+                  Read Preprint <ExternalLink className="h-3.5 w-3.5" />
                 </a>
               </div>
             </div>
