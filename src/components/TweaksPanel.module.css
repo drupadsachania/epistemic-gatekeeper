@@ -1,0 +1,258 @@
+/* TweaksPanel.module.css — Styling for the interactive tweaks UI */
+
+.toggleButton {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 48;
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  background: rgba(var(--confident-rgb, 120 220 250) / 0.12);
+  border: 1px solid rgba(var(--confident-rgb, 120 220 250) / 0.3);
+  color: var(--confident, oklch(0.85 0.15 210));
+  font-size: 20px;
+  cursor: pointer;
+  transition: all 0.2s ease-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--f-mono, 'Geist Mono', monospace);
+  font-weight: 500;
+}
+
+.toggleButton:hover {
+  background: rgba(var(--confident-rgb, 120 220 250) / 0.18);
+  border-color: rgba(var(--confident-rgb, 120 220 250) / 0.5);
+  transform: translateY(-2px);
+}
+
+.panel {
+  position: fixed;
+  z-index: 50;
+  width: 280px;
+  max-height: calc(100vh - 32px);
+  display: flex;
+  flex-direction: column;
+  background: rgba(var(--ink-3, 26 30 48) / 0.85);
+  backdrop-filter: blur(20px) saturate(120%);
+  -webkit-backdrop-filter: blur(20px) saturate(120%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
+  font-family: var(--f-mono, 'Geist Mono', monospace);
+  font-size: 12px;
+  overflow: hidden;
+  transform: scale(var(--dc-inv-zoom, 1));
+  transform-origin: bottom right;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  cursor: move;
+  user-select: none;
+  gap: 8px;
+}
+
+.title {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--fg-1, #c7ccdf);
+  margin: 0;
+}
+
+.closeButton {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  color: var(--fg-2, #8990ad);
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  transition: all 0.15s ease-out;
+}
+
+.closeButton:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--fg-0, #f4f5fb);
+}
+
+.body {
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  min-height: 0;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.08) transparent;
+}
+
+.body::-webkit-scrollbar {
+  width: 6px;
+}
+
+.body::-webkit-scrollbar-track {
+  background: transparent;
+  margin: 2px;
+}
+
+.body::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 3px;
+}
+
+.body::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.sectionLabel {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--fg-3, #5a607c);
+  margin: 0;
+  padding: 4px 0 0 0;
+}
+
+.section:first-child .sectionLabel {
+  padding-top: 0;
+}
+
+.radioGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.radioLabel {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 6px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.15s ease-out;
+}
+
+.radioLabel:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.radioInput {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 14px;
+  height: 14px;
+  min-width: 14px;
+  border: 1px solid rgba(var(--confident-rgb, 120 220 250) / 0.4);
+  border-radius: 50%;
+  cursor: pointer;
+  background: transparent;
+  transition: all 0.15s ease-out;
+}
+
+.radioInput:checked {
+  background: var(--confident, oklch(0.85 0.15 210));
+  border-color: var(--confident, oklch(0.85 0.15 210));
+  box-shadow: 0 0 8px rgba(var(--confident-rgb, 120 220 250) / 0.4);
+}
+
+.radioText {
+  color: var(--fg-1, #c7ccdf);
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.rowLabel {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--fg-2, #8990ad);
+  font-size: 11px;
+  margin: 0;
+  cursor: default;
+}
+
+.value {
+  color: var(--fg-1, #c7ccdf);
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+
+.slider {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 100%;
+  height: 3px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  outline: none;
+  cursor: pointer;
+  margin: 4px 0;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--confident, oklch(0.85 0.15 210));
+  border: 1px solid rgba(var(--confident-rgb, 120 220 250) / 0.4);
+  box-shadow: 0 0 8px rgba(var(--confident-rgb, 120 220 250) / 0.3);
+  cursor: pointer;
+  transition: all 0.15s ease-out;
+}
+
+.slider::-webkit-slider-thumb:hover {
+  width: 14px;
+  height: 14px;
+  box-shadow: 0 0 12px rgba(var(--confident-rgb, 120 220 250) / 0.5);
+}
+
+.slider::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--confident, oklch(0.85 0.15 210));
+  border: 1px solid rgba(var(--confident-rgb, 120 220 250) / 0.4);
+  box-shadow: 0 0 8px rgba(var(--confident-rgb, 120 220 250) / 0.3);
+  cursor: pointer;
+  transition: all 0.15s ease-out;
+}
+
+.slider::-moz-range-thumb:hover {
+  width: 14px;
+  height: 14px;
+  box-shadow: 0 0 12px rgba(var(--confident-rgb, 120 220 250) / 0.5);
+}
+
+.slider::-moz-range-track {
+  background: transparent;
+  border: none;
+}
+
+.slider::-moz-range-progress {
+  background: var(--confident, oklch(0.85 0.15 210));
+  border-radius: 999px;
+  height: 3px;
+}
