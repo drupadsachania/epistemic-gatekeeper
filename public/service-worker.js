@@ -35,7 +35,14 @@ self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(STATIC_ASSETS).then((cache) => {
       console.log('[SW] Caching static assets');
-      return cache.addAll(STATIC_FILES);
+      // addAll fails entirely if any file 404s — cache individually instead
+      return Promise.allSettled(
+        STATIC_FILES.map((url) =>
+          cache.add(url).catch((err) =>
+            console.warn('[SW] Failed to cache:', url, err)
+          )
+        )
+      );
     })
   );
 

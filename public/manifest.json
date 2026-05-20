@@ -1,0 +1,16 @@
+{
+  "name": "Kairos Foundation",
+  "short_name": "Kairos",
+  "description": "Open epistemic decision framework for autonomous systems in high-stakes domains.",
+  "start_url": "/",
+  "display": "browser",
+  "theme_color": "#0E21A0",
+  "background_color": "#F5F6FA",
+  "icons": [
+    {
+      "src": "/kairos-logo.png",
+      "sizes": "any",
+      "type": "image/png"
+    }
+  ]
+}
