@@ -622,7 +622,7 @@ const ArgusXdrSection: React.FC = () => (
         <div className="meta-kv">
           <div><span className="k">Pillar</span><span className="v">Argus XDR</span></div>
           <div><span className="k">Type</span><span className="v">Observability tool</span></div>
-          <div><span className="k">Lang</span><span className="v">Rust · Python · Go</span></div>
+          <div><span className="k">Type</span><span className="v">LLM observability tool</span></div>
           <div><span className="k">Licence</span><span className="v">Apache 2.0</span></div>
         </div>
       </div>

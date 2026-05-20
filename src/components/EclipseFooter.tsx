@@ -151,7 +151,7 @@ const EclipseFooter: React.FC = () => {
           <div className="ft-col">
             <h5>// research</h5>
             <ul>
-              <li><Link to="/research">Whitepaper v0.4</Link></li>
+              <li><Link to="/research">Research paper</Link></li>
               <li><Link to="/research">Signal taxonomy</Link></li>
               <li><Link to="/research">Field notes</Link></li>
               <li><Link to="/research">Open questions</Link></li>

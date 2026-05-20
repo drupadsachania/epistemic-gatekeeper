@@ -16,11 +16,15 @@ interface DocLink {
   to: string;
   tag?: string;
   tagColor?: string;
+  featured?: boolean;
 }
 
-function DocRow({ label, desc, to, tag, tagColor }: DocLink) {
+function DocRow({ label, desc, to, tag, tagColor, featured }: DocLink) {
   return (
-    <Link to={to} className="doc-row">
+    <Link
+      to={to}
+      className={`doc-row${featured ? ' doc-row-featured' : ''}`}
+    >
       <div className="doc-row-body">
         <span className="doc-row-label">{label}</span>
         <span className="doc-row-desc">{desc}</span>
@@ -43,6 +47,14 @@ function DocRow({ label, desc, to, tag, tagColor }: DocLink) {
 /* ── KAIROS DOCS ────────────────────────────────────────────────────────── */
 
 const KAIROS_LINKS: DocLink[] = [
+  {
+    label: 'Research & Findings',
+    desc: 'Preprint (April 2026) · Hallucination 15–52% → 3% · Deferral 5% → 22% · Evidence surfacing 30% → 85%',
+    to: '/research',
+    tag: 'WHITEPAPER',
+    tagColor: 'var(--amber)',
+    featured: true,
+  },
   {
     label: 'Decision State Machine',
     desc: 'ACT · HOLD · DEFER · REFUSE — formal state diagram, transition table, runtime invariants',
@@ -72,13 +84,6 @@ const KAIROS_LINKS: DocLink[] = [
     desc: 'Cross-reference every signal, failure mode, and policy outcome in one table',
     to: '/argus-xdr/signal-map',
     tag: 'REFERENCE',
-  },
-  {
-    label: 'Research & Findings',
-    desc: 'Whitepaper v0.4 · Signal taxonomy · Dual-agent divergence · 57/57 tests passing',
-    to: '/research',
-    tag: 'WHITEPAPER',
-    tagColor: 'var(--amber)',
   },
 ];
 
@@ -142,7 +147,16 @@ const Docs: React.FC = () => (
           align-items: start;
         }
         @media (max-width: 1100px) { .docs-grid { grid-template-columns: 1fr 1fr; } }
-        @media (max-width: 700px)  { .docs-grid { grid-template-columns: 1fr; } }
+        @media (max-width: 700px)  {
+          .docs-grid { grid-template-columns: 1fr; padding: 32px 0 60px; gap: 16px; }
+          .docs-hero { padding: 56px 0 36px; }
+          .docs-hero h1 { font-size: 36px; }
+          .docs-card-head { padding: 20px 20px 16px; }
+          .doc-row { padding: 12px 20px; gap: 12px; }
+          .doc-row-label { font-size: 13px; }
+          .doc-row-desc { font-size: 11px; }
+          .doc-row-tag { display: none; }
+        }
 
         /* ── pillar card ── */
         .docs-card {
@@ -204,6 +218,15 @@ const Docs: React.FC = () => (
         .doc-row:last-child { border-bottom: 0; }
         .doc-row:hover { background: rgba(67,56,202,0.03); }
         .doc-row:hover .doc-row-arrow { color: var(--indigo); transform: translateX(3px); }
+        .doc-row-featured {
+          background: linear-gradient(90deg, rgba(243,117,194,0.06), rgba(243,117,194,0.02));
+          border-left: 3px solid var(--amber);
+          padding-left: 25px;
+        }
+        .doc-row-featured .doc-row-label { color: var(--ink-0); font-weight: 600; }
+        .doc-row-featured .doc-row-arrow { color: var(--amber); }
+        .doc-row-featured:hover { background: linear-gradient(90deg, rgba(243,117,194,0.10), rgba(243,117,194,0.04)); }
+        .doc-row-featured:hover .doc-row-arrow { color: var(--amber); }
         .doc-row-body { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
         .doc-row-label {
           font-family: var(--f-sans); font-size: 14px; font-weight: 500;
@@ -296,7 +319,7 @@ const Docs: React.FC = () => (
           <div className="docs-card">
             <div className="docs-card-head">
               <div className="docs-card-brand">
-                <img src="/kairos-logo.png" alt="Kairos" />
+                <img src="/kairos-logo.png" alt="Kairos" width={36} height={36} style={{ height: 36, width: 36, objectFit: 'contain', borderRadius: '50%', flexShrink: 0 }} />
                 <span className="num">01 / 03</span>
                 <span className="pill">FRAMEWORK</span>
               </div>
@@ -317,7 +340,7 @@ const Docs: React.FC = () => (
           <div className="docs-card">
             <div className="docs-card-head">
               <div className="docs-card-brand">
-                <img src="/argus-logo.png" alt="Argus" />
+                <img src="/argus-logo.png" alt="Argus" width={36} height={36} style={{ height: 36, width: 36, objectFit: 'contain', borderRadius: '50%', flexShrink: 0 }} />
                 <span className="num">02 / 03</span>
                 <span className="pill">XDR</span>
               </div>
@@ -338,7 +361,7 @@ const Docs: React.FC = () => (
           <div className="docs-card coming">
             <div className="docs-card-head" style={{ borderBottomColor: 'rgba(245,158,11,0.20)' }}>
               <div className="docs-card-brand">
-                <img src="/argus-logo.png" alt="Argus SDK" />
+                <img src="/argus-logo.png" alt="Argus SDK" width={36} height={36} style={{ height: 36, width: 36, objectFit: 'contain', borderRadius: '50%', flexShrink: 0 }} />
                 <span className="num">03 / 03</span>
                 <span className="pill amber">SDK</span>
               </div>

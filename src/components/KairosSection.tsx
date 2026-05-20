@@ -661,9 +661,9 @@ function AxiomBento() {
 const LBR = [
   {
     eyebrow: '01 / LEARN', title: 'The research',
-    body: 'Why autonomous systems fail. What uncertainty decomposes into. Read the framework, read the prior art, read the open questions.',
-    items: ['Framework whitepaper v0.4', 'Signal taxonomy reference', 'Prior art & citations'],
-    cta: 'Read the research', accent: 'var(--indigo)', href: '#',
+    body: 'Frontier models exhibit ECE of 37–57% on expert benchmarks. Hallucination rates reach 52% in multi-step reasoning. This paper measures why — and how epistemic gating cuts that to 3%.',
+    items: ['Earning the Right to Act — preprint', 'Signal taxonomy reference', 'Uncertainty quantification framework'],
+    cta: 'Read the research', accent: 'var(--indigo)', href: '/docs',
   },
   {
     eyebrow: '02 / BUILD', title: 'Reference implementations',
@@ -800,7 +800,7 @@ const KairosSection: React.FC = () => (
             <em>defer</em>, or <em>refuse</em>. Think MITRE&nbsp;ATLAS, but the threat is the
             model's own conviction.
           </p>
-          <div className="signature">— kairos.foundation/whitepaper</div>
+          <div className="signature">— <a href="/EARNING_THE_RIGHT_TO_ACT.pdf" target="_blank" rel="noreferrer" style={{ color: 'inherit', textDecoration: 'underline', textUnderlineOffset: 3 }}>kairos-foundation.org/whitepaper</a></div>
         </div>
       </div>
 
