@@ -10,7 +10,13 @@
       "Read(//tmp/**)",
       "Bash(find \"D:/Downloads/Kairos-Redisgn \\(1\\)\" -name \"styles.css\" 2>/dev/null | head -5)",
       "Bash(unzip -q \"Kairos-Redisgn \\(1\\).zip\")",
-      "Bash(unzip -oq \"Kairos-Redisgn \\(1\\).zip\")"
+      "Bash(unzip -oq \"Kairos-Redisgn \\(1\\).zip\")",
+      "Bash(npx vite *)",
+      "Bash(powershell -Command \"Expand-Archive -Path 'Kairos-Redisgn \\(2\\).zip' -DestinationPath 'eclipse-v2' -Force\")",
+      "Bash(ls \"D:/Downloads/argus-platform/kairos-site-restruct/epistemic-gatekeeper/public/\" && cp \"D:/Downloads/eclipse-v2/assets/argus-logo.png\" \"D:/Downloads/argus-platform/kairos-site-restruct/epistemic-gatekeeper/public/argus-logo.png\" && echo \"Copied argus-logo\")",
+      "Bash(Test-Path \"D:\\\\Downloads\\\\argus-platform\\\\kairos-site-restruct\\\\epistemic-gatekeeper\\\\src\\\\components\\\\EclipseHero.tsx\")",
+      "Bash(git add *)",
+      "Bash(git commit -m 'feat: complete epistemic prism redesign with vibrant color palette *)"
     ]
   }
 }

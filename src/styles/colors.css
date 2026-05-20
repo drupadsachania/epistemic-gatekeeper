@@ -1,92 +1,79 @@
+/*
+ * KAIROS FOUNDATION — Canonical Design Tokens
+ * THE EPISTEMIC PRISM — light clinical canvas, glass-morphic surfaces.
+ * Single source of truth. Do NOT override these values inline.
+ */
+
 :root {
-  /* ─────────────────────────────────────────────────────────────────────────
-     ECLIPSE COLOR SYSTEM — deep ink-indigo canvas with electric cyan, indigo,
-     and amber accents. Full 5-level hierarchy for both canvas and foreground.
-     ───────────────────────────────────────────────────────────────────────── */
+  /* ── CANVAS ──────────────────────────────────────────────────────── */
+  --bg:               #F5F6FA;
+  --bg-tint:          #EEF0F7;
+  --surface:          rgba(255, 255, 255, 0.65);
+  --surface-strong:   rgba(255, 255, 255, 0.85);
+  --hairline:         rgba(15, 13, 27, 0.06);
+  --hairline-strong:  rgba(15, 13, 27, 0.12);
 
-  /* CANVAS — ink-indigo backgrounds, 5 levels from deepest to brightest */
-  --ink-0: #06070d;          /* deepest — page edge */
-  --ink-1: #0a0c16;          /* primary page background */
-  --ink-2: #11142233;        /* card glass/semi-transparent */
-  --ink-3: #1a1e30;          /* card solid background */
-  --ink-4: #232842;          /* card border/accent background */
+  /* ── FOREGROUND ──────────────────────────────────────────────────── */
+  --ink-0:  #09090B;   /* primary text — stark */
+  --ink-1:  #29263C;   /* body */
+  --ink-2:  #524C9A;   /* secondary indigo-tinted */
+  --ink-3:  #71717A;   /* muted */
+  --ink-4:  #A4A0BF;   /* hint */
 
-  /* FOREGROUND — 5-level text hierarchy from brightest to dimmest */
-  --fg-0: #f4f5fb;           /* primary text — headlines, critical content */
-  --fg-1: #c7ccdf;           /* secondary text — body, descriptions */
-  --fg-2: #8990ad;           /* tertiary text — metadata, supporting */
-  --fg-3: #5a607c;           /* quaternary text — disabled, hints */
-  --fg-4: #3a3f57;           /* quinary text — very subtle, borders */
+  /* ── BRAND ACCENTS ───────────────────────────────────────────────── */
+  --indigo:         #0E21A0;
+  --indigo-rgb:     14 33 160;
+  --indigo-bright:  #4D2FB2;
+  --purple:         #4D2FB2;
+  --purple-rgb:     77 47 178;
+  --magenta:        #B153D7;
+  --magenta-rgb:    177 83 215;
+  --amber:          #F375C2;
+  --amber-rgb:      243 117 194;
+  --amber-soft:     #F399D1;
 
-  /* EPISTEMIC STATES — using oklch for perceptual uniformity */
-  --confident:  oklch(0.85 0.15 210);   /* electric cyan — high confidence */
-  --uncertain:  oklch(0.65 0.20 280);   /* indigo — uncertain/waiting */
-  --contested:  oklch(0.82 0.14 70);    /* warm amber — contested/attention */
-  --reversible: oklch(0.78 0.16 150);   /* sage green — reversible actions */
+  /* ── DECISION STATE COLORS ───────────────────────────────────────── */
+  /* 4 states: ACT / HOLD / DEFER / REFUSE                             */
+  --state-act:    #0E21A0;   /* indigo  */
+  --state-hold:   #F375C2;   /* magenta */
+  --state-defer:  #F375C2;   /* magenta */
+  --state-refuse: #E11D48;   /* rose    */
+  --deny:         #E11D48;   /* alias for refuse color */
 
-  /* RGB versions for use in rgba() and color-mix() */
-  --confident-rgb:  120 220 250;
-  --uncertain-rgb:  140 120 245;
-  --contested-rgb:  250 200 110;
-  --reversible-rgb: 155 220 180;
+  /* ── DARK SURFACES (terminal blocks ONLY) ───────────────────────── */
+  --ink-dark-0:   #09090B;
+  --ink-dark-1:   #18181B;
+  --ink-dark-2:   #27272A;
+  --on-dark:      #F4F4F5;
 
-  /* DECISION STATES — backward compatibility with existing framework */
-  --act: hsl(142, 71%, 45%);           /* Green — autonomous execution */
-  --escalate: hsl(48, 96%, 53%);       /* Orange — escalate to human */
-  --defer: hsl(217, 91%, 60%);         /* Blue — defer decision */
-  --fail-safe: hsl(0, 84%, 60%);       /* Red — fail-safe shutdown */
+  /* ── TYPOGRAPHY ──────────────────────────────────────────────────── */
+  --f-sans:   "Geist", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --f-mono:   "JetBrains Mono", "Geist Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --f-serif:  "Instrument Serif", "Times New Roman", serif;
 
-  /* TYPOGRAPHY — system fonts with monospace fallbacks */
-  --f-sans: "Geist", "Geist Sans", ui-sans-serif, system-ui, -apple-system, sans-serif;
-  --f-mono: "Geist Mono", "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
-  --f-serif: "Instrument Serif", "Times New Roman", serif;
+  /* ── ELEVATION / SHADOW ──────────────────────────────────────────── */
+  --shadow-card:          0 1px 0 rgba(255,255,255,0.6) inset,
+                          0 4px 24px rgba(15,13,27,0.04),
+                          0 1px 2px rgba(15,13,27,0.03);
+  --shadow-lift:          0 12px 40px rgba(14,33,160,0.12),
+                          0 4px 16px rgba(15,13,27,0.06);
+  --shadow-glow-indigo:   0 0 0 1px rgba(14,33,160,0.20),
+                          0 16px 40px rgba(14,33,160,0.20);
+  --shadow-glow-amber:    0 0 0 1px rgba(243,117,194,0.22),
+                          0 12px 30px rgba(243,117,194,0.20);
 
-  /* RULES & BORDERS — subtle separators with consistent opacity */
-  --rule: 0.5px solid rgba(255, 255, 255, 0.08);
-  --rule-strong: 0.5px solid rgba(255, 255, 255, 0.16);
+  /* ── RADII ───────────────────────────────────────────────────────── */
+  --r-xs:  4px;
+  --r-sm:  6px;
+  --r-md:  10px;
+  --r-lg:  16px;
+  --r-xl:  24px;
 
-  /* RHYTHM — grid and spacing helpers */
-  --grid-coord: 11px;
+  /* ── RULES ───────────────────────────────────────────────────────── */
+  --rule:         0.5px solid var(--hairline);
+  --rule-strong:  0.5px solid var(--hairline-strong);
 
-  /* EASING — for consistent animation feel */
-  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
-  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
-
-  /* BACKWARD COMPATIBILITY — map to new system for existing components */
-  --primary-bg: var(--ink-1);
-  --secondary-bg: var(--ink-3);
-  --text-primary: var(--fg-0);
-  --text-secondary: var(--fg-2);
-  --text-tertiary: var(--fg-3);
-  --accent-primary: var(--confident);
-  --accent-secondary: var(--ink-4);
-
-  /* GLOWS & SHADOWS */
-  --glow-primary: 0 0 20px rgb(var(--confident-rgb) / 0.2);
-  --glow-fail-safe: 0 0 15px hsl(0, 84%, 60% / 0.2);
-  --glow-accent: 0 0 15px rgb(var(--confident-rgb) / 0.15);
-
-  /* GRADIENTS */
-  --threat-gradient: linear-gradient(135deg, hsl(0, 84%, 60%), hsl(48, 96%, 53%), hsl(48, 96%, 53%));
-  --health-gradient: linear-gradient(135deg, hsl(0, 84%, 60%), hsl(48, 96%, 53%), hsl(142, 71%, 45%));
-  --flow-gradient: linear-gradient(90deg, hsl(217, 91%, 60%), var(--confident), var(--confident));
-}
-
-/* Light mode (if needed) */
-@media (prefers-color-scheme: light) {
-  :root {
-    --primary-bg: #ffffff;
-    --secondary-bg: #f7fafc;
-    --text-primary: #1a202c;
-    --fg-0: #1a202c;
-    --fg-1: #4a5568;
-    --fg-2: #718096;
-    --fg-3: #a0aec0;
-    --fg-4: #cbd5e0;
-    --ink-0: #f7fafc;
-    --ink-1: #ffffff;
-    --ink-2: #edf2f7;
-    --ink-3: #e2e8f0;
-    --ink-4: #cbd5e0;
-  }
+  /* ── EASING ──────────────────────────────────────────────────────── */
+  --ease-out:     cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out:  cubic-bezier(0.65, 0, 0.35, 1);
 }

@@ -2,6 +2,10 @@
 @import './typography.css';
 @import './animations.css';
 
+/* ─────────────────────────────────────────────────────────────────────────
+   GLOBALS — Epistemic Prism light canvas
+   ───────────────────────────────────────────────────────────────────────── */
+
 * {
   margin: 0;
   padding: 0;
@@ -12,99 +16,97 @@ html {
   scroll-behavior: smooth;
 }
 
-body {
-  background: var(--ink-1, var(--primary-bg));
-  color: var(--fg-0, var(--text-primary));
-  font-family: var(--f-sans, 'Geist', 'Inter', sans-serif);
-  overflow-x: hidden;
-  /* Eclipse gradient background */
-  background:
-    radial-gradient(ellipse 80vw 60vh at 15% -10%, rgb(var(--uncertain-rgb) / 0.18), transparent 60%),
-    radial-gradient(ellipse 60vw 50vh at 100% 30%, rgb(var(--confident-rgb) / 0.10), transparent 55%),
-    radial-gradient(ellipse 70vw 50vh at 30% 100%, rgb(var(--contested-rgb) / 0.07), transparent 60%),
-    var(--ink-1, var(--primary-bg));
-  background-attachment: fixed;
+html, body {
+  background: var(--bg);
+  color: var(--ink-0);
+  font-family: var(--f-sans);
+  font-size: 16px;
+  line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
   text-rendering: optimizeLegibility;
+  font-feature-settings: "ss01", "cv11", "cv02";
 }
 
-/* Film grain overlay — subtle, breathing */
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 1;
-  opacity: 0.5;
-  mix-blend-mode: overlay;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.07 0'/></filter><rect width='160' height='160' filter='url(%23n)'/></svg>");
+/* Prism light background — indigo + amber radials over cool-white canvas */
+body {
+  background:
+    radial-gradient(ellipse 80vw 60vh at 15% 5%,  rgba(67,56,202,0.07), transparent 55%),
+    radial-gradient(ellipse 60vw 50vh at 100% 30%, rgba(245,158,11,0.05), transparent 55%),
+    radial-gradient(ellipse 70vw 50vh at 50% 100%, rgba(67,56,202,0.04), transparent 60%),
+    var(--bg);
+  background-attachment: fixed;
 }
 
-/* Shader canvas background — sits behind grain */
-#shader-canvas {
+/* Prism beam canvas — fixed layer behind content, multiply blend */
+#prism-canvas {
   position: fixed;
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  opacity: 0.9;
+  mix-blend-mode: multiply;
+  opacity: 0.85;
 }
 
-/* Scrollbar styling */
+/* ── LAYOUT PRIMITIVES ──────────────────────────────────────────────────── */
+
+/* Shell: sits above prism canvas */
+.shell {
+  position: relative;
+  z-index: 2;
+}
+
+/* Wrap: max-width container */
+.wrap {
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 0 56px;
+}
+
+@media (max-width: 880px) {
+  .wrap { padding: 0 24px; }
+}
+
+/* ── SCROLLBAR ──────────────────────────────────────────────────────────── */
+
 ::-webkit-scrollbar {
-  width: 12px;
+  width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--ink-1, var(--primary-bg));
+  background: var(--bg-tint);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--ink-4, var(--accent-secondary));
-  border-radius: 6px;
+  background: var(--hairline-strong);
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--confident, var(--accent-primary));
+  background: rgba(67,56,202,0.28);
 }
 
-/* Selection styling */
+/* ── FOCUS & SELECTION ──────────────────────────────────────────────────── */
+
+:focus-visible {
+  outline: 2px solid var(--indigo-bright);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
 ::selection {
-  background: var(--confident, var(--accent-primary));
-  color: var(--ink-0, var(--primary-bg));
+  background: rgba(67,56,202,0.18);
+  color: var(--ink-0);
 }
 
-/* Performance optimizations */
+/* ── PERFORMANCE HINTS ──────────────────────────────────────────────────── */
 
-/* Tell browser what will change - prevents layout thrashing */
 [class*="animate"] {
   will-change: transform, opacity;
 }
 
-.pulse {
-  will-change: box-shadow;
-}
-
-.transition-all {
-  will-change: auto;
-}
-
-/* Optimize off-screen content */
 [data-offscreen] {
   content-visibility: auto;
   contain-intrinsic-size: auto 500px;
-}
-
-/* Reduce paint areas for cards */
-[class*="card"],
-[class*="section"] {
-  contain: layout style paint;
-}
-
-/* GPU acceleration for transforms */
-[class*="translate"],
-[class*="scale"],
-[class*="rotate"] {
-  will-change: transform;
-  transform: translateZ(0);
 }

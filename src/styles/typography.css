@@ -1,48 +1,50 @@
 /* ─────────────────────────────────────────────────────────────────────────
-   TYPOGRAPHY SYSTEM
-   Fonts: Geist (sans-serif), Geist Mono (monospace), Instrument Serif (display)
-   Scale: Display (XL), Headline (L), Body (M), Mono (Code), Eyebrow (XS)
+   TYPOGRAPHY — Epistemic Prism
+   Fonts: Geist (sans), JetBrains Mono (mono), Instrument Serif (serif)
    ───────────────────────────────────────────────────────────────────────── */
 
-/* FONTS — Import Eclipse typography stack */
-@import url('https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap');
 
-/* ── ECLIPSE TYPE CLASSES ───────────────────────────────────────────────── */
+/* ── TYPE CLASSES ───────────────────────────────────────────────────────── */
 
 /* Display — XL headlines with tight leading */
 .t-display {
-  font-family: var(--f-sans, 'Geist', sans-serif);
-  font-weight: 500;
+  font-family: var(--f-sans);
+  font-weight: 600;
   font-size: clamp(32px, 6vw, 64px);
   letter-spacing: -0.035em;
   line-height: 0.95;
+  color: var(--ink-0);
 }
 
-/* Headline — Large headings */
+/* Headline — large headings */
 .t-headline {
-  font-family: var(--f-sans, 'Geist', sans-serif);
-  font-weight: 500;
+  font-family: var(--f-sans);
+  font-weight: 600;
   font-size: clamp(20px, 4vw, 32px);
   letter-spacing: -0.025em;
   line-height: 1.05;
+  color: var(--ink-0);
 }
 
-/* Monospace — Code and metadata */
-.t-mono, .mono {
-  font-family: var(--f-mono, 'Geist Mono', monospace);
+/* Monospace — code and metadata */
+.t-mono,
+.mono {
+  font-family: var(--f-mono);
   font-feature-settings: "ss01", "ss02";
   letter-spacing: 0;
-  font-size: clamp(12px, 1vw, 14px);
 }
 
-/* Eyebrow — Section labels and metadata */
+/* Eyebrow — section labels and metadata */
 .t-eyebrow {
-  font-family: var(--f-mono, 'Geist Mono', monospace);
+  font-family: var(--f-mono);
   font-size: 11px;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--fg-2, #8990ad);
+  color: var(--ink-3);
   font-weight: 500;
+  display: inline-flex;
+  align-items: center;
 }
 
 .t-eyebrow .dot {
@@ -50,102 +52,65 @@
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: var(--confident);
-  box-shadow: 0 0 12px rgb(var(--confident-rgb) / 0.7);
+  background: var(--indigo);
+  box-shadow: 0 0 0 3px rgba(67,56,202,0.16);
   margin-right: 10px;
   vertical-align: middle;
   margin-bottom: 2px;
+  flex-shrink: 0;
 }
 
-/* ── LEGACY CLASSES (for backward compatibility) ─────────────────────────── */
+/* ── HEADING UTILITIES ──────────────────────────────────────────────────── */
 
-/* Display — Legacy class mapping to t-display */
-.display {
-  font-family: var(--f-sans, 'Geist', 'Space Mono', monospace);
-  font-size: clamp(36px, 8vw, 80px);
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  text-transform: uppercase;
-  line-height: 1.1;
-}
-
-/* Heading 1 */
 .h1 {
-  font-family: var(--f-sans, 'Geist', 'Inter', sans-serif);
+  font-family: var(--f-sans);
   font-size: clamp(32px, 6vw, 48px);
-  font-weight: 700;
-  letter-spacing: -0.01em;
-  line-height: 1.2;
-  color: var(--fg-0, var(--text-primary));
-}
-
-/* Heading 2 */
-.h2 {
-  font-family: var(--f-mono, 'Geist Mono', 'Space Mono', monospace);
-  font-size: clamp(24px, 4vw, 32px);
   font-weight: 600;
-  line-height: 1.3;
-  color: var(--confident, var(--act));
-  text-shadow: var(--glow-primary, var(--glow-act, none));
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  color: var(--ink-0);
 }
 
-/* Heading 3 */
+.h2 {
+  font-family: var(--f-sans);
+  font-size: clamp(24px, 4vw, 36px);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  line-height: 1.1;
+  color: var(--ink-0);
+}
+
 .h3 {
-  font-family: var(--f-sans, 'Geist', 'Inter', sans-serif);
+  font-family: var(--f-sans);
   font-size: clamp(18px, 3vw, 24px);
   font-weight: 600;
-  line-height: 1.4;
-  color: var(--fg-0, var(--text-primary));
+  letter-spacing: -0.015em;
+  line-height: 1.2;
+  color: var(--ink-0);
 }
 
-/* Body */
+/* Body text */
 .body {
-  font-family: var(--f-sans, 'Geist', 'Inter', sans-serif);
+  font-family: var(--f-sans);
   font-size: 16px;
   font-weight: 400;
   line-height: 1.6;
-  letter-spacing: 0.5px;
-  color: var(--fg-1, var(--text-primary));
-}
-
-.body-lg {
-  font-size: 18px;
-  line-height: 1.7;
+  color: var(--ink-1);
 }
 
 .body-sm {
   font-size: 14px;
   line-height: 1.5;
-  color: var(--fg-2, var(--text-secondary));
+  color: var(--ink-2);
 }
 
-/* Code block */
-.code {
-  font-family: var(--f-mono, 'Geist Mono', 'Space Mono', monospace);
-  font-size: 13px;
-  line-height: 1.6;
-  background: rgba(var(--confident-rgb, 120 220 250) / 0.05);
-  border-left: 2px solid var(--confident, var(--act));
-  padding: 0 12px;
-  color: var(--confident, var(--act));
-}
-
-/* ── ADDITIONAL TYPE UTILITIES ───────────────────────────────────────────── */
-
-/* Serif for emphasis (Instrument Serif) */
+/* Serif for emphasis */
 .serif {
-  font-family: var(--f-serif, 'Instrument Serif', 'Times New Roman', serif);
+  font-family: var(--f-serif);
 }
 
-/* Uppercase small caps */
-.caps {
-  font-variant: small-caps;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-/* Reduced opacity for disabled/hint text */
+/* Hint text */
 .hint {
-  color: var(--fg-3, var(--text-tertiary));
+  color: var(--ink-4);
   font-size: 0.9em;
 }

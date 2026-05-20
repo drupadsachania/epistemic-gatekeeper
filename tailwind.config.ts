@@ -2,7 +2,12 @@ import type { Config } from "tailwindcss";
 
 export default {
   darkMode: ["class"],
-  content: ["./pages/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}", "./app/**/*.{ts,tsx}", "./src/**/*.{ts,tsx}"],
+  content: [
+    "./pages/**/*.{ts,tsx}",
+    "./components/**/*.{ts,tsx}",
+    "./app/**/*.{ts,tsx}",
+    "./src/**/*.{ts,tsx}",
+  ],
   prefix: "",
   theme: {
     container: {
@@ -14,12 +19,23 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ['Geist', 'Inter', 'system-ui', '-apple-system', 'sans-serif'],
-        mono: ['Geist Mono', 'JetBrains Mono', 'ui-monospace', 'monospace'],
+        /* JetBrains Mono is the primary mono font in the Prism design */
+        sans:  ['Geist', 'ui-sans-serif', 'system-ui', '-apple-system', 'sans-serif'],
+        mono:  ['JetBrains Mono', 'Geist Mono', 'ui-monospace', 'Menlo', 'monospace'],
         serif: ['Instrument Serif', '"Times New Roman"', 'serif'],
       },
       colors: {
-        /* Canvas — ink-indigo backgrounds */
+        /* Prism light canvas */
+        bg: {
+          DEFAULT: "var(--bg)",
+          tint: "var(--bg-tint)",
+        },
+        surface: {
+          DEFAULT: "var(--surface)",
+          strong: "var(--surface-strong)",
+        },
+
+        /* Foreground — INK tokens are DARK text on light canvas */
         ink: {
           0: "var(--ink-0)",
           1: "var(--ink-1)",
@@ -27,100 +43,101 @@ export default {
           3: "var(--ink-3)",
           4: "var(--ink-4)",
         },
-        /* Foreground — text hierarchy */
-        fg: {
-          0: "var(--fg-0)",
-          1: "var(--fg-1)",
-          2: "var(--fg-2)",
-          3: "var(--fg-3)",
-          4: "var(--fg-4)",
-        },
-        /* Epistemic states */
-        confident: "var(--confident)",
-        uncertain: "var(--uncertain)",
-        contested: "var(--contested)",
-        reversible: "var(--reversible)",
 
-        /* Legacy/backward compatible mappings */
-        border: "hsl(var(--border, 214 32% 91%))",
-        input: "hsl(var(--input, 214 32% 91%))",
-        ring: "hsl(var(--ring, 221 83% 53%))",
-        background: "var(--primary-bg, var(--ink-1))",
-        foreground: "var(--text-primary, var(--fg-0))",
+        /* Brand accents */
+        indigo: {
+          DEFAULT: "var(--indigo)",
+          bright: "var(--indigo-bright)",
+        },
+        amber: {
+          DEFAULT: "var(--amber)",
+          soft: "var(--amber-soft)",
+        },
+
+        /* Decision state colors */
+        deny:  "var(--deny)",
+        state: {
+          act:    "var(--state-act)",
+          hold:   "var(--state-hold)",
+          defer:  "var(--state-defer)",
+          refuse: "var(--state-refuse)",
+        },
+
+        /* ShadCN / Tailwind compatibility */
+        border: "hsl(var(--border))",
+        input:  "hsl(var(--input))",
+        ring:   "hsl(var(--ring))",
+        background: "hsl(var(--background))",
+        foreground:  "hsl(var(--foreground))",
         primary: {
-          DEFAULT: "var(--accent-primary, var(--confident))",
-          foreground: "var(--ink-0)",
+          DEFAULT:    "hsl(var(--primary))",
+          foreground: "hsl(var(--primary-foreground))",
         },
         secondary: {
-          DEFAULT: "var(--secondary-bg, var(--ink-3))",
-          foreground: "var(--text-secondary, var(--fg-2))",
+          DEFAULT:    "hsl(var(--secondary))",
+          foreground: "hsl(var(--secondary-foreground))",
         },
         destructive: {
-          DEFAULT: "hsl(var(--destructive, 0 84% 60%))",
-          foreground: "hsl(var(--destructive-foreground, 210 40% 98%))",
+          DEFAULT:    "hsl(var(--destructive))",
+          foreground: "hsl(var(--destructive-foreground))",
         },
         muted: {
-          DEFAULT: "var(--ink-3)",
-          foreground: "var(--fg-2)",
+          DEFAULT:    "hsl(var(--muted))",
+          foreground: "hsl(var(--muted-foreground))",
         },
         accent: {
-          DEFAULT: "var(--accent-primary, var(--confident))",
-          foreground: "var(--ink-0)",
+          DEFAULT:    "hsl(var(--accent))",
+          foreground: "hsl(var(--accent-foreground))",
         },
         popover: {
-          DEFAULT: "var(--ink-3)",
-          foreground: "var(--fg-0)",
+          DEFAULT:    "hsl(var(--popover))",
+          foreground: "hsl(var(--popover-foreground))",
         },
         card: {
-          DEFAULT: "var(--ink-3)",
-          foreground: "var(--fg-0)",
-        },
-        state: {
-          act: "var(--act, hsl(142, 71%, 45%))",
-          escalate: "var(--escalate, hsl(48, 96%, 53%))",
-          defer: "var(--defer, hsl(217, 91%, 60%))",
-          "fail-safe": "var(--fail-safe, hsl(0, 84%, 60%))",
+          DEFAULT:    "hsl(var(--card))",
+          foreground: "hsl(var(--card-foreground))",
         },
       },
       borderRadius: {
-        lg: "var(--radius, 0.5rem)",
-        md: "calc(var(--radius, 0.5rem) - 2px)",
-        sm: "calc(var(--radius, 0.5rem) - 4px)",
+        xs: "var(--r-xs, 4px)",
+        sm: "var(--r-sm, 6px)",
+        md: "var(--r-md, 10px)",
+        lg: "var(--r-lg, 16px)",
+        xl: "var(--r-xl, 24px)",
       },
       animation: {
-        /* Eclipse animations */
-        "pulse-soft": "pulse-soft 2s var(--ease-in-out, ease-in-out) infinite",
-        "pulse-glow": "pulse-glow 2s ease-out infinite",
-        "drift": "drift 3s ease-in-out infinite",
-        "flow-down": "flow-down 6s linear infinite",
-        "scan": "scan 2s linear infinite",
+        "pulse-soft":  "pulse-soft 2s ease-in-out infinite",
+        "pulse-glow":  "pulse-glow 2s ease-out infinite",
+        "drift":       "drift 3s ease-in-out infinite",
+        "flow-down":   "flow-down 6s linear infinite",
+        "scan":        "scan 2s linear infinite",
+        "shimmer":     "shimmer 2.5s linear infinite",
       },
       keyframes: {
         "pulse-soft": {
-          "0%, 100%": { opacity: "0.4" },
-          "50%": { opacity: "1" },
+          "0%, 100%": { opacity: "0.5" },
+          "50%":      { opacity: "1" },
         },
         "pulse-glow": {
-          "0%, 100%": {
-            "box-shadow": "0 0 0 0 rgb(var(--confident-rgb) / 0.45)",
-          },
-          "70%": {
-            "box-shadow": "0 0 0 14px rgb(var(--confident-rgb) / 0)",
-          },
+          "0%, 100%": { boxShadow: "0 0 0 0 rgba(67,56,202,0.40)" },
+          "70%":      { boxShadow: "0 0 0 12px rgba(67,56,202,0)" },
         },
         "drift": {
-          "0%": { transform: "translateY(0)" },
-          "50%": { transform: "translateY(-6px)" },
-          "100%": { transform: "translateY(0)" },
+          "0%, 100%": { transform: "translateY(0)" },
+          "50%":      { transform: "translateY(-6px)" },
         },
         "flow-down": {
-          "0%": { transform: "translateY(-100%)", opacity: "0" },
+          "0%":       { transform: "translateY(-100%)", opacity: "0" },
           "20%, 80%": { opacity: "1" },
-          "100%": { transform: "translateY(700%)", opacity: "0" },
+          "100%":     { transform: "translateY(700%)", opacity: "0" },
         },
         "scan": {
-          "0%": { transform: "translateX(-100%)" },
+          "0%":   { transform: "translateX(-100%)" },
           "100%": { transform: "translateX(200%)" },
+        },
+        "shimmer": {
+          "0%":   { backgroundPosition: "-200% 0" },
+          "100%": { backgroundPosition: "200% 0" },
         },
       },
     },
