@@ -357,7 +357,7 @@ const EclipseHero: React.FC = () => (
           Four decision states. Five epistemic signals. Zero LLM influence on policy.
         </p>
         <div className="hero-cta-row">
-          <a className="btn btn-primary" href="#kairos">
+          <a className="btn btn-primary" href="#argus-xdr">
             Read the Research
             <span style={{ fontSize: 16, lineHeight: '1' }}>→</span>
           </a>

@@ -64,7 +64,37 @@ function LayerStack() {
           border: 1px solid var(--hairline); border-radius: var(--r-lg);
           box-shadow: var(--shadow-card); overflow: hidden;
         }
-        @media (max-width: 880px) { .layer-stack { grid-template-columns: 110px 1fr; } }
+        @media (max-width: 880px) {
+          .layer-stack {
+            grid-template-columns: 100px 1fr;
+            overflow-x: auto;
+            overflow-y: hidden;
+            -webkit-overflow-scrolling: touch;
+          }
+        }
+        @media (max-width: 640px) {
+          .layer-stack {
+            grid-template-columns: 90px 1fr;
+          }
+          .ls-row {
+            grid-template-columns: 40px 1fr auto !important;
+            gap: 8px !important;
+            padding: 14px 16px !important;
+          }
+          .ls-row .body .name {
+            font-size: 13px !important;
+          }
+          .ls-row .body .desc {
+            display: none;
+          }
+          .ls-row .pill {
+            font-size: 8px !important;
+            padding: 3px 6px !important;
+          }
+          .ls-row .n {
+            font-size: 9px !important;
+          }
+        }
         .ls-pillars { display: flex; flex-direction: column; border-right: 1px solid var(--hairline); background: rgba(15,13,27,0.015); }
         .ls-pillar {
           flex: var(--rows, 1); padding: 16px 18px;
