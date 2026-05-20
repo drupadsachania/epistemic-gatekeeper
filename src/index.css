@@ -416,7 +416,18 @@
   }
 
   @media (max-width: 768px) {
+    .nav-inner {
+      gap: 12px;
+      padding: 10px 0;
+    }
     .nav-links { display: none; }
+    .nav-brand .tag { display: none; }
+    .nav-cta {
+      padding: 8px 12px;
+      font-size: 13px;
+      gap: 6px;
+    }
+    .nav-cta span { font-size: 14px; }
   }
 }
 
