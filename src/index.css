@@ -1,4 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+/* ─────────────────────────────────────────────────────────────────────────
+   INDEX.CSS — Global Tailwind directives and Eclipse utilities
+   ───────────────────────────────────────────────────────────────────────── */
+
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,6 +10,32 @@
 
 @layer base {
   :root {
+    /* Eclipse canvas colors */
+    --ink-0: #06070d;
+    --ink-1: #0a0c16;
+    --ink-2: #11142233;
+    --ink-3: #1a1e30;
+    --ink-4: #232842;
+
+    /* Eclipse foreground hierarchy */
+    --fg-0: #f4f5fb;
+    --fg-1: #c7ccdf;
+    --fg-2: #8990ad;
+    --fg-3: #5a607c;
+    --fg-4: #3a3f57;
+
+    /* Epistemic states */
+    --confident: oklch(0.85 0.15 210);
+    --uncertain: oklch(0.65 0.20 280);
+    --contested: oklch(0.82 0.14 70);
+    --reversible: oklch(0.78 0.16 150);
+
+    /* RGB versions for color-mix and rgba */
+    --confident-rgb: 120 220 250;
+    --uncertain-rgb: 140 120 245;
+    --contested-rgb: 250 200 110;
+
+    /* Tailwind legacy variables */
     --background: 0 0% 0%;
     --foreground: 0 0% 85%;
 
@@ -36,6 +66,7 @@
 
     --radius: 0.375rem;
 
+    /* Decision states */
     --state-act: 142 71% 45%;
     --state-escalate: 48 96% 53%;
     --state-defer: 217 91% 60%;
@@ -50,7 +81,7 @@
 
   body {
     @apply bg-background text-foreground antialiased;
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-family: var(--f-sans, 'Geist', 'Inter', system-ui, -apple-system, sans-serif);
   }
 
   html {
@@ -58,21 +89,246 @@
   }
 }
 
-@layer utilities {
-  .font-mono {
-    font-family: 'JetBrains Mono', ui-monospace, monospace;
+@layer components {
+  /* Button component base */
+  .btn {
+    @apply inline-flex items-center gap-2.5 px-4.5 py-3 font-mono text-sm
+           border border-transparent rounded-lg cursor-pointer
+           transition-all duration-200 ease-out;
+  }
+
+  .btn-primary {
+    @apply bg-confident text-ink-0 font-semibold
+           shadow-[0_0_0_1px_rgb(var(--confident-rgb)_/_.4),_0_0_30px_rgb(var(--confident-rgb)_/_.35)];
+  }
+
+  .btn-primary:hover {
+    @apply shadow-[0_0_0_1px_rgb(var(--confident-rgb)_/_.6),_0_0_50px_rgb(var(--confident-rgb)_/_.55)]
+           -translate-y-0.5;
+  }
+
+  .btn-ghost {
+    @apply border-white/16 bg-white/3;
+  }
+
+  .btn-ghost:hover {
+    @apply border-white/32 bg-white/6;
+  }
+
+  /* Code block component */
+  .codeblock {
+    @apply relative font-mono text-sm bg-ink-0/60 border border-white/16
+           rounded-lg px-14 py-3.5 text-fg-1 overflow-x-auto whitespace-nowrap;
+  }
+
+  .codeblock .prompt {
+    @apply text-fg-3 mr-2 select-none;
+  }
+
+  .codeblock .cmd {
+    @apply text-fg-0;
+  }
+
+  .codeblock .arg {
+    @apply text-confident;
+  }
+
+  .codeblock .pipe {
+    @apply text-fg-2;
+  }
+
+  .codeblock .copy-btn {
+    @apply absolute top-1/2 right-2 -translate-y-1/2 bg-white/6 border border-white/8
+           rounded text-fg-1 font-mono text-xs px-2.5 py-1.25 cursor-pointer
+           uppercase transition-all duration-150;
+  }
+
+  .codeblock .copy-btn:hover {
+    @apply bg-confident/12 text-confident;
+  }
+
+  .codeblock .copy-btn.copied {
+    @apply bg-confident/16 text-confident;
+  }
+
+  /* State pill badge */
+  .state-pill {
+    @apply inline-flex items-center gap-1.5 px-2.25 py-1 font-mono text-xs
+           uppercase border border-current rounded-full
+           bg-[color-mix(in_oklab,_currentColor_8%,_transparent)];
+  }
+
+  .state-pill .dot {
+    @apply w-1.25 h-1.25 rounded-full bg-current
+           shadow-[0_0_8px_currentColor];
+  }
+
+  .s-confident {
+    @apply text-confident;
+  }
+
+  .s-uncertain {
+    @apply text-uncertain;
+  }
+
+  .s-contested {
+    @apply text-contested;
+  }
+
+  /* Card glass effect */
+  .card-glass {
+    @apply backdrop-blur-lg bg-ink-2 border border-white/16
+           rounded-lg p-6;
+  }
+
+  /* Section metadata eyebrow */
+  .section-meta {
+    @apply grid grid-cols-[56px_1fr] gap-6 py-6 border-t border-white/8
+           text-fg-2 font-mono text-xs tracking-wider;
+  }
+
+  .section-meta .num {
+    @apply text-fg-1 font-semibold;
+  }
+
+  .section-meta .meta-kv {
+    @apply grid grid-cols-4 gap-4;
+  }
+
+  .section-meta .meta-kv > div {
+    @apply flex flex-col gap-1;
+  }
+
+  .section-meta .meta-kv .k {
+    @apply text-fg-3 uppercase tracking-widest text-2xs;
+  }
+
+  .section-meta .meta-kv .v {
+    @apply text-fg-0 text-sm;
   }
 }
+
+@layer utilities {
+  .font-mono {
+    font-family: var(--f-mono, 'Geist Mono', 'JetBrains Mono', ui-monospace, monospace);
+  }
+
+  .font-serif {
+    font-family: var(--f-serif, 'Instrument Serif', 'Times New Roman', serif);
+  }
+
+  /* Eclipse utility classes */
+  .mono {
+    @apply font-mono;
+  }
+
+  .monospace-small {
+    @apply font-mono text-xs;
+  }
+
+  /* Text hierarchy */
+  .text-fg-0 {
+    @apply text-fg-0;
+  }
+
+  .text-fg-1 {
+    @apply text-fg-1;
+  }
+
+  .text-fg-2 {
+    @apply text-fg-2;
+  }
+
+  .text-fg-3 {
+    @apply text-fg-3;
+  }
+
+  /* Background utilities */
+  .bg-ink-0 {
+    @apply bg-ink-0;
+  }
+
+  .bg-ink-1 {
+    @apply bg-ink-1;
+  }
+
+  .bg-ink-2 {
+    @apply bg-ink-2;
+  }
+
+  .bg-ink-3 {
+    @apply bg-ink-3;
+  }
+
+  .bg-ink-4 {
+    @apply bg-ink-4;
+  }
+
+  /* Epistemic state utilities */
+  .text-confident {
+    color: var(--confident);
+  }
+
+  .text-uncertain {
+    color: var(--uncertain);
+  }
+
+  .text-contested {
+    color: var(--contested);
+  }
+
+  .bg-confident {
+    background-color: var(--confident);
+  }
+
+  .bg-uncertain {
+    background-color: var(--uncertain);
+  }
+
+  .bg-contested {
+    background-color: var(--contested);
+  }
+
+  /* Border utilities */
+  .border-white-8 {
+    border-color: rgba(255, 255, 255, 0.08);
+  }
+
+  .border-white-16 {
+    border-color: rgba(255, 255, 255, 0.16);
+  }
+
+  /* Shadow utilities */
+  .shadow-glow-confident {
+    box-shadow: 0 0 20px rgb(var(--confident-rgb) / 0.2);
+  }
+
+  .shadow-glow-contested {
+    box-shadow: 0 0 20px rgb(var(--contested-rgb) / 0.2);
+  }
+
+  /* Hairline grid helper */
+  .hairline-grid {
+    background-image:
+      linear-gradient(to right, rgba(255, 255, 255, 0.04) 0.5px, transparent 0.5px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 0.5px, transparent 0.5px);
+    background-size: 48px 48px;
+  }
+}
+
+/* ── FOCUS & ACCESSIBILITY ────────────────────────────────────────────── */
 
 /* Focus-visible states for keyboard accessibility */
 a:focus-visible,
 button:focus-visible,
 [role="tab"]:focus-visible,
 input:focus-visible {
-  outline: 2px solid hsl(var(--primary));
-  outline-offset: 2px;
-  border-radius: 4px;
+  outline: 2px solid rgb(var(--confident-rgb));
+  outline-offset: 3px;
+  border-radius: 2px;
 }
+
+/* ── ANIMATIONS ─────────────────────────────────────────────────────────── */
 
 /* Scroll-triggered fade-in animation */
 @keyframes fadeInUp {
@@ -109,11 +365,30 @@ input:focus-visible {
   animation: fadeInUp 0.3s ease-out;
 }
 
-/* Card hover glow base */
+/* ── COMPONENT HOVER STATES ─────────────────────────────────────────────── */
+
+/* Card hover glow — using Eclipse confident color */
 .card-hover {
-  transition: all 0.3s ease;
+  transition: all 0.3s ease-out;
 }
+
 .card-hover:hover {
-  border-color: hsl(var(--primary) / 0.4);
-  box-shadow: 0 0 20px hsl(var(--primary) / 0.08);
+  border-color: rgb(var(--confident-rgb) / 0.4);
+  box-shadow: 0 0 20px rgb(var(--confident-rgb) / 0.08);
+}
+
+/* ── RESPONSIVE UTILITIES ───────────────────────────────────────────────── */
+
+/* Hide on mobile, show on tablet+ */
+@media (max-width: 768px) {
+  .hidden-mobile {
+    display: none;
+  }
+}
+
+/* Show on mobile, hide on tablet+ */
+@media (min-width: 769px) {
+  .hidden-desktop {
+    display: none;
+  }
 }

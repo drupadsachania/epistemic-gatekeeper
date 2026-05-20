@@ -1,32 +1,75 @@
 :root {
-  /* Decision states - from original palette */
-  --act: hsl(142, 71%, 45%);           /* Green */
-  --escalate: hsl(48, 96%, 53%);       /* Orange */
-  --defer: hsl(217, 91%, 60%);         /* Blue */
-  --fail-safe: hsl(0, 84%, 60%);       /* Red */
+  /* ─────────────────────────────────────────────────────────────────────────
+     ECLIPSE COLOR SYSTEM — deep ink-indigo canvas with electric cyan, indigo,
+     and amber accents. Full 5-level hierarchy for both canvas and foreground.
+     ───────────────────────────────────────────────────────────────────────── */
 
-  /* Backgrounds - pitch black */
-  --primary-bg: #000000;               /* Pure black */
-  --secondary-bg: hsl(0, 0%, 5%);      /* Near black */
+  /* CANVAS — ink-indigo backgrounds, 5 levels from deepest to brightest */
+  --ink-0: #06070d;          /* deepest — page edge */
+  --ink-1: #0a0c16;          /* primary page background */
+  --ink-2: #11142233;        /* card glass/semi-transparent */
+  --ink-3: #1a1e30;          /* card solid background */
+  --ink-4: #232842;          /* card border/accent background */
 
-  /* Accents */
-  --accent-primary: hsl(234, 85%, 65%); /* Original blue accent */
-  --accent-secondary: hsl(0, 0%, 12%);  /* Border color */
+  /* FOREGROUND — 5-level text hierarchy from brightest to dimmest */
+  --fg-0: #f4f5fb;           /* primary text — headlines, critical content */
+  --fg-1: #c7ccdf;           /* secondary text — body, descriptions */
+  --fg-2: #8990ad;           /* tertiary text — metadata, supporting */
+  --fg-3: #5a607c;           /* quaternary text — disabled, hints */
+  --fg-4: #3a3f57;           /* quinary text — very subtle, borders */
 
-  /* Text */
-  --text-primary: hsl(0, 0%, 85%);     /* Light gray */
-  --text-secondary: hsl(0, 0%, 45%);   /* Medium gray */
-  --text-tertiary: hsl(0, 0%, 25%);    /* Dark gray */
+  /* EPISTEMIC STATES — using oklch for perceptual uniformity */
+  --confident:  oklch(0.85 0.15 210);   /* electric cyan — high confidence */
+  --uncertain:  oklch(0.65 0.20 280);   /* indigo — uncertain/waiting */
+  --contested:  oklch(0.82 0.14 70);    /* warm amber — contested/attention */
+  --reversible: oklch(0.78 0.16 150);   /* sage green — reversible actions */
 
-  /* Shadows & Glows */
-  --glow-primary: 0 0 20px hsl(234, 85%, 65% / 0.2);
+  /* RGB versions for use in rgba() and color-mix() */
+  --confident-rgb:  120 220 250;
+  --uncertain-rgb:  140 120 245;
+  --contested-rgb:  250 200 110;
+  --reversible-rgb: 155 220 180;
+
+  /* DECISION STATES — backward compatibility with existing framework */
+  --act: hsl(142, 71%, 45%);           /* Green — autonomous execution */
+  --escalate: hsl(48, 96%, 53%);       /* Orange — escalate to human */
+  --defer: hsl(217, 91%, 60%);         /* Blue — defer decision */
+  --fail-safe: hsl(0, 84%, 60%);       /* Red — fail-safe shutdown */
+
+  /* TYPOGRAPHY — system fonts with monospace fallbacks */
+  --f-sans: "Geist", "Geist Sans", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --f-mono: "Geist Mono", "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --f-serif: "Instrument Serif", "Times New Roman", serif;
+
+  /* RULES & BORDERS — subtle separators with consistent opacity */
+  --rule: 0.5px solid rgba(255, 255, 255, 0.08);
+  --rule-strong: 0.5px solid rgba(255, 255, 255, 0.16);
+
+  /* RHYTHM — grid and spacing helpers */
+  --grid-coord: 11px;
+
+  /* EASING — for consistent animation feel */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+
+  /* BACKWARD COMPATIBILITY — map to new system for existing components */
+  --primary-bg: var(--ink-1);
+  --secondary-bg: var(--ink-3);
+  --text-primary: var(--fg-0);
+  --text-secondary: var(--fg-2);
+  --text-tertiary: var(--fg-3);
+  --accent-primary: var(--confident);
+  --accent-secondary: var(--ink-4);
+
+  /* GLOWS & SHADOWS */
+  --glow-primary: 0 0 20px rgb(var(--confident-rgb) / 0.2);
   --glow-fail-safe: 0 0 15px hsl(0, 84%, 60% / 0.2);
-  --glow-accent: 0 0 15px hsl(234, 85%, 65% / 0.15);
+  --glow-accent: 0 0 15px rgb(var(--confident-rgb) / 0.15);
 
-  /* Gradients */
+  /* GRADIENTS */
   --threat-gradient: linear-gradient(135deg, hsl(0, 84%, 60%), hsl(48, 96%, 53%), hsl(48, 96%, 53%));
   --health-gradient: linear-gradient(135deg, hsl(0, 84%, 60%), hsl(48, 96%, 53%), hsl(142, 71%, 45%));
-  --flow-gradient: linear-gradient(90deg, hsl(217, 91%, 60%), hsl(234, 85%, 65%), hsl(234, 85%, 65%));
+  --flow-gradient: linear-gradient(90deg, hsl(217, 91%, 60%), var(--confident), var(--confident));
 }
 
 /* Light mode (if needed) */
@@ -35,5 +78,15 @@
     --primary-bg: #ffffff;
     --secondary-bg: #f7fafc;
     --text-primary: #1a202c;
+    --fg-0: #1a202c;
+    --fg-1: #4a5568;
+    --fg-2: #718096;
+    --fg-3: #a0aec0;
+    --fg-4: #cbd5e0;
+    --ink-0: #f7fafc;
+    --ink-1: #ffffff;
+    --ink-2: #edf2f7;
+    --ink-3: #e2e8f0;
+    --ink-4: #cbd5e0;
   }
 }

@@ -1,3 +1,57 @@
+/* ─────────────────────────────────────────────────────────────────────────
+   ANIMATIONS
+   Mix of Eclipse smooth animations and legacy utilities for smooth transitions
+   ───────────────────────────────────────────────────────────────────────── */
+
+/* ── ECLIPSE ANIMATIONS ────────────────────────────────────────────────── */
+
+/* Soft pulse — subtle opacity breathing */
+@keyframes pulse-soft {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}
+
+/* Pulsing glow — cyan glow expanding */
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgb(var(--confident-rgb) / 0.45); }
+  70% { box-shadow: 0 0 0 14px rgb(var(--confident-rgb) / 0); }
+}
+
+/* Drift — subtle vertical motion */
+@keyframes drift {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+  100% { transform: translateY(0); }
+}
+
+/* Flow down — particle flow animation */
+@keyframes flow-down {
+  0% { transform: translateY(-100%); opacity: 0; }
+  20%, 80% { opacity: 1; }
+  100% { transform: translateY(700%); opacity: 0; }
+}
+
+/* Scan — horizontal scan line effect */
+@keyframes scan {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(200%); }
+}
+
+/* Scroll reveal — smooth fade-in and slide */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 1s var(--ease-out, ease-out),
+              transform 1s var(--ease-out, ease-out);
+}
+
+.reveal.in {
+  opacity: 1;
+  transform: none;
+}
+
+/* ── LEGACY ANIMATIONS (backward compatibility) ────────────────────────── */
+
 /* Section entry */
 @keyframes sectionFadeIn {
   from {
@@ -10,7 +64,7 @@
   }
 }
 
-/* Pulsing glow */
+/* Pulsing glow — legacy version */
 @keyframes pulse {
   0%, 100% {
     opacity: 1;
@@ -23,10 +77,12 @@
 /* Glitch effect */
 @keyframes glitch {
   0% {
-    text-shadow: 2px 2px var(--glitch-red), -2px -2px var(--glitch-cyan);
+    text-shadow: 2px 2px var(--glitch-red, hsl(0, 84%, 60%)),
+                 -2px -2px var(--glitch-cyan, hsl(234, 85%, 65%));
   }
   50% {
-    text-shadow: -2px 2px var(--glitch-cyan), 2px -2px var(--glitch-red);
+    text-shadow: -2px 2px var(--glitch-cyan, hsl(234, 85%, 65%)),
+                 2px -2px var(--glitch-red, hsl(0, 84%, 60%));
   }
   100% {
     text-shadow: 0 0 transparent;
@@ -63,7 +119,8 @@
   }
 }
 
-/* Apply utilities */
+/* ── ANIMATION UTILITY CLASSES ────────────────────────────────────────────── */
+
 .animate-section-in {
   animation: sectionFadeIn 0.6s ease-out forwards;
 }
@@ -72,10 +129,47 @@
   animation: pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
+.animate-pulse-soft {
+  animation: pulse-soft 2s var(--ease-in-out, ease-in-out) infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-out infinite;
+}
+
+.animate-drift {
+  animation: drift 3s ease-in-out infinite;
+}
+
+.animate-flow-down {
+  animation: flow-down 6s linear infinite;
+}
+
+.animate-scan {
+  animation: scan 2s linear infinite;
+}
+
 .animate-glitch {
   animation: glitch 0.3s ease-in-out;
 }
 
 .animate-glow {
   animation: glow 2s ease-in-out infinite;
+}
+
+/* ── STAGGER ANIMATION for list items ────────────────────────────────── */
+.animate-stagger {
+  --stagger-delay: 0ms;
+}
+
+.animate-stagger > * {
+  animation: sectionFadeIn 0.6s ease-out forwards;
+  animation-delay: calc(var(--stagger-delay) * var(--stagger-index, 0));
+}
+
+/* ── FOCUS VISIBLE for accessibility ─────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid rgb(var(--confident-rgb, 120 220 250));
+  outline-offset: 3px;
+  border-radius: 2px;
 }

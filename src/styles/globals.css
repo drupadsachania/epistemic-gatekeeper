@@ -13,10 +13,41 @@ html {
 }
 
 body {
-  background: var(--primary-bg);
-  color: var(--text-primary);
-  font-family: 'Inter', sans-serif;
+  background: var(--ink-1, var(--primary-bg));
+  color: var(--fg-0, var(--text-primary));
+  font-family: var(--f-sans, 'Geist', 'Inter', sans-serif);
   overflow-x: hidden;
+  /* Eclipse gradient background */
+  background:
+    radial-gradient(ellipse 80vw 60vh at 15% -10%, rgb(var(--uncertain-rgb) / 0.18), transparent 60%),
+    radial-gradient(ellipse 60vw 50vh at 100% 30%, rgb(var(--confident-rgb) / 0.10), transparent 55%),
+    radial-gradient(ellipse 70vw 50vh at 30% 100%, rgb(var(--contested-rgb) / 0.07), transparent 60%),
+    var(--ink-1, var(--primary-bg));
+  background-attachment: fixed;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Film grain overlay — subtle, breathing */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.5;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.07 0'/></filter><rect width='160' height='160' filter='url(%23n)'/></svg>");
+}
+
+/* Shader canvas background — sits behind grain */
+#shader-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.9;
 }
 
 /* Scrollbar styling */
@@ -25,22 +56,22 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--primary-bg);
+  background: var(--ink-1, var(--primary-bg));
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--grid-color);
+  background: var(--ink-4, var(--accent-secondary));
   border-radius: 6px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--accent-cyan);
+  background: var(--confident, var(--accent-primary));
 }
 
 /* Selection styling */
 ::selection {
-  background: var(--accent-cyan);
-  color: var(--primary-bg);
+  background: var(--confident, var(--accent-primary));
+  color: var(--ink-0, var(--primary-bg));
 }
 
 /* Performance optimizations */

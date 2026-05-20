@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:api.anthropic.com)",
+      "Bash(cd /d \"D:\\\\Downloads\")",
+      "Bash(dir \"Kairos-Redisgn \\(1\\).zip\")",
+      "Bash(unzip -l \"Kairos-Redisgn \\(1\\).zip\")",
+      "Bash(unzip -l \"D:/Downloads/Kairos-Redisgn \\(1\\).zip\")",
+      "Bash(unzip -q \"D:/Downloads/Kairos-Redisgn \\(1\\).zip\" -d /tmp/kairos-design)",
+      "Read(//tmp/**)",
+      "Bash(find \"D:/Downloads/Kairos-Redisgn \\(1\\)\" -name \"styles.css\" 2>/dev/null | head -5)",
+      "Bash(unzip -q \"Kairos-Redisgn \\(1\\).zip\")",
+      "Bash(unzip -oq \"Kairos-Redisgn \\(1\\).zip\")"
+    ]
+  }
+}
