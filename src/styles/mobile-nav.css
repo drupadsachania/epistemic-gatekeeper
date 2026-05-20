@@ -1,0 +1,98 @@
+/* ── MOBILE BOTTOM NAV ──────────────────────────────────────────────────── */
+
+/* Hidden on desktop — becomes visible only on mobile */
+.mobile-bottom-nav {
+  display: none;
+}
+
+@media (max-width: 768px) {
+
+  /* ── Bar ── */
+  .mobile-bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+
+    display: flex;
+    align-items: stretch;
+
+    /* Glassmorphic surface — matches the top nav language */
+    background: rgba(245, 246, 250, 0.88);
+    backdrop-filter: saturate(200%) blur(24px);
+    -webkit-backdrop-filter: saturate(200%) blur(24px);
+
+    border-top: 1px solid var(--hairline);
+    box-shadow:
+      0 -1px 0 rgba(15, 13, 27, 0.04),
+      0 -8px 32px rgba(67, 56, 202, 0.06);
+
+    /* Push above iPhone home indicator */
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  /* ── Items ── */
+  .mobile-nav-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    padding: 10px 4px 10px;
+    text-decoration: none;
+    color: var(--ink-3);
+    transition: color 0.15s;
+    -webkit-tap-highlight-color: transparent;
+    position: relative;
+  }
+
+  /* Active pill chip — sits behind the icon */
+  .mobile-nav-item.active {
+    color: var(--indigo);
+  }
+
+  .mobile-nav-item.active .mobile-nav-icon::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, calc(-50% - 2px));
+    width: 44px;
+    height: 28px;
+    border-radius: 9px;
+    background: rgba(67, 56, 202, 0.10);
+    pointer-events: none;
+  }
+
+  /* ── Icon wrapper ── */
+  .mobile-nav-icon {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 28px;
+  }
+
+  /* ── Label ── */
+  .mobile-nav-label {
+    font-family: var(--f-sans);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    line-height: 1;
+  }
+
+  /* ── Tap feedback ── */
+  .mobile-nav-item:active {
+    color: var(--indigo);
+    opacity: 0.7;
+  }
+
+  /* ── Compensate main content so last section isn't hidden ── */
+  main {
+    padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px));
+  }
+}

@@ -7,6 +7,7 @@
 import { Outlet } from 'react-router-dom';
 import EclipseNav from './EclipseNav';
 import PrismBackground from './PrismBackground';
+import MobileBottomNav from './MobileBottomNav';
 
 const Layout = () => (
   <>
@@ -20,6 +21,9 @@ const Layout = () => (
         <Outlet />
       </main>
     </div>
+
+    {/* Fixed bottom nav — mobile only, rendered outside .shell so z-index is clean */}
+    <MobileBottomNav />
   </>
 );
 
