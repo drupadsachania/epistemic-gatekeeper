@@ -91,7 +91,7 @@ const ArgusOverview: React.FC = () => {
               </p>
               <div className="meta-row">
                 {[
-                  { k: '// version',  v: 'v0.4.2-beta' },
+                  { k: '// version',  v: 'v1.0.0' },
                   { k: '// language', v: 'Python · Rust · Go' },
                   { k: '// licence',  v: 'Apache 2.0' },
                   { k: '// source',   v: 'kairos-dev-kairos-ecl/Argus' },
@@ -290,20 +290,13 @@ const ArgusOverview: React.FC = () => {
                     <span className="prompt">$</span>{' '}
                     <span className="kw">cd</span> Argus{' '}
                     <span className="kw">&&</span>{' '}
-                    <span className="fn">pip</span> install{' '}
-                    <span className="kw">-r</span> requirements.txt
+                    <span className="fn">docker</span> compose up <span className="kw">-d</span>
                   </div>
+                  <div style={{ marginTop: 12 }} className="com"># or pin the installer to a release</div>
                   <div>
                     <span className="prompt">$</span>{' '}
-                    <span className="fn">python</span>{' '}
-                    <span className="kw">-m</span> argus.server
-                  </div>
-                  <div style={{ marginTop: 12 }} className="com"># or pin to a release</div>
-                  <div>
-                    <span className="prompt">$</span>{' '}
-                    <span className="fn">argus</span> install{' '}
-                    <span className="kw">--version</span>{' '}
-                    <span className="str">v0.4.2-beta</span>
+                    <span className="kw">ARGUS_VERSION</span>=<span className="str">v1.0.0</span>{' '}
+                    <span className="fn">bash</span> install.sh
                   </div>
                 </div>
               </div>

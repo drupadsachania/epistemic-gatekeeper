@@ -1,6 +1,7 @@
 /**
- * ArgusSdkSection.tsx — Epistemic Prism SDK teaser.
- * Go agent terminal + feat cards + OcsfFlow + subscribe form.
+ * ArgusSdkSection.tsx — Epistemic Prism SDK section.
+ * ArgusSDK v1.2.0: Windows-first public beta shadow-AI visibility agent (Go, OCSF v1.3).
+ * Terminal + feat cards + OcsfFlow.
  */
 
 import React, { useState } from 'react';
@@ -93,12 +94,12 @@ function OcsfFlow() {
         <div className="ocsf-core">
           <div className="name">Argus <em>SDK</em></div>
           <div className="schema">→ OCSF v1.3</div>
-          <div className="lang">// go · single binary · ~12 MB</div>
+          <div className="lang">// go · windows service · msi</div>
         </div>
 
         <div className="ocsf-col">
           <span className="lbl">// SIEM / observability fanout</span>
-          {['Splunk', 'Datadog', 'Elastic', 'Chronicle', 'Sentinel'].map((s) => (
+          {['Kafka', 'Splunk', 'Elastic', 'Syslog', 'ArgusXDR'].map((s) => (
             <div className="ocsf-chip" key={s}>
               <span>{s}</span>
               <span className="tag ok">→</span>
@@ -114,17 +115,32 @@ function OcsfFlow() {
 
 function GoAgentTerminal() {
   const [copied, setCopied] = useState(false);
-  const cmd = 'go get github.com/kairos-foundation/argus-agent';
+  const cmd = 'msiexec /i argus-agent_<version>_windows_amd64.msi /quiet';
   const copy = () => {
     navigator.clipboard?.writeText(cmd);
     setCopied(true);
     setTimeout(() => setCopied(false), 1500);
   };
+  const lines: React.ReactNode[] = [
+    <span className="com"># 1. Install the Windows service (silent, for Intune / MDM)</span>,
+    <><span className="fn">msiexec</span> <span className="kw">/i</span> <span className="str">argus-agent_&lt;version&gt;_windows_amd64.msi</span> <span className="kw">/quiet</span></>,
+    ' ',
+    <span className="com"># 2. Point it at your SIEM: C:\ProgramData\argus-agent\agent.yaml</span>,
+    <><span className="kw">outputs</span>:</>,
+    <>  - <span className="kw">name</span>: <span className="str">"siem-kafka"</span></>,
+    <>    <span className="kw">type</span>: <span className="str">"kafka"</span></>,
+    <>    <span className="kw">endpoint</span>: <span className="str">"broker1:9092"</span></>,
+    <>    <span className="kw">ocsf</span>: <span className="fn">true</span>   <span className="com"># translate to OCSF v1.3</span></>,
+    ' ',
+    <><span className="fn">Restart-Service</span> <span className="str">argus-agent</span></>,
+    ' ',
+    <span className="com"># claude.exe → api.anthropic.com  ⇒  euc.ai_access (OCSF)</span>,
+  ];
   return (
-    <div className="term sdk-term" aria-label="Argus SDK Go agent">
+    <div className="term sdk-term" aria-label="Argus SDK Windows agent install">
       <style>{`
         .sdk-term { min-height: 380px; display: flex; flex-direction: column; }
-        .sdk-term .term-body { flex: 1; }
+        .sdk-term .term-body { flex: 1; overflow-x: auto; }
         .sdk-term .gutter {
           display: inline-block; width: 28px;
           color: rgba(244,244,245,0.25); font-variant-numeric: tabular-nums;
@@ -139,7 +155,7 @@ function GoAgentTerminal() {
           <i style={{ background: '#FEBC2E' }} />
           <i style={{ background: '#28C840' }} />
         </div>
-        <span className="file">agent.go</span>
+        <span className="file">install · agent.yaml</span>
         <button className={`copy ${copied ? 'copied' : ''}`} onClick={copy}>
           <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
             <rect x="9" y="9" width="13" height="13" rx="2"/>
@@ -149,23 +165,9 @@ function GoAgentTerminal() {
         </button>
       </div>
       <div className="term-body">
-        <div className="line"><span className="gutter">1</span><span className="code"><span className="com">// 1. Install the Argus Go Agent</span></span></div>
-        <div className="line"><span className="gutter">2</span><span className="code"><span className="kw">go</span> get <span className="pkg">github.com/kairos-foundation/argus-agent</span></span></div>
-        <div className="line"><span className="gutter">3</span><span className="code"> </span></div>
-        <div className="line"><span className="gutter">4</span><span className="code"><span className="com">// 2. Initialize in your pipeline</span></span></div>
-        <div className="line"><span className="gutter">5</span><span className="code"><span className="kw">import</span> (</span></div>
-        <div className="line"><span className="gutter">6</span><span className="code">    <span className="str">"github.com/kairos-foundation/argus-agent/sdk"</span></span></div>
-        <div className="line"><span className="gutter">7</span><span className="code">)</span></div>
-        <div className="line"><span className="gutter">8</span><span className="code"> </span></div>
-        <div className="line"><span className="gutter">9</span><span className="code"><span className="kw">func</span> <span className="fn">main</span>() {'{'}</span></div>
-        <div className="line"><span className="gutter">10</span><span className="code">    <span className="com">// Sidecar with sane defaults</span></span></div>
-        <div className="line"><span className="gutter">11</span><span className="code">    observer, err := sdk.<span className="fn">NewObserver</span>(sdk.<span className="fn">DefaultConfig</span>())</span></div>
-        <div className="line"><span className="gutter">12</span><span className="code">    <span className="kw">if</span> err != <span className="kw">nil</span> {'{'} <span className="fn">panic</span>(err) {'}'}</span></div>
-        <div className="line"><span className="gutter">13</span><span className="code">    <span className="kw">defer</span> observer.<span className="fn">Close</span>()</span></div>
-        <div className="line"><span className="gutter">14</span><span className="code"> </span></div>
-        <div className="line"><span className="gutter">15</span><span className="code">    <span className="com">// Start monitoring reasoning trace</span></span></div>
-        <div className="line"><span className="gutter">16</span><span className="code">    observer.<span className="fn">WatchTrace</span>(<span className="str">"llm_completion_01"</span>)</span></div>
-        <div className="line"><span className="gutter">17</span><span className="code">{'}'}</span></div>
+        {lines.map((l, i) => (
+          <div className="line" key={i}><span className="gutter">{i + 1}</span><span className="code">{l}</span></div>
+        ))}
       </div>
     </div>
   );
@@ -285,9 +287,9 @@ const ArgusSdkSection: React.FC = () => (
         <span className="num">03 / 03</span>
         <div className="meta-kv">
           <div><span className="k">Pillar</span><span className="v">Argus SDK</span></div>
-          <div><span className="k">Type</span><span className="v">Telemetry agent</span></div>
-          <div><span className="k">Stage</span><span className="v" style={{ color: 'var(--amber)' }}>WIP · v2 revamp</span></div>
-          <div><span className="k">Eta</span><span className="v">Q3 · 2026</span></div>
+          <div><span className="k">Type</span><span className="v">Shadow-AI visibility agent</span></div>
+          <div><span className="k">Stage</span><span className="v" style={{ color: 'var(--amber)' }}>Public beta · v1.2.0</span></div>
+          <div><span className="k">Released</span><span className="v">Jun 2026 · Windows-first</span></div>
         </div>
       </div>
 
@@ -295,20 +297,24 @@ const ArgusSdkSection: React.FC = () => (
         <div>
           <span className="tag">
             <img src="/argus-logo.png" alt="Argus" />
-            <span className="dot" />INTEGRATION READY · COMING SOON
+            <span className="dot" />PUBLIC BETA · WINDOWS-FIRST · APACHE 2.0
           </span>
           <h2>
             Deploy<br />
             the Argus <span className="ital em">Observer.</span>
           </h2>
           <p className="lede">
-            Lightweight Go agent. <em>OCSF parsing</em> out of the box. Gain immediate epistemic
-            control over your non-deterministic AI pipelines with minimal overhead.
+            A lightweight endpoint agent that shows <em>which AI services</em> your endpoints talk to:
+            cloud tools by DNS hostname, local models by port, with the originating process. Normalised
+            to OCSF v1.3 for the SIEM you already run. Observe-only by design.
           </p>
           <div className="cta-row">
-            <a className="btn btn-primary" href="/docs">
-              View documentation
+            <a className="btn btn-primary" href="https://github.com/kairos-dev-kairos-ecl/ArgusSDK/releases/tag/v1.2.0" target="_blank" rel="noopener noreferrer">
+              Download v1.2.0
               <span style={{ fontSize: 16, lineHeight: '1' }}>→</span>
+            </a>
+            <a className="btn btn-ghost" href="https://github.com/kairos-dev-kairos-ecl/ArgusSDK" target="_blank" rel="noopener noreferrer">
+              View on GitHub
             </a>
           </div>
 
@@ -319,8 +325,8 @@ const ArgusSdkSection: React.FC = () => (
                   <polyline points="4 17 10 11 4 5" /><line x1="12" y1="19" x2="20" y2="19" />
                 </svg>
               </span>
-              <div className="name">Native Go Agent</div>
-              <div className="desc">Single binary ~12 MB. No runtime deps. Compiles directly into your services.</div>
+              <div className="name">Low-privilege Windows service</div>
+              <div className="desc">One-click MSI or silent <code>msiexec</code>. No process enumeration, file monitoring or packet capture. Release artefacts are cosign-signed with SLSA provenance.</div>
             </div>
             <div className="sdk-feat">
               <span className="icon" style={{ background: 'rgba(245,158,11,0.10)', color: 'var(--amber)' }}>
@@ -329,14 +335,20 @@ const ArgusSdkSection: React.FC = () => (
                   <rect x="14" y="14" width="7" height="7" /><rect x="3" y="14" width="7" height="7" />
                 </svg>
               </span>
-              <div className="name">OCSF v1.3 Standard</div>
-              <div className="desc">Pre-configured schemas for immediate SIEM ingestion. Splunk, Datadog, Elastic.</div>
+              <div className="name">OCSF v1.3 to your SIEM</div>
+              <div className="desc">Kafka verified live; Elastic and Splunk CI-tested; syslog and ArgusXDR unit-tested. WAL buffer rides out outages.</div>
             </div>
           </div>
         </div>
 
         <GoAgentTerminal />
       </div>
+
+      <p className="beta-note" style={{ fontFamily: 'var(--f-mono)', fontSize: 11, color: 'var(--ink-3)', letterSpacing: '0.04em', lineHeight: 1.7, margin: '28px 0 0', maxWidth: 820 }}>
+        // Honest scope: cloud-AI detection is verified on Windows only. Linux and macOS are not yet published.
+        Installers are unsigned (SmartScreen will prompt), only the Kafka output is proven end-to-end,
+        and fleet-scale load has not been tested. Argus reports; your firewall, proxy, EDR or MDM enforces.
+      </p>
 
       <div className="label-row" style={{ marginTop: 80 }}>SHADOW AI · LOCAL MODEL VISIBILITY</div>
       <OcsfFlow />

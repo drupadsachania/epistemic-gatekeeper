@@ -1,6 +1,6 @@
 /**
  * Docs.tsx — Kairos Foundation documentation hub.
- * Three-pillar structure: Kairos · Argus XDR · Argus SDK (coming soon).
+ * Three-pillar structure: Kairos · Argus XDR · Argus SDK.
  * Prism light design — glass cards, no dark backgrounds except .term blocks.
  */
 
@@ -121,6 +121,31 @@ const ARGUS_XDR_LINKS: DocLink[] = [
   },
 ];
 
+const ARGUS_SDK_LINKS: DocLink[] = [
+  {
+    label: 'Install & capabilities',
+    desc: 'MSI install, verified-vs-unverified platform matrix, what it does not do yet',
+    to: 'https://github.com/kairos-dev-kairos-ecl/ArgusSDK#readme',
+    tag: 'README',
+    external: true,
+  },
+  {
+    label: 'Configuration reference',
+    desc: 'agent.yaml: ingest.euc, local_inference_ports, outputs[] (Kafka, Splunk, Elastic, syslog, ArgusXDR)',
+    to: 'https://github.com/kairos-dev-kairos-ecl/ArgusSDK/blob/main/docs/CONFIGURATION.md',
+    tag: 'CONFIG',
+    external: true,
+  },
+  {
+    label: 'Release v1.2.0',
+    desc: 'Windows MSI + zip, cosign-signed checksums, SLSA provenance · changelog',
+    to: 'https://github.com/kairos-dev-kairos-ecl/ArgusSDK/releases/tag/v1.2.0',
+    tag: 'LATEST',
+    tagColor: 'var(--amber)',
+    external: true,
+  },
+];
+
 /* ── PAGE ───────────────────────────────────────────────────────────────── */
 
 const Docs: React.FC = () => (
@@ -183,39 +208,24 @@ const Docs: React.FC = () => (
             </div>
           </div>
 
-          {/* ── 03 ARGUS SDK — COMING SOON ── */}
-          <div className="docs-card coming">
+          {/* ── 03 ARGUS SDK ── */}
+          <div className="docs-card">
             <div className="docs-card-head" style={{ borderBottomColor: 'rgba(245,158,11,0.20)' }}>
               <div className="docs-card-brand">
                 <img src="/argus-logo.png" alt="Argus SDK" width={36} height={36} style={{ height: 36, width: 36, objectFit: 'contain', borderRadius: '50%', flexShrink: 0 }} />
                 <span className="num">03 / 03</span>
-                <span className="pill amber">SDK</span>
+                <span className="pill amber">SDK · BETA</span>
               </div>
               <h2>Argus <em>SDK</em></h2>
               <p>
-                Lightweight Go agent for embedding epistemic observability directly into
-                AI pipelines. OCSF v1.3 out of the box.
+                Shadow-AI visibility agent. Detects cloud and local AI-tool use on endpoints and
+                forwards OCSF v1.3 to your SIEM. v1.2.0, Windows-first public beta.
               </p>
             </div>
-            <div className="coming-body">
-              <span className="coming-badge">
-                <span className="dot" />
-                IN PROGRESS · Q3 2026
-              </span>
-              <h3>Docs are being<br /><em>written.</em></h3>
-              <p>
-                The SDK is under active v2 revamp. Documentation will cover the full
-                integration surface — from single-binary installation to custom OCSF
-                schema plugins.
-              </p>
-              <ul className="coming-list">
-                <li>Getting started &amp; installation</li>
-                <li>Agent integration patterns</li>
-                <li>OCSF schema customisation</li>
-                <li>API reference &amp; plugin SDK</li>
-                <li>SIEM connector guides</li>
-              </ul>
-              <div className="coming-eta">ETA · Q3 2026 · APACHE 2.0</div>
+            <div className="docs-card-links">
+              {ARGUS_SDK_LINKS.map((l) => (
+                <DocRow key={l.to} {...l} />
+              ))}
             </div>
           </div>
 

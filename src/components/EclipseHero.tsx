@@ -414,7 +414,7 @@ const EclipseHero: React.FC = () => (
             10-layer signal taxonomy, 4-tier detection.
           </p>
           <div className="meta">
-            <span>OSS · Apache 2.0 · v0.4.2</span>
+            <span>OSS · Apache 2.0 · v1.0.0</span>
             <span className="arrow">→</span>
           </div>
         </a>
@@ -422,13 +422,13 @@ const EclipseHero: React.FC = () => (
         <a href="#argus-sdk" className="pillar"
            style={{ '--accent': 'var(--amber)' } as React.CSSProperties}>
           <span className="num">03 · INTEGRATION</span>
-          <h3 className="ttl">Argus SDK <span className="badge">SOON</span></h3>
+          <h3 className="ttl">Argus SDK <span className="badge">BETA</span></h3>
           <p className="sub">
-            Lightweight Go telemetry agent. OCSF-native out of the box. Forwards to your
-            existing SIEM and observability stack.
+            Shadow-AI visibility agent. Sees cloud and local AI-tool use on endpoints and
+            forwards OCSF to your existing SIEM. Windows-first public beta.
           </p>
           <div className="meta">
-            <span>Go · OCSF v1.3 · Q3 2026</span>
+            <span>Go · OCSF v1.3 · v1.2.0 · Jun 2026</span>
             <span className="arrow">→</span>
           </div>
         </a>

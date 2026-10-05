@@ -528,7 +528,7 @@ function InstallTerminal() {
         </button>
       </div>
       <div className="term-body">
-        <div className="com"># macOS / Linux · root not required for user install</div>
+        <div className="com"># macOS / Linux · install.ps1 for Windows</div>
         <div>
           <span className="prompt">$</span>{' '}
           <span className="fn">curl</span>{' '}
@@ -540,7 +540,7 @@ function InstallTerminal() {
         <div style={{ marginTop: 10 }} className="com"># or pin to a specific release</div>
         <div>
           <span className="prompt">$</span>{' '}
-          <span className="fn">argus</span> install <span className="kw">--version</span> <span className="str">v0.4.2-beta</span>
+          <span className="kw">ARGUS_VERSION</span>=<span className="str">v1.0.0</span> <span className="fn">bash</span> install.sh
         </div>
       </div>
     </div>
