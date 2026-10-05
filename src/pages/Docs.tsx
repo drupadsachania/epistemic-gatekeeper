@@ -18,14 +18,13 @@ interface DocLink {
   tag?: string;
   tagColor?: string;
   featured?: boolean;
+  external?: boolean;
 }
 
-function DocRow({ label, desc, to, tag, tagColor, featured }: DocLink) {
-  return (
-    <Link
-      to={to}
-      className={`doc-row${featured ? ' doc-row-featured' : ''}`}
-    >
+function DocRow({ label, desc, to, tag, tagColor, featured, external }: DocLink) {
+  const className = `doc-row${featured ? ' doc-row-featured' : ''}`;
+  const body = (
+    <>
       <div className="doc-row-body">
         <span className="doc-row-label">{label}</span>
         <span className="doc-row-desc">{desc}</span>
@@ -39,10 +38,13 @@ function DocRow({ label, desc, to, tag, tagColor, featured }: DocLink) {
             {tag}
           </span>
         )}
-        <span className="doc-row-arrow">→</span>
+        <span className="doc-row-arrow">{external ? '↗' : '→'}</span>
       </div>
-    </Link>
+    </>
   );
+  return external
+    ? <a href={to} target="_blank" rel="noopener noreferrer" className={className}>{body}</a>
+    : <Link to={to} className={className}>{body}</Link>;
 }
 
 /* ── KAIROS DOCS ────────────────────────────────────────────────────────── */
@@ -50,41 +52,61 @@ function DocRow({ label, desc, to, tag, tagColor, featured }: DocLink) {
 const KAIROS_LINKS: DocLink[] = [
   {
     label: 'Research & Findings',
-    desc: 'Preprint (April 2026) · Hallucination 15–52% → 3% · Deferral 5% → 22% · Evidence surfacing 30% → 85%',
+    desc: 'Preprint v2 (Oct 2026) · what v2 corrects · 2025–26 incidents · preliminary PoC 12% → 3% vs. same LLM',
     to: '/research',
-    tag: 'WHITEPAPER',
+    tag: 'ETRA-v2',
     tagColor: 'var(--amber)',
     featured: true,
   },
   {
-    label: 'Decision State Machine',
-    desc: 'ACT · HOLD · DEFER · REFUSE — formal state diagram, transition table, runtime invariants',
+    label: 'Epistemic Control Loop',
+    desc: 'Observe → Orient → Decide → Act, with the control each phase carries and what is implemented',
+    to: '/kairos/ooda',
+    tag: 'KAIROS-001',
+  },
+  {
+    label: 'Gates & Uncertainty',
+    desc: 'Triple gate + provenance veto · three-level uncertainty · calibration certification · sinks',
+    to: '/kairos/gates',
+    tag: 'KAIROS-004',
+  },
+  {
+    label: 'Decision States & Risk Tiers',
+    desc: 'ACT · DEFER · ESCALATE · Tier 0–3 · 16-rule v2 policy · state machine with bounded re-orient',
     to: '/kairos/decision-states',
     tag: 'KAIROS-003',
   },
   {
-    label: 'Epistemic Signal Reference',
-    desc: 'Five core signals — confidence, grounding, contradiction, temporal, reversibility',
-    to: '/kairos/signals',
-    tag: 'KAIROS-002',
-  },
-  {
-    label: 'OODA Mapping',
-    desc: 'How the Observe → Orient → Decide → Act loop maps onto epistemic gates',
-    to: '/kairos/ooda',
-    tag: 'KAIROS-004',
-  },
-  {
-    label: 'Problem Analysis',
-    desc: 'Eight failure modes — FALSE_AGREEMENT, DEGENERATE_OUTPUT, and six more',
+    label: 'Threat Model & Failure Modes',
+    desc: 'OWASP Agentic Top 10 coverage · 13 named failure types with mandatory overrides',
     to: '/kairos/problem',
-    tag: 'KAIROS-001',
+    tag: 'KAIROS-005',
   },
   {
-    label: 'Signal → Framework Map',
-    desc: 'Cross-reference every signal, failure mode, and policy outcome in one table',
+    label: 'Adoption Guide',
+    desc: 'Shadow → gated → certified · KPIs that replace throughput · governance alignment',
+    to: '/adoption',
+    tag: 'KAIROS-008',
+  },
+  {
+    label: 'Framework Cross-Reference',
+    desc: 'Every gate, failure and rule with its phase, OWASP risk, and implementation status',
     to: '/argus-xdr/signal-map',
     tag: 'REFERENCE',
+  },
+  {
+    label: 'kairos-core on GitHub',
+    desc: 'Full specs KAIROS-000 … 009, changelog and templates (capability token, calibration certificate, …)',
+    to: 'https://github.com/kairos-dev-kairos-ecl/kairos-core',
+    tag: 'SPEC v2.0.0',
+    external: true,
+  },
+  {
+    label: 'kairos-security on GitHub',
+    desc: 'SOC profile SEC-001 … 005 · reference engine · ten worked use cases · 68 tests',
+    to: 'https://github.com/kairos-dev-kairos-ecl/kairos-security',
+    tag: 'SOC PROFILE',
+    external: true,
   },
 ];
 
@@ -129,8 +151,8 @@ const Docs: React.FC = () => (
               </div>
               <h2>Kairos <em>ECL</em></h2>
               <p>
-                Epistemic control loop — decision states, signal taxonomy, signal-framework map,
-                and research findings that underpin every gate.
+                Epistemic control loop v2.0 — gates, uncertainty, decision states, risk tiers and
+                the research behind them. Each mechanism is marked implemented or specified.
               </p>
             </div>
             <div className="docs-card-links">

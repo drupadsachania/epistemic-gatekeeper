@@ -4,13 +4,13 @@ import { ArrowRight, Github, MessageCircle, Hash, ExternalLink, BookOpen, Code, 
 const repos = [
   {
     name: "kairos-core",
-    description: "The Kairos ECL framework specification — decision states, signals, failure modes, and the formal state machine.",
+    description: "Framework specs v2.0.0 (KAIROS-000 … 009): gates, uncertainty, risk tiers, failure modes, evaluation protocol, and templates.",
     url: "https://github.com/kairos-dev-kairos-ecl/kairos-core",
     icon: BookOpen,
   },
   {
     name: "kairos-security",
-    description: "Reference implementation of the Epistemic Decision Engine for security automation. 57/57 tests passing.",
+    description: "SOC profile (SEC-001 … 005) and reference Epistemic Decision Engine for security operations. 68 tests passing.",
     url: "https://github.com/kairos-dev-kairos-ecl/kairos-security",
     icon: Shield,
   },
@@ -125,11 +125,11 @@ const Community = () => (
           <div className="grid sm:grid-cols-2 gap-4">
             <div className="border border-border rounded-lg p-4 card-hover">
               <p className="text-sm font-medium text-foreground mb-1">For researchers</p>
-              <p className="text-xs text-muted-foreground">Validate the framework, propose new failure modes, extend the signal taxonomy, or test in new domains.</p>
+              <p className="text-xs text-muted-foreground">Run the KAIROS-009 evaluation protocol independently, red-team the gates with adaptive injections, or write a domain profile.</p>
             </div>
             <div className="border border-border rounded-lg p-4 card-hover">
               <p className="text-sm font-medium text-foreground mb-1">For engineers</p>
-              <p className="text-xs text-muted-foreground">Build integrations, add signal extractors, write plugins, or improve the Argus reference architecture.</p>
+              <p className="text-xs text-muted-foreground">Implement the [Specified v2] mechanisms (Gate 1 SSE, calibration service, capability tokens) or improve Argus integrations.</p>
             </div>
           </div>
         </div>
@@ -137,7 +137,7 @@ const Community = () => (
           <Link to="/adoption" className="inline-flex items-center gap-1 text-sm text-primary font-medium hover:gap-2 transition-all">
             Start with Adoption Guide <ArrowRight className="h-3.5 w-3.5" />
           </Link>
-          <Link to="/framework" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors">
+          <Link to="/kairos/ooda" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors">
             Read the Framework <ArrowRight className="h-3.5 w-3.5" />
           </Link>
         </div>

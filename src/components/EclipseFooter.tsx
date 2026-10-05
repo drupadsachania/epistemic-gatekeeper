@@ -151,10 +151,10 @@ const EclipseFooter: React.FC = () => {
           <div className="ft-col">
             <h5>// research</h5>
             <ul>
-              <li><Link to="/research">Research paper</Link></li>
-              <li><Link to="/research">Signal taxonomy</Link></li>
-              <li><Link to="/research">Field notes</Link></li>
-              <li><Link to="/research">Open questions</Link></li>
+              <li><Link to="/research">Research paper v2</Link></li>
+              <li><Link to="/kairos/gates">Gates &amp; uncertainty</Link></li>
+              <li><Link to="/kairos/problem">Threat model</Link></li>
+              <li><Link to="/adoption">Adoption guide</Link></li>
             </ul>
           </div>
 

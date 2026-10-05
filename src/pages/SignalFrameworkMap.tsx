@@ -11,136 +11,77 @@ import {
 } from "@/components/ui/table";
 
 type MapEntry = {
-  signal: string;
-  failureMode: string;
-  severity: "CRITICAL" | "NON-CRITICAL";
-  policyOverride: string;
+  check: string;
+  name: string;
+  severity: "CRITICAL" | "NON-CRITICAL" | "—";
+  override: string;
   oodaPhase: string;
-  module: string;
+  where: string;
+  owasp: string;
+  status: "Implemented" | "Specified v2";
   description: string;
 };
 
 const entries: MapEntry[] = [
-  {
-    signal: "Confidence",
-    failureMode: "OVERCONFIDENT_OUTPUT",
-    severity: "NON-CRITICAL",
-    policyOverride: "DEFER",
-    oodaPhase: "ORIENT",
-    module: "epistemic_failure_engine.py",
-    description: "Certainty language without caveats — agent expresses absolute confidence without epistemic grounding.",
-  },
-  {
-    signal: "Confidence",
-    failureMode: "LOW_INFORMATION_HYPOTHESIS",
-    severity: "NON-CRITICAL",
-    policyOverride: "DEFER",
-    oodaPhase: "ORIENT",
-    module: "epistemic_failure_engine.py",
-    description: "Vague hedge words dominate output — no specific or actionable claims.",
-  },
-  {
-    signal: "Grounding",
-    failureMode: "EVIDENCE_MISMATCH",
-    severity: "NON-CRITICAL",
-    policyOverride: "DEFER",
-    oodaPhase: "DECIDE",
-    module: "epistemic_failure_engine.py",
-    description: "Hypotheses don't reference evidence fields — reasoning without data.",
-  },
-  {
-    signal: "Grounding",
-    failureMode: "MISSING_EVIDENCE",
-    severity: "CRITICAL",
-    policyOverride: "FAIL_SAFE",
-    oodaPhase: "OBSERVE",
-    module: "epistemic_failure_engine.py",
-    description: "Required evidence fields absent — cannot ground any hypothesis.",
-  },
-  {
-    signal: "Contradiction",
-    failureMode: "CONTRADICTORY_HYPOTHESES",
-    severity: "NON-CRITICAL",
-    policyOverride: "DEFER",
-    oodaPhase: "ORIENT",
-    module: "epistemic_failure_engine.py",
-    description: "Antonym pairs detected across agent outputs — opposing conclusions.",
-  },
-  {
-    signal: "Contradiction",
-    failureMode: "FALSE_AGREEMENT",
-    severity: "NON-CRITICAL",
-    policyOverride: "DEFER",
-    oodaPhase: "ORIENT",
-    module: "epistemic_failure_engine.py",
-    description: "High lexical similarity masks lack of independent reasoning.",
-  },
-  {
-    signal: "Confidence",
-    failureMode: "DEGENERATE_OUTPUT",
-    severity: "CRITICAL",
-    policyOverride: "FAIL_SAFE",
-    oodaPhase: "ORIENT",
-    module: "epistemic_failure_engine.py",
-    description: "Byte-identical outputs from both agents — zero independent reasoning.",
-  },
-  {
-    signal: "Grounding",
-    failureMode: "SUPERFICIAL_REASONING",
-    severity: "NON-CRITICAL",
-    policyOverride: "ESCALATE",
-    oodaPhase: "ORIENT",
-    module: "meta_reasoning.py",
-    description: "Analysis lacks depth — alert type identified but no reasoning about cause or impact.",
-  },
-  {
-    signal: "Confidence",
-    failureMode: "HIGH_EPISTEMIC_RISK",
-    severity: "NON-CRITICAL",
-    policyOverride: "DEFER",
-    oodaPhase: "DECIDE",
-    module: "uncertainty_engine.py",
-    description: "Composite epistemic risk score ≥ 0.60 — uncertainty too high to act.",
-  },
-  {
-    signal: "Confidence",
-    failureMode: "INSUFFICIENT_CONFIDENCE_FOR_ACT",
-    severity: "NON-CRITICAL",
-    policyOverride: "ESCALATE",
-    oodaPhase: "DECIDE",
-    module: "decision_policy_engine.py",
-    description: "Confidence < 0.80 — not enough certainty for autonomous execution.",
-  },
-  {
-    signal: "Reversibility",
-    failureMode: "HIGH_RISK_ESCALATE",
-    severity: "NON-CRITICAL",
-    policyOverride: "ESCALATE",
-    oodaPhase: "DECIDE",
-    module: "decision_policy_engine.py",
-    description: "Risk score ≥ 0.60 — action impact too high for autonomous handling.",
-  },
+  { check: "Failure screen", name: "FALSE_AGREEMENT", severity: "NON-CRITICAL", override: "DEFER", oodaPhase: "ORIENT", where: "epistemic_failure_engine.py", owasp: "LLM09", status: "Implemented",
+    description: "Template reproduction masquerading as independent agreement." },
+  { check: "Failure screen", name: "LOW_INFORMATION_HYPOTHESIS", severity: "NON-CRITICAL", override: "DEFER", oodaPhase: "ORIENT", where: "epistemic_failure_engine.py", owasp: "LLM09", status: "Implemented",
+    description: "Fewer than two concrete entities; vague hedges." },
+  { check: "Failure screen", name: "EVIDENCE_MISMATCH", severity: "NON-CRITICAL", override: "DEFER", oodaPhase: "DECIDE", where: "epistemic_failure_engine.py", owasp: "LLM09 · ASI06", status: "Implemented",
+    description: "Asserts a correlation the evidence records as absent." },
+  { check: "Failure screen", name: "MISSING_EVIDENCE", severity: "CRITICAL", override: "FAIL_SAFE", oodaPhase: "OBSERVE", where: "epistemic_failure_engine.py", owasp: "—", status: "Implemented",
+    description: "Required evidence fields absent." },
+  { check: "Failure screen", name: "CONTRADICTORY_HYPOTHESES", severity: "NON-CRITICAL", override: "ESCALATE", oodaPhase: "ORIENT", where: "epistemic_failure_engine.py", owasp: "ASI09", status: "Implemented",
+    description: "Mutually exclusive readings no evidence can discriminate." },
+  { check: "Failure screen", name: "OVERCONFIDENT_OUTPUT", severity: "NON-CRITICAL", override: "DEFER", oodaPhase: "ORIENT", where: "epistemic_failure_engine.py", owasp: "LLM09 · ASI09", status: "Implemented",
+    description: "Certainty language without evidence to back it." },
+  { check: "Failure screen", name: "SUPERFICIAL_REASONING", severity: "NON-CRITICAL", override: "DEFER", oodaPhase: "ORIENT", where: "meta_reasoning.py", owasp: "LLM09", status: "Implemented",
+    description: "Classification labels instead of causal mechanisms." },
+  { check: "Failure screen", name: "DEGENERATE_OUTPUT", severity: "CRITICAL", override: "FAIL_SAFE", oodaPhase: "ORIENT", where: "epistemic_failure_engine.py", owasp: "—", status: "Implemented",
+    description: "Repetition collapse or byte-identical agents." },
+  { check: "NCE", name: "NARRATIVE_ANCHORING", severity: "NON-CRITICAL", override: "DEFER", oodaPhase: "ORIENT", where: "KAIROS-005 §4.9", owasp: "ASI09", status: "Specified v2",
+    description: "Fewer than k competing hypotheses, or none benign." },
+  { check: "Gate 1", name: "STRUCTURALLY_INFEASIBLE", severity: "NON-CRITICAL", override: "INVALID → re-orient", oodaPhase: "DECIDE", where: "Structural Simulation Engine", owasp: "ASI08", status: "Specified v2",
+    description: "Attack path impossible under topology, identity graph or policy." },
+  { check: "Gate 2", name: "CALIBRATED_CONFIDENCE_LOW", severity: "—", override: "DEFER", oodaPhase: "DECIDE", where: "Calibration service · policy rule 9", owasp: "ASI09", status: "Specified v2",
+    description: "ĉ(h) = g(s(h)) below the tier threshold τ_r." },
+  { check: "Level 1", name: "ALEATORIC_UNCERTAINTY_RESIDUAL", severity: "—", override: "DEFER", oodaPhase: "DECIDE", where: "Uncertainty engine · rule 8", owasp: "—", status: "Specified v2",
+    description: "Telemetry insufficient after the retrieval budget: request telemetry." },
+  { check: "Gate 3", name: "TRAJECTORY_UNCERTAINTY_EXCEEDED", severity: "NON-CRITICAL", override: "ESCALATE", oodaPhase: "DECIDE", where: "Uncertainty engine (UProp / RUPA)", owasp: "ASI08 · ASI07", status: "Specified v2",
+    description: "Inherited uncertainty across the investigation above κ_r." },
+  { check: "Veto", name: "TAINTED_JUSTIFICATION", severity: "CRITICAL", override: "ESCALATE", oodaPhase: "DECIDE", where: "Taint tracker · rule 11", owasp: "ASI01 · ASI02 · ASI05 · LLM01", status: "Specified v2",
+    description: "Untrusted provenance reaching an execution, egress or state-change sink." },
+  { check: "Level 2", name: "CALIBRATION_UNCERTIFIED", severity: "NON-CRITICAL", override: "ESCALATE", oodaPhase: "DECIDE", where: "Calibration service · rule 12", owasp: "ASI09", status: "Specified v2",
+    description: "No valid certificate for the deployment tuple; Tier ≥ 1 only." },
+  { check: "Tiers", name: "TIER_2_DUAL_KEY", severity: "—", override: "ESCALATE", oodaPhase: "ACT", where: "Policy rule 14 · gate service", owasp: "ASI02", status: "Specified v2",
+    description: "Isolation, account disablement, firewall block need two approvers." },
+  { check: "Tiers", name: "TIER_3_HUMAN_ONLY", severity: "—", override: "ESCALATE", oodaPhase: "ACT", where: "Policy rule 13", owasp: "ASI02 · ASI10", status: "Specified v2",
+    description: "Irreversible actions: the agent may prepare, never execute." },
+  { check: "Heuristic", name: "HIGH_EPISTEMIC_RISK", severity: "—", override: "DEFER", oodaPhase: "DECIDE", where: "uncertainty_engine.py", owasp: "—", status: "Implemented",
+    description: "Uncalibrated 4D composite ≥ 0.60; a backstop once Gate 2 exists." },
+  { check: "Heuristic", name: "HIGH_RISK_ESCALATE", severity: "—", override: "ESCALATE", oodaPhase: "DECIDE", where: "decision_policy_engine.py", owasp: "—", status: "Implemented",
+    description: "Deterministic risk score ≥ 0.60." },
 ];
 
 const overrideColor = (o: string) =>
-  o === "ACT" ? "text-state-act" : o === "ESCALATE" ? "text-state-escalate" : o === "DEFER" ? "text-state-defer" : "text-state-fail-safe";
+  o === "ACT" ? "text-state-act"
+  : o.startsWith("ESCALATE") ? "text-state-escalate"
+  : o.startsWith("DEFER") ? "text-state-defer"
+  : o.startsWith("INVALID") ? "text-muted-foreground"
+  : "text-state-fail-safe";
 
-const severityBadge = (s: "CRITICAL" | "NON-CRITICAL") =>
-  s === "CRITICAL"
-    ? "bg-state-fail-safe/20 text-state-fail-safe"
-    : "bg-state-escalate/20 text-state-escalate";
+const severityBadge = (s: MapEntry["severity"]) =>
+  s === "CRITICAL" ? "bg-state-fail-safe/20 text-state-fail-safe"
+  : s === "NON-CRITICAL" ? "bg-state-escalate/20 text-state-escalate"
+  : "text-muted-foreground";
 
 const SignalFrameworkMap = () => {
   const [filter, setFilter] = useState("");
+  const q = filter.toLowerCase();
 
-  const filtered = entries.filter(
-    (e) =>
-      e.signal.toLowerCase().includes(filter.toLowerCase()) ||
-      e.failureMode.toLowerCase().includes(filter.toLowerCase()) ||
-      e.policyOverride.toLowerCase().includes(filter.toLowerCase()) ||
-      e.oodaPhase.toLowerCase().includes(filter.toLowerCase()) ||
-      e.module.toLowerCase().includes(filter.toLowerCase()) ||
-      e.description.toLowerCase().includes(filter.toLowerCase())
+  const filtered = entries.filter((e) =>
+    [e.check, e.name, e.override, e.oodaPhase, e.where, e.owasp, e.status, e.description]
+      .some((field) => field.toLowerCase().includes(q))
   );
 
   return (
@@ -149,11 +90,11 @@ const SignalFrameworkMap = () => {
       <section className="px-6 pt-24 pb-16 md:pt-32 md:pb-20">
         <div className="max-w-5xl mx-auto">
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight leading-tight mb-6 text-foreground">
-            Signal → Framework Map
+            Framework Cross-Reference
           </h1>
           <p className="text-lg text-muted-foreground leading-relaxed">
-            A cross-reference of every epistemic signal, failure mode, and policy outcome in the Kairos pipeline.
-            Filter by signal, failure, OODA phase, or module.
+            Every gate, named failure and policy outcome in one table, with its OODA phase, where it lives,
+            the OWASP risk it addresses, and whether the reference code implements it yet. Filter by any column.
           </p>
         </div>
       </section>
@@ -165,7 +106,7 @@ const SignalFrameworkMap = () => {
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <input
               type="text"
-              placeholder="Filter by signal, failure mode, OODA phase, module..."
+              placeholder="Filter: gate 3, ESCALATE, ASI08, implemented, taint…"
               value={filter}
               onChange={(e) => setFilter(e.target.value)}
               className="w-full pl-10 pr-4 py-2.5 border border-border rounded-lg bg-background text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary"
@@ -176,39 +117,48 @@ const SignalFrameworkMap = () => {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Signal</TableHead>
+                  <TableHead>Check</TableHead>
                   <TableHead>Failure / Rule</TableHead>
                   <TableHead>Severity</TableHead>
                   <TableHead>Override</TableHead>
-                  <TableHead>OODA Phase</TableHead>
-                  <TableHead>Module</TableHead>
+                  <TableHead>Phase</TableHead>
+                  <TableHead>OWASP</TableHead>
+                  <TableHead>Where · status</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {filtered.map((e, i) => (
-                  <TableRow key={i}>
-                    <TableCell className="font-medium text-sm">{e.signal}</TableCell>
+                {filtered.map((e) => (
+                  <TableRow key={e.name}>
+                    <TableCell className="font-medium text-sm whitespace-nowrap">{e.check}</TableCell>
                     <TableCell>
                       <div>
-                        <code className="text-xs font-mono">{e.failureMode}</code>
+                        <code className="text-xs font-mono">{e.name}</code>
                         <p className="text-xs text-muted-foreground mt-0.5 max-w-xs">{e.description}</p>
                       </div>
                     </TableCell>
                     <TableCell>
-                      <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${severityBadge(e.severity)}`}>
-                        {e.severity}
-                      </span>
+                      {e.severity === "—" ? (
+                        <span className="text-xs text-muted-foreground">—</span>
+                      ) : (
+                        <span className={`text-xs px-2 py-0.5 rounded-full font-medium whitespace-nowrap ${severityBadge(e.severity)}`}>
+                          {e.severity}
+                        </span>
+                      )}
                     </TableCell>
-                    <TableCell className={`font-mono text-sm font-medium ${overrideColor(e.policyOverride)}`}>
-                      {e.policyOverride}
+                    <TableCell className={`font-mono text-sm font-medium whitespace-nowrap ${overrideColor(e.override)}`}>
+                      {e.override}
                     </TableCell>
                     <TableCell className="text-sm text-muted-foreground">{e.oodaPhase}</TableCell>
-                    <TableCell className="font-mono text-xs text-muted-foreground">{e.module}</TableCell>
+                    <TableCell className="font-mono text-xs text-muted-foreground">{e.owasp}</TableCell>
+                    <TableCell className="text-xs">
+                      <p className="font-mono text-muted-foreground">{e.where}</p>
+                      <p className={`font-mono mt-0.5 ${e.status === "Implemented" ? "text-state-act" : "text-primary"}`}>[{e.status}]</p>
+                    </TableCell>
                   </TableRow>
                 ))}
                 {filtered.length === 0 && (
                   <TableRow>
-                    <TableCell colSpan={6} className="text-center text-sm text-muted-foreground py-8">
+                    <TableCell colSpan={7} className="text-center text-sm text-muted-foreground py-8">
                       No matches found.
                     </TableCell>
                   </TableRow>
@@ -217,11 +167,11 @@ const SignalFrameworkMap = () => {
             </Table>
           </div>
 
-          <div className="mt-8 flex gap-6">
-            <Link to="/framework/signal-reference" className="inline-flex items-center gap-1 text-sm text-primary font-medium hover:gap-2 transition-all">
-              Signal Reference <ArrowRight className="h-3.5 w-3.5" />
+          <div className="mt-8 flex flex-wrap gap-6">
+            <Link to="/kairos/gates" className="inline-flex items-center gap-1 text-sm text-primary font-medium hover:gap-2 transition-all">
+              Gates &amp; Uncertainty <ArrowRight className="h-3.5 w-3.5" />
             </Link>
-            <Link to="/framework/decision-states" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors">
+            <Link to="/kairos/decision-states" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors">
               Decision States <ArrowRight className="h-3.5 w-3.5" />
             </Link>
           </div>

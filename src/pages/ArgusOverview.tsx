@@ -13,23 +13,29 @@ import '../styles/argus-overview.css';
 const MODULES = [
   { file: 'llm_adapter.py',             role: 'Hypothesis generation + output validation',    trust: 'UNTRUSTED' },
   { file: 'meta_reasoning.py',          role: 'Hypothesis quality reflection layer',          trust: 'ADVISORY'  },
-  { file: 'uncertainty_engine.py',      role: '4D epistemic scoring (4 signal vectors)',      trust: 'TRUSTED'   },
+  { file: 'uncertainty_engine.py',      role: '4D heuristic uncertainty vector (uncalibrated)', trust: 'TRUSTED'   },
   { file: 'epistemic_failure_engine.py',role: 'Failure detection + policy override',          trust: 'TRUSTED'   },
   { file: 'decision_policy_engine.py',  role: 'Policy evaluation — no LLM input permitted',  trust: 'TRUSTED'   },
-  { file: 'state_machine.py',           role: 'Process integrity + per-token audit trail',    trust: 'TRUSTED'   },
+  { file: 'state_machine.py',           role: 'Process integrity + append-only audit trail',  trust: 'TRUSTED'   },
   { file: 'spine.py',                   role: 'OODA orchestration and bus routing',           trust: 'TRUSTED'   },
   { file: 'schemas.py',                 role: 'Shared OCSF-compatible data structures',       trust: '—'         },
 ];
 
+/* Kairos failure taxonomy (KAIROS-005). FM-01…08 implemented; FM-09…13 specified in v2. */
 const FAILURE_MODES = [
-  { id: 'FM-01', name: 'FALSE_AGREEMENT',        desc: 'Model concurs with contradicted evidence' },
-  { id: 'FM-02', name: 'DEGENERATE_OUTPUT',       desc: 'Response entropy collapses — repetition, hallucinated structure' },
-  { id: 'FM-03', name: 'GROUNDLESS_CONFIDENCE',   desc: 'High confidence score, zero retrieval support' },
-  { id: 'FM-04', name: 'TEMPORAL_DRIFT',          desc: 'Claim references stale or future-dated information' },
-  { id: 'FM-05', name: 'IRREVERSIBLE_SIDE_EFFECT',desc: 'Tool call cannot be undone; reversibility ≤ threshold' },
-  { id: 'FM-06', name: 'CONTRADICTION_CASCADE',   desc: 'Contradictions across multi-step plan nodes' },
-  { id: 'FM-07', name: 'ORCHESTRATOR_HIJACK',     desc: 'Sub-agent handoff bypasses policy gate' },
-  { id: 'FM-08', name: 'CONTEXT_OVERFLOW_DRIFT',  desc: 'Long-context causes belief drift without grounding update' },
+  { id: 'FM-01', name: 'FALSE_AGREEMENT',            desc: 'Template reproduction masquerading as independent agreement · DEFER' },
+  { id: 'FM-02', name: 'LOW_INFORMATION_HYPOTHESIS', desc: 'Fewer than two concrete entities, vague hedges · DEFER' },
+  { id: 'FM-03', name: 'EVIDENCE_MISMATCH',          desc: 'Asserts a correlation the evidence records as absent · DEFER' },
+  { id: 'FM-04', name: 'MISSING_EVIDENCE',           desc: 'Required evidence fields absent · FAIL_SAFE' },
+  { id: 'FM-05', name: 'CONTRADICTORY_HYPOTHESES',   desc: 'Mutually exclusive readings no evidence can discriminate · ESCALATE' },
+  { id: 'FM-06', name: 'OVERCONFIDENT_OUTPUT',       desc: 'Certainty language without evidence to back it · DEFER' },
+  { id: 'FM-07', name: 'SUPERFICIAL_REASONING',      desc: 'Classification labels instead of causal mechanisms · DEFER' },
+  { id: 'FM-08', name: 'DEGENERATE_OUTPUT',          desc: 'Repetition collapse or byte-identical agents · FAIL_SAFE' },
+  { id: 'FM-09', name: 'NARRATIVE_ANCHORING',        desc: 'v2 · fewer than k hypotheses, or no benign one · DEFER' },
+  { id: 'FM-10', name: 'STRUCTURALLY_INFEASIBLE',    desc: 'v2 · Gate 1: impossible attack path · INVALID → re-orient' },
+  { id: 'FM-11', name: 'TRAJECTORY_UNCERTAINTY_EXCEEDED', desc: 'v2 · Gate 3: inherited uncertainty above κ · ESCALATE' },
+  { id: 'FM-12', name: 'TAINTED_JUSTIFICATION',      desc: 'v2 · untrusted provenance reaching a sink · ESCALATE' },
+  { id: 'FM-13', name: 'CALIBRATION_UNCERTIFIED',    desc: 'v2 · no valid certificate for the deployment · ESCALATE' },
 ];
 
 const TIERS = [
@@ -119,19 +125,20 @@ const ArgusOverview: React.FC = () => {
 {'           ▼\n'}
 <span className="phase">  [OBSERVE]  </span><span className="fn">resolve_context()</span>{'\n'}
 {'             └─ gather evidence from SIEM · EDR · IAM · retrieval\n'}
+{'             └─ '}<span className="com"># v2: provenance label + taint ID on every datum</span>{'\n'}
 {'           │\n'}
 {'           ▼\n'}
-<span className="phase">  [ORIENT]   </span><span className="fn">generate_hypotheses()</span>{' '}<span className="com"># LLM — UNTRUSTED, output sanitized</span>{'\n'}
+<span className="phase">  [ORIENT]   </span><span className="fn">generate_hypotheses()</span>{' '}<span className="com"># LLM — UNTRUSTED, no tools · v2: ≥k competing</span>{'\n'}
 {'             └─ '}<span className="fn">run_meta_reasoning()</span>{' '}<span className="com"># quality reflection — ADVISORY only</span>{'\n'}
 {'           │\n'}
 {'           ▼\n'}
 <span className="phase">  [DECIDE]   </span><span className="fn">test_evidence()</span>{' '}<span className="com"># correlate hypotheses ↔ evidence</span>{'\n'}
-{'             ├─ '}<span className="fn">compute_uncertainty()</span>{'  '}<span className="com"># 5-signal epistemic vector</span>{'\n'}
-{'             ├─ '}<span className="fn">detect_failures()</span>{'     '}<span className="com"># 8 named failure modes</span>{'\n'}
-{'             └─ '}<span className="fn">evaluate_policy()</span>{'     '}<span className="com"># ordered rules — first match wins</span>{'\n'}
+{'             ├─ '}<span className="fn">compute_uncertainty()</span>{'  '}<span className="com"># 4D heuristic · v2: L1 + L3 uncertainty</span>{'\n'}
+{'             ├─ '}<span className="fn">detect_failures()</span>{'     '}<span className="com"># 8 named failures (13 in v2)</span>{'\n'}
+{'             └─ '}<span className="fn">evaluate_policy()</span>{'     '}<span className="com"># v2: G1 · G2 · G3 · provenance veto · tiers</span>{'\n'}
 {'           │\n'}
 {'           ▼\n'}
-<span className="phase">  [ACT]      </span><span className="fn">finalize()</span>{' → '}<span className="state-act">ACT</span>{' · '}<span className="state-hold">HOLD</span>{' · '}<span className="state-defer">DEFER</span>{' · '}<span className="state-refuse">REFUSE</span>
+<span className="phase">  [ACT]      </span><span className="fn">finalize()</span>{' → '}<span className="state-act">ACT</span>{' · '}<span className="state-defer">DEFER</span>{' · '}<span className="state-refuse">ESCALATE</span>{' · '}<span className="state-hold">FAIL_SAFE</span>
               </pre>
             </div>
           </div>
@@ -176,10 +183,11 @@ const ArgusOverview: React.FC = () => {
           {/* ── FAILURE MODES ──────────────────────────────────────────────── */}
           <div className="sec">
             <div className="sec-label">// 03 · failure modes</div>
-            <h2 className="sec-title">8 Named Failure Modes</h2>
+            <h2 className="sec-title">13 Named Failure Modes</h2>
             <p className="sec-body">
-              The epistemic failure engine detects these conditions before policy evaluation.
-              Any detected failure can trigger a policy override — regardless of confidence score.
+              The Kairos failure taxonomy is closed: an unnamed failure is a system defect. Eight types are
+              implemented in the reference engine; five more come from the v2 gates and provenance controls.
+              Each carries a mandatory override, applied regardless of confidence.
             </p>
             <div className="failure-grid">
               {FAILURE_MODES.map((f) => (

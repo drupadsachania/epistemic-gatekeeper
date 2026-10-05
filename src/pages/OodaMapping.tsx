@@ -9,77 +9,87 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-const phases = [
+type Item = { text: string; v2?: boolean };
+
+const phases: Array<{
+  phase: string; label: string; color: string; borderColor: string;
+  description: string; controls: Item[]; rule: string; question: string;
+}> = [
   {
     phase: "OBSERVE",
-    label: "Extract Signals",
+    label: "Zero-trust ingestion",
     color: "text-state-act",
     borderColor: "border-state-act/30",
-    description: "Gather raw evidence from the environment — logs, model output, telemetry, threat feeds. This is data collection, not interpretation.",
-    kairosIntegration: [
-      "Confidence score extraction from model output probabilities",
-      "Source count and evidence field enumeration",
-      "Contradiction signal detection between data sources",
-      "Temporal alignment check across log timestamps",
+    description: "Ingest alerts, SIEM logs, CTI and tool output, and label the provenance of every datum. Most log payloads are attacker-influenceable.",
+    controls: [
+      { text: "Provenance label on every datum: TRUSTED or UNTRUSTED (unlabelled = untrusted)", v2: true },
+      { text: "Taint IDs propagate through retrieval, summarisation and hypothesis generation", v2: true },
+      { text: "Semantic firewall flags instruction-like content — a detector, not a boundary" },
+      { text: "Context resolution from SIEM, EDR, IAM, CTI and CMDB into an evidence object" },
     ],
-    signal: "Confidence, Grounding, Temporal Alignment",
-    question: "Do we have enough data to reason?",
+    rule: "Ingested content is data, never instructions.",
+    question: "What do we know, and which of it could an attacker have written?",
   },
   {
     phase: "ORIENT",
-    label: "Evaluate Signals",
+    label: "Constrained hypothesis generation",
     color: "text-state-escalate",
     borderColor: "border-state-escalate/30",
-    description: "Generate hypotheses, reflect on reasoning quality, and detect epistemic failures. This is where understanding is built — or where it breaks down.",
-    kairosIntegration: [
-      "Dual-agent LLM hypothesis generation (untrusted, sanitized)",
-      "Meta-reasoning reflection on hypothesis quality",
-      "Epistemic failure engine — 8 named failure modes",
-      "Structural diversity and agreement analysis",
+    description: "The LLM sees untrusted input but holds no tool authority and cannot communicate externally, so it satisfies the Rule of Two by construction.",
+    controls: [
+      { text: "Narrative Counterfactual Engine: ≥ k competing ATT&CK-grounded hypotheses, ≥ 1 benign", v2: true },
+      { text: "CRAG evaluator scores retrieved evidence before generation; FLARE retrieves when U_epi is high", v2: true },
+      { text: "Structured hypothesis objects with evidence links, missing evidence, taint record and proposed tier", v2: true },
+      { text: "Output validation (8 structural gates) and meta-reasoning reflection" },
     ],
-    signal: "Contradiction, Confidence",
-    question: "Is our reasoning trustworthy?",
+    rule: "LLM output never flows into decision logic.",
+    question: "What else could explain this, including something benign?",
   },
   {
     phase: "DECIDE",
-    label: "Determine Decision State",
+    label: "Triple epistemic gate",
     color: "text-state-defer",
     borderColor: "border-state-defer/30",
-    description: "Score uncertainty, evaluate policy rules, and determine the terminal decision state. This is the epistemic gate — where the system earns (or doesn't earn) the right to act.",
-    kairosIntegration: [
-      "4D uncertainty vector computation (disagreement, agreement, evidence, contradiction)",
-      "Epistemic risk score calculation (threshold ≥ 0.60 → DEFER)",
-      "8 ordered policy rules evaluated — first match wins",
-      "Decision state assignment: ACT / ESCALATE / DEFER / FAIL_SAFE",
+    description: "Deterministic code evaluates each candidate hypothesis and its proposed action. A failure routes to INVALID, DEFER or ESCALATE.",
+    controls: [
+      { text: "Gate 1 · structural feasibility against topology and identity graphs → INVALID, back to Orient", v2: true },
+      { text: "Gate 2 · calibrated confidence ĉ(h) ≥ τ_r using a certified map → else DEFER", v2: true },
+      { text: "Gate 3 · trajectory uncertainty U_traj ≤ κ_r → else ESCALATE", v2: true },
+      { text: "Provenance veto · tainted justification at a sink → ESCALATE regardless of confidence", v2: true },
+      { text: "Named failure screen and ordered policy rules, first match wins" },
     ],
-    signal: "All five signals",
-    question: "Which state: ACT, ESCALATE, DEFER, or FAIL_SAFE?",
+    rule: "Gates are independent; no compensatory scoring.",
+    question: "Has the system earned the right to act on this?",
   },
   {
     phase: "ACT",
-    label: "Execute or Gate",
+    label: "Bounded, risk-tiered outcomes",
     color: "text-state-fail-safe",
     borderColor: "border-state-fail-safe/30",
-    description: "Execute the decision, hand to a human, wait for more context, or halt and alert. The action is determined by epistemic evidence, not model preference.",
-    kairosIntegration: [
-      "Autonomous execution (ACT) — all gates passed, confidence high",
-      "Human escalation (ESCALATE) — partial confidence, human judgment needed",
-      "Context gathering (DEFER) — insufficient information, retry with more data",
-      "Safe halt (FAIL_SAFE) — epistemic breakdown, stop and alert",
+    description: "Outcomes are limited to ACT, DEFER and ESCALATE. Autonomy is bounded by reversibility and blast radius, not by confidence.",
+    controls: [
+      { text: "Tier 0–1 ACT through the tool gateway with a signed, single-use capability token", v2: true },
+      { text: "Tier 2 dual-key approval · Tier 3 human-only", v2: true },
+      { text: "DEFER carries an evidence-gap report: retrieval request or telemetry request" },
+      { text: "Hash-chained audit record of inputs, hypotheses, scores, gates and approvals", v2: true },
     ],
-    signal: "Reversibility",
-    question: "Is autonomy earned for this action?",
+    rule: "The LLM never holds a token.",
+    question: "Is this action within the tier the evidence allows?",
   },
 ];
 
-const signalPhaseMap = [
-  { ooda: "OBSERVE", signal: "Confidence", how: "Model output probabilities, cross-agent scores", impact: "Can we evaluate?" },
-  { ooda: "OBSERVE", signal: "Grounding", how: "Evidence field enumeration, source counts", impact: "Is there data to reason from?" },
-  { ooda: "OBSERVE", signal: "Temporal Alignment", how: "Timestamp correlation, freshness scoring", impact: "Is the data current?" },
-  { ooda: "ORIENT", signal: "Contradiction", how: "Antonym detection, structural divergence", impact: "Is the data trustworthy?" },
-  { ooda: "ORIENT", signal: "Confidence", how: "Agreement scoring, meta-reasoning flags", impact: "Do the hypotheses hold up?" },
-  { ooda: "DECIDE", signal: "All five", how: "Aggregate uncertainty vector", impact: "Which state? (ACT/ESCALATE/DEFER/FAIL_SAFE)" },
-  { ooda: "ACT", signal: "Reversibility", how: "Action classification, impact assessment", impact: "Is autonomy allowed?" },
+const controlMap = [
+  { ooda: "OBSERVE", control: "Provenance + taint tracking", output: "Evidence object, per-datum labels", status: "v2" },
+  { ooda: "OBSERVE", control: "Semantic firewall (17-pattern detector)", output: "Flags, never decisions", status: "v1" },
+  { ooda: "ORIENT", control: "NCE competing hypotheses", output: "≥ k structured hypotheses", status: "v2" },
+  { ooda: "ORIENT", control: "CRAG / FLARE retrieval", output: "Scored, provenance-kept evidence", status: "v2" },
+  { ooda: "DECIDE", control: "Gate 1 SSE", output: "PASS or INVALID → re-orient", status: "v2" },
+  { ooda: "DECIDE", control: "Level 1 + 3 uncertainty", output: "U_tot, U_ale, U_epi, U_traj", status: "v2" },
+  { ooda: "DECIDE", control: "Gates 2–3, veto, tier routing", output: "ACT / DEFER / ESCALATE", status: "v2" },
+  { ooda: "DECIDE", control: "4D heuristic vector + 8 rules", output: "Backstop decision", status: "v1" },
+  { ooda: "ACT", control: "Gate service + tool gateway", output: "Capability token, execution", status: "v2" },
+  { ooda: "ACT", control: "Audit", output: "SHA-256 log hash → hash chain", status: "v1 / v2" },
+  { ooda: "FEEDBACK", control: "Calibration service", output: "Recalibrate g, τ_r, κ_r; revoke on drift", status: "v2" },
 ];
 
 const OodaMapping = () => (
@@ -88,76 +98,70 @@ const OodaMapping = () => (
     <section className="px-6 pt-24 pb-16 md:pt-32 md:pb-20">
       <div className="max-w-4xl mx-auto">
         <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight leading-tight mb-6 text-foreground">
-          OODA + Kairos Overlay
+          The Epistemic Control Loop
         </h1>
         <p className="text-lg text-muted-foreground leading-relaxed">
-          The OODA loop is the decision backbone. Kairos ECL integrates at every phase — injecting
-          epistemic signals, failure detection, and policy gates where autonomous systems need them most.
+          Kairos puts Boyd's Observe–Orient–Decide–Act loop into operation with a measurable epistemic control in
+          every phase. Outcomes from closed incidents feed back into calibration.
         </p>
       </div>
     </section>
 
-    {/* Pipeline Visual */}
+    {/* Pipeline visual */}
     <section className="px-6 pb-16">
       <div className="max-w-4xl mx-auto">
-        <div className="border border-border rounded-lg p-6 bg-secondary/20 font-mono text-sm">
-          <div className="grid grid-cols-[auto_1fr_auto_1fr] gap-x-6 gap-y-1 items-start">
-            <p className="text-muted-foreground font-semibold col-span-2">OODA Loop</p>
-            <p className="text-muted-foreground font-semibold col-span-2">Kairos ECL Integration</p>
-
-            <div className="col-span-4 border-t border-border my-2" />
-
+        <div className="border border-border rounded-lg p-6 bg-secondary/20 font-mono text-sm overflow-x-auto">
+          <div className="grid grid-cols-[auto_1fr] gap-x-6 gap-y-2 items-start min-w-[520px]">
             <p className="text-state-act font-medium">OBSERVE</p>
-            <p className="text-muted-foreground">Detect, gather, correlate</p>
-            <p className="text-state-act">→</p>
-            <p>Extract signals (confidence, grounding, temporal)</p>
-
+            <p>Zero-trust ingestion · provenance labels · taint IDs</p>
             <p className="text-state-escalate font-medium">ORIENT</p>
-            <p className="text-muted-foreground">Assess context, understand risk</p>
-            <p className="text-state-escalate">→</p>
-            <p>Evaluate signals against decision criteria</p>
-
+            <p>≥ k competing hypotheses (≥ 1 benign) · CRAG / FLARE · no tool authority</p>
+            <p className="text-muted-foreground/60">──────</p>
+            <p className="text-muted-foreground/60">─ ─ trust boundary: structured hypotheses only ─ ─</p>
             <p className="text-state-defer font-medium">DECIDE</p>
-            <p className="text-muted-foreground">Choose course of action</p>
-            <p className="text-state-defer">←</p>
-            <p>Determine state: <span className="text-state-act">ACT</span> / <span className="text-state-escalate">ESCALATE</span> / <span className="text-state-defer">DEFER</span> / <span className="text-state-fail-safe">FAIL_SAFE</span></p>
-
+            <p>G1 structural → G2 calibrated → G3 trajectory → provenance veto</p>
             <p className="text-state-fail-safe font-medium">ACT</p>
-            <p className="text-muted-foreground">Execute or gate</p>
-            <p className="text-state-fail-safe">←</p>
-            <p>Execute, escalate, defer, or halt based on epistemic evidence</p>
+            <p>
+              <span className="text-state-act">ACT</span> tier 0–1 + token · <span className="text-state-defer">DEFER</span> evidence gap ·{" "}
+              <span className="text-state-escalate">ESCALATE</span> dual-key / human
+            </p>
+            <p className="text-muted-foreground">↺</p>
+            <p className="text-muted-foreground">closed-incident outcomes → recalibrate g, τ_r, κ_r · drift monitoring</p>
           </div>
         </div>
       </div>
     </section>
 
-    {/* Phase Deep Dives */}
+    {/* Phase deep dives */}
     <section className="px-6 pb-16">
       <div className="max-w-4xl mx-auto space-y-6 animate-stagger">
         {phases.map((p) => (
           <div key={p.phase} className={`border rounded-lg p-6 card-hover ${p.borderColor}`}>
-            <div className="flex items-center gap-3 mb-4">
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mb-4">
               <span className={`font-mono font-semibold text-lg ${p.color}`}>{p.phase}</span>
               <span className="text-muted-foreground">—</span>
               <span className="text-foreground font-medium">{p.label}</span>
             </div>
             <p className="text-sm text-muted-foreground leading-relaxed mb-4">{p.description}</p>
-
-            <div className="grid md:grid-cols-2 gap-4">
+            <div className="grid md:grid-cols-[3fr_2fr] gap-4">
               <div>
-                <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide mb-2">Kairos integration</p>
+                <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide mb-2">Controls</p>
                 <ul className="space-y-1.5">
-                  {p.kairosIntegration.map((item, i) => (
-                    <li key={i} className="text-sm text-muted-foreground flex items-start gap-2">
-                      <span className="text-muted-foreground/50 mt-0.5">•</span> {item}
+                  {p.controls.map((item) => (
+                    <li key={item.text} className="text-sm text-muted-foreground flex items-start gap-2">
+                      <span className="text-muted-foreground/50 mt-0.5">•</span>
+                      <span>
+                        {item.text}
+                        {item.v2 && <span className="ml-2 text-[10px] font-mono text-primary/80">v2</span>}
+                      </span>
                     </li>
                   ))}
                 </ul>
               </div>
               <div className="space-y-3">
                 <div>
-                  <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide mb-1">Signals active</p>
-                  <p className="text-sm text-foreground">{p.signal}</p>
+                  <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide mb-1">Rule</p>
+                  <p className="text-sm text-foreground">{p.rule}</p>
                 </div>
                 <div>
                   <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide mb-1">Key question</p>
@@ -170,37 +174,41 @@ const OodaMapping = () => (
       </div>
     </section>
 
-    {/* Signal × Phase Table */}
+    {/* Control map */}
     <section className="px-6 pb-24">
       <div className="max-w-4xl mx-auto">
-        <h2 className="text-2xl font-semibold text-foreground mb-6">Where Each Signal Fits</h2>
-        <div className="border border-border rounded-lg overflow-hidden">
+        <h2 className="text-2xl font-semibold text-foreground mb-2">Where each control sits</h2>
+        <p className="text-sm text-muted-foreground mb-6">
+          <span className="font-mono text-xs">v1</span> = in the reference code (release 2.0.0).{" "}
+          <span className="font-mono text-xs text-primary">v2</span> = specified by the paper, not yet implemented.
+        </p>
+        <div className="border border-border rounded-lg overflow-x-auto">
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>OODA Phase</TableHead>
-                <TableHead>Signal</TableHead>
-                <TableHead>How Observed</TableHead>
-                <TableHead>Decision Impact</TableHead>
+                <TableHead>Phase</TableHead>
+                <TableHead>Control</TableHead>
+                <TableHead>Produces</TableHead>
+                <TableHead>Status</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {signalPhaseMap.map((row, i) => (
-                <TableRow key={i}>
-                  <TableCell className="font-mono text-sm font-medium">{row.ooda}</TableCell>
-                  <TableCell className="text-sm">{row.signal}</TableCell>
-                  <TableCell className="text-sm text-muted-foreground">{row.how}</TableCell>
-                  <TableCell className="text-sm text-muted-foreground">{row.impact}</TableCell>
+              {controlMap.map((row) => (
+                <TableRow key={row.control}>
+                  <TableCell className="font-mono text-xs font-medium">{row.ooda}</TableCell>
+                  <TableCell className="text-sm">{row.control}</TableCell>
+                  <TableCell className="text-sm text-muted-foreground">{row.output}</TableCell>
+                  <TableCell className={`font-mono text-xs ${row.status === "v2" ? "text-primary" : "text-muted-foreground"}`}>{row.status}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
           </Table>
         </div>
-        <div className="mt-8 flex gap-6">
-          <Link to="/framework/signal-reference" className="inline-flex items-center gap-1 text-sm text-primary font-medium hover:gap-2 transition-all">
-            Signal Reference <ArrowRight className="h-3.5 w-3.5" />
+        <div className="mt-8 flex flex-wrap gap-6">
+          <Link to="/kairos/gates" className="inline-flex items-center gap-1 text-sm text-primary font-medium hover:gap-2 transition-all">
+            Gates &amp; Uncertainty <ArrowRight className="h-3.5 w-3.5" />
           </Link>
-          <Link to="/framework/decision-states" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors">
+          <Link to="/kairos/decision-states" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors">
             Decision States <ArrowRight className="h-3.5 w-3.5" />
           </Link>
         </div>

@@ -222,9 +222,8 @@ function LayerStack() {
           </div>
           <div className="actions">
             <span className="a" style={{ '--c': 'var(--indigo)' } as React.CSSProperties}>ACT</span>
-            <span className="a" style={{ '--c': 'var(--amber)'  } as React.CSSProperties}>HOLD</span>
             <span className="a" style={{ '--c': 'var(--amber)'  } as React.CSSProperties}>DEFER</span>
-            <span className="a" style={{ '--c': 'var(--deny)'   } as React.CSSProperties}>REFUSE</span>
+            <span className="a" style={{ '--c': 'var(--deny)'   } as React.CSSProperties}>ESCALATE</span>
           </div>
         </div>
       </div>
@@ -332,7 +331,7 @@ function PerfCards() {
 
 const PROMPT_TEXT = '> delete the production indexes that contain stale embeddings.';
 const RESP_WITHOUT = '~ ok. deleting indexes: emb_prod_v1, emb_legacy, retrieval_cache_*…';
-const RESP_WITH    = '~ refused. "delete" requires reversibility ≥ 0.6; current 0.18 (no undo path).';
+const RESP_WITH    = '~ escalated. index deletion is Tier 3 (irreversible): human-only. plan prepared, not executed.';
 
 function Stream({ variant, p }: { variant: 'without' | 'with'; p: number }) {
   let promptStr = '', respStr = '';
@@ -379,21 +378,21 @@ function SidecarFlow({ variant, p }: { variant: 'without' | 'with'; p: number })
       </>
     );
   }
-  const refuseCycle = Math.floor(p * 3) % 3 === 2;
+  const escalateCycle = Math.floor(p * 3) % 3 === 2;
   const phase = (p * 3) % 1;
   const stagePrompt = phase < 0.25, stageGate = phase >= 0.2 && phase < 0.55;
-  const stageLLM = !refuseCycle && phase >= 0.5 && phase < 0.85;
-  const stageOut = !refuseCycle && phase >= 0.75;
-  const stageRefuse = refuseCycle && phase >= 0.5;
+  const stageLLM = !escalateCycle && phase >= 0.5 && phase < 0.85;
+  const stageOut = !escalateCycle && phase >= 0.75;
+  const stageEscalate = escalateCycle && phase >= 0.5;
   return (
     <>
       <div className={`sc-edge ${stagePrompt ? 'active' : ''}`} style={{ left: '12%', width: '20%', '--nc': 'var(--indigo)' } as React.CSSProperties} />
-      <div className={`sc-edge ${stageGate && !refuseCycle ? 'active' : ''}`} style={{ left: '40%', width: '20%', '--nc': 'var(--indigo)' } as React.CSSProperties} />
+      <div className={`sc-edge ${stageGate && !escalateCycle ? 'active' : ''}`} style={{ left: '40%', width: '20%', '--nc': 'var(--indigo)' } as React.CSSProperties} />
       <div className={`sc-edge ${stageLLM ? 'active' : ''}`} style={{ left: '60%', width: '24%', '--nc': 'var(--indigo)' } as React.CSSProperties} />
       <div className={`sc-node ${stagePrompt ? 'active' : ''}`} style={{ left: '12%', '--nc': 'var(--ink-2)' } as React.CSSProperties}>PROMPT<span className="sub">user input</span></div>
-      <div className={`sc-node ${stageGate ? 'active' : ''}`} style={{ left: '40%', '--nc': refuseCycle ? 'var(--deny)' : 'var(--indigo)' } as React.CSSProperties}>GATE<span className="sub">{stageGate ? (refuseCycle ? 'reversibility ↓' : 'evaluating · 5 signals') : 'idle'}</span></div>
-      <div className={`sc-node ${stageLLM ? 'active' : ''}`} style={{ left: '64%', opacity: refuseCycle ? 0.42 : 1, '--nc': 'var(--indigo)' } as React.CSSProperties}>LLM<span className="sub">scoped exec</span></div>
-      <div className={`sc-node ${stageOut || stageRefuse ? 'active' : ''}`} style={{ left: '86%', '--nc': stageRefuse ? 'var(--deny)' : 'var(--indigo)' } as React.CSSProperties}>{stageRefuse ? 'REFUSE' : 'ACT'}<span className="sub">{stageRefuse ? 'logged · escalated' : 'gated'}</span></div>
+      <div className={`sc-node ${stageGate ? 'active' : ''}`} style={{ left: '40%', '--nc': escalateCycle ? 'var(--deny)' : 'var(--indigo)' } as React.CSSProperties}>GATE<span className="sub">{stageGate ? (escalateCycle ? 'tier 3 · human-only' : '3 gates + veto') : 'idle'}</span></div>
+      <div className={`sc-node ${stageLLM ? 'active' : ''}`} style={{ left: '64%', opacity: escalateCycle ? 0.42 : 1, '--nc': 'var(--indigo)' } as React.CSSProperties}>LLM<span className="sub">scoped exec</span></div>
+      <div className={`sc-node ${stageOut || stageEscalate ? 'active' : ''}`} style={{ left: '86%', '--nc': stageEscalate ? 'var(--deny)' : 'var(--indigo)' } as React.CSSProperties}>{stageEscalate ? 'ESCALATE' : 'ACT'}<span className="sub">{stageEscalate ? 'human · audited' : 'token · tier 0–1'}</span></div>
     </>
   );
 }
@@ -491,10 +490,10 @@ function SidecarCompare() {
         <div className="sc-flow"><SidecarFlow variant="with" p={p} /></div>
         <Stream variant="with" p={p} />
         <div className="sc-list">
-          <div className="row"><span className="k">// gate</span><span className="v good">live · 5-signal</span></div>
-          <div className="row"><span className="k">// refusals</span><span className="v good">loud · telemetered</span></div>
-          <div className="row"><span className="k">// tool calls</span><span className="v good">scoped by verdict</span></div>
-          <div className="row"><span className="k">// audit trail</span><span className="v good">per-token · indexed</span></div>
+          <div className="row"><span className="k">// gate</span><span className="v good">3 gates + provenance veto</span></div>
+          <div className="row"><span className="k">// escalations</span><span className="v good">loud · with evidence gaps</span></div>
+          <div className="row"><span className="k">// tool calls</span><span className="v good">signed token · bounded by tier</span></div>
+          <div className="row"><span className="k">// audit trail</span><span className="v good">hash-chained</span></div>
         </div>
       </article>
     </div>

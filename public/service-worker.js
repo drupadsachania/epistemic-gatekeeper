@@ -10,7 +10,7 @@
  */
 
 const CACHE_PREFIX = 'kairos-ecl-v';
-const CACHE_VERSION = '1.0.0';
+const CACHE_VERSION = '2.0.0';
 const RUNTIME_CACHE = `${CACHE_PREFIX}${CACHE_VERSION}`;
 const STATIC_ASSETS = `${CACHE_PREFIX}static-${CACHE_VERSION}`;
 const API_CACHE = `${CACHE_PREFIX}api-${CACHE_VERSION}`;

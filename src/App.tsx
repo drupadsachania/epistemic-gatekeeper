@@ -20,7 +20,7 @@ import InteractivePage from "./pages/InteractivePage";
 // Still-active legacy pages (Eclipse-styled sub-pages, rendered under Layout)
 import Problem from "./pages/Problem";
 import DecisionStates from "./pages/DecisionStates";
-import SignalReference from "./pages/SignalReference";
+import Gates from "./pages/Gates";
 import OodaMapping from "./pages/OodaMapping";
 import ArgusOverview from "./pages/ArgusOverview";
 import ArgusExamples from "./pages/ArgusExamples";
@@ -53,7 +53,7 @@ const AppContent = () => (
             {/* ── Kairos sub-pages ───────────────────────────────────── */}
             <Route path="/kairos/problem"          element={<Problem />} />
             <Route path="/kairos/decision-states"  element={<DecisionStates />} />
-            <Route path="/kairos/signals"           element={<SignalReference />} />
+            <Route path="/kairos/gates"            element={<Gates />} />
             <Route path="/kairos/ooda"             element={<OodaMapping />} />
 
             {/* ── Argus XDR sub-pages ────────────────────────────────── */}
@@ -73,12 +73,13 @@ const AppContent = () => (
             <Route path="/problem"                        element={<Navigate to="/kairos/problem"         replace />} />
             <Route path="/framework"                      element={<Navigate to="/"                       replace />} />
             <Route path="/framework/decision-states"      element={<Navigate to="/kairos/decision-states" replace />} />
-            <Route path="/framework/signal-reference"     element={<Navigate to="/kairos/signals"         replace />} />
+            <Route path="/kairos/signals"                 element={<Navigate to="/kairos/gates"           replace />} />
+            <Route path="/framework/signal-reference"     element={<Navigate to="/kairos/gates"           replace />} />
             <Route path="/framework/ooda-mapping"         element={<Navigate to="/kairos/ooda"            replace />} />
             <Route path="/argus"                          element={<Navigate to="/argus-xdr/overview"     replace />} />
             <Route path="/argus/examples"                 element={<Navigate to="/argus-xdr/use-cases"    replace />} />
             <Route path="/docs/signal-framework-map"      element={<Navigate to="/argus-xdr/signal-map"   replace />} />
-            <Route path="/docs/signals"                   element={<Navigate to="/kairos/signals"         replace />} />
+            <Route path="/docs/signals"                   element={<Navigate to="/kairos/gates"           replace />} />
             <Route path="/docs/decision-criteria"         element={<Navigate to="/kairos/decision-states" replace />} />
 
             {/* ── 404 ────────────────────────────────────────────────── */}

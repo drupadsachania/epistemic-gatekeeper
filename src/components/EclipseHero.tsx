@@ -346,15 +346,15 @@ const EclipseHero: React.FC = () => (
       <div className="hero-inner">
         <div className="hero-tag">
           <span className="pulse" />
-          KAIROS FOUNDATION · OPEN RESEARCH · APACHE 2.0
+          KAIROS FOUNDATION · v2.0 · OCTOBER 2026
         </div>
         <h1 className="hero-h1">
           <span className="word">Know when to act.</span><br />
           <span className="word obs">Know when not to.</span>
         </h1>
         <p className="hero-lede">
-          An open epistemic decision framework for autonomous systems in high-stakes domains.
-          Four decision states. Five epistemic signals. Zero LLM influence on policy.
+          An AI hypothesis has to earn the right to act. Three gates and a provenance veto,
+          evaluated outside the LLM. Autonomy bounded by risk tier, not by confidence.
         </p>
         <div className="hero-cta-row">
           <a className="btn btn-primary" href="/docs">
@@ -374,19 +374,19 @@ const EclipseHero: React.FC = () => (
           <div className="vs">LLM systems · tools · orchestrators</div>
         </div>
         <div className="cell">
-          <div className="k">// signals</div>
-          <div className="v">5 <span className="unit">orthogonal</span></div>
-          <div className="vs">confidence · grounding · contradiction · temporal · reversibility</div>
+          <div className="k">// decide</div>
+          <div className="v">3 <span className="unit">gates + veto</span></div>
+          <div className="vs">structural · calibrated · trajectory · provenance</div>
         </div>
         <div className="cell">
-          <div className="k">// throughput</div>
-          <div className="v">10K+ <span className="unit">signals/sec</span></div>
-          <div className="vs">at &lt;100ms detection latency</div>
+          <div className="k">// act</div>
+          <div className="v">Tier 0–3</div>
+          <div className="vs">autonomy bounded by reversibility</div>
         </div>
         <div className="cell">
           <div className="k">// posture</div>
           <div className="v">Hypothesis-only</div>
-          <div className="vs">earn the right to act</div>
+          <div className="vs">confidence cannot launder taint</div>
         </div>
       </div>
 
@@ -396,11 +396,11 @@ const EclipseHero: React.FC = () => (
           <span className="num">01 · RESEARCH</span>
           <h3 className="ttl">Kairos</h3>
           <p className="sub">
-            The taxonomy &amp; framework. Five orthogonal uncertainty signals, four foundational
-            axioms, one gating function.
+            The framework. An epistemic control loop where LLMs only propose hypotheses and
+            deterministic gates decide whether the system has earned the right to act.
           </p>
           <div className="meta">
-            <span>4 axioms · 5 signals · v0.4</span>
+            <span>3 gates · 1 veto · 4 tiers · v2.0</span>
             <span className="arrow">→</span>
           </div>
         </a>
