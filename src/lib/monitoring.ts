@@ -39,7 +39,7 @@ class ApplicationMonitor {
     try {
       const response = await fetch(`${config.apiUrl}/api/health`, {
         method: 'GET',
-        timeout: 5000,
+        signal: AbortSignal.timeout(5000),   // fetch has no `timeout` option
       });
       return response.ok;
     } catch {
@@ -196,7 +196,8 @@ export function setupPerformanceMonitoring(): void {
       // Largest Contentful Paint
       const lcpObserver = new PerformanceObserver((list) => {
         const entries = list.getEntries();
-        const lastEntry = entries[entries.length - 1];
+        // LargestContentfulPaint isn't in this TS lib version; narrow the entry to the fields we read.
+        const lastEntry = entries[entries.length - 1] as PerformanceEntry & { renderTime?: number; loadTime?: number };
 
         if (config.debugMode) {
           console.log(`⏱️ LCP: ${lastEntry.renderTime || lastEntry.loadTime}ms`);
