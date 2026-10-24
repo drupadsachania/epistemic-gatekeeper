@@ -26,18 +26,17 @@
   height: 22px; width: 22px; object-fit: contain; border-radius: 50%;
 }
 .argus-doc-hero .eyebrow .dot {
-  width: 6px; height: 6px; border-radius: 50%;
-  background: var(--indigo-bright); box-shadow: 0 0 0 3px rgba(77,47,178,0.20);
+  width: 8px; height: 8px; border-radius: 2px; transform: rotate(45deg);
+  background: var(--k-color-argus);
 }
 .argus-doc-hero h1 {
-  font-family: var(--f-sans); font-size: clamp(36px, 5vw, 64px);
-  font-weight: 600; letter-spacing: -0.04em; line-height: 1.0;
-  color: var(--ink-0); margin: 0 0 20px;
+  font-family: var(--k-font-display); font-size: var(--k-text-display);
+  font-weight: var(--k-weight-light); letter-spacing: var(--k-tracking-display); line-height: 1.1;
+  color: var(--k-color-text); margin: 0 0 20px;
 }
 .argus-doc-hero h1 em {
-  font-family: var(--f-serif); font-style: italic; font-weight: 400;
-  background: linear-gradient(120deg, var(--indigo-bright) 0%, var(--magenta) 100%);
-  -webkit-background-clip: text; background-clip: text; color: transparent;
+  font-family: var(--k-font-display); font-style: italic; font-weight: var(--k-weight-light);
+  color: var(--k-color-argus-ink);
 }
 .argus-doc-hero .sub {
   font-size: 16px; color: var(--ink-2); line-height: 1.6; max-width: 600px; margin: 0;
@@ -54,12 +53,12 @@
 .argus-doc .sec:last-child { border-bottom: 0; }
 .argus-doc .sec-label {
   font-family: var(--f-mono); font-size: 10px; letter-spacing: 0.20em;
-  text-transform: uppercase; color: var(--indigo); margin-bottom: 12px;
+  text-transform: uppercase; color: var(--k-color-argus-ink); margin-bottom: 12px;
 }
 .argus-doc .sec-title {
-  font-family: var(--f-sans); font-size: clamp(24px, 3vw, 36px);
-  font-weight: 600; letter-spacing: -0.03em; color: var(--ink-0);
-  margin: 0 0 16px; line-height: 1.1;
+  font-family: var(--k-font-display); font-size: var(--k-text-h2);
+  font-weight: var(--k-weight-light); letter-spacing: var(--k-tracking-heading); color: var(--k-color-text);
+  margin: 0 0 16px; line-height: var(--k-leading-heading);
 }
 .argus-doc .sec-body {
   font-family: var(--f-sans); font-size: 15px; color: var(--ink-2);
@@ -83,6 +82,7 @@
 .arch-diagram pre .state-hold   { color: var(--state-hold); font-weight: 600; }
 .arch-diagram pre .state-defer  { color: var(--state-defer); font-weight: 600; }
 .arch-diagram pre .state-refuse { color: var(--state-refuse); font-weight: 600; }
+.arch-diagram pre .state-escalate { color: var(--state-escalate); font-weight: 600; }
 @media (max-width: 640px) {
   .arch-diagram { padding: 20px; }
   .arch-diagram pre { font-size: 11px; }
@@ -206,8 +206,8 @@
   padding: 24px 28px; box-shadow: var(--shadow-card);
 }
 .install-card h4 {
-  font-family: var(--f-sans); font-size: 18px; font-weight: 600;
-  letter-spacing: -0.02em; color: var(--ink-0); margin: 0 0 14px;
+  font-family: var(--k-font-display); font-size: 1.25rem; font-weight: var(--k-weight-light);
+  letter-spacing: var(--k-tracking-heading); color: var(--k-color-text); margin: 0 0 14px;
 }
 .install-card p {
   font-family: var(--f-sans); font-size: 14px; color: var(--ink-2);

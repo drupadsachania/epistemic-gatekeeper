@@ -1,7 +1,7 @@
 import type { Config } from "tailwindcss";
 
 export default {
-  darkMode: ["class"],
+  darkMode: ["selector", '[data-theme="dark"]'],
   content: [
     "./pages/**/*.{ts,tsx}",
     "./components/**/*.{ts,tsx}",
@@ -19,10 +19,11 @@ export default {
     },
     extend: {
       fontFamily: {
-        /* JetBrains Mono is the primary mono font in the Prism design */
-        sans:  ['Geist', 'ui-sans-serif', 'system-ui', '-apple-system', 'sans-serif'],
-        mono:  ['JetBrains Mono', 'Geist Mono', 'ui-monospace', 'Menlo', 'monospace'],
-        serif: ['Instrument Serif', '"Times New Roman"', 'serif'],
+        /* Serif for voice, mono for machinery (kairos-design-handoff §4) */
+        sans:    ['legitima', 'Georgia', '"Times New Roman"', 'serif'],
+        serif:   ['teimer-web', 'Georgia', '"Times New Roman"', 'serif'],
+        display: ['teimer-web', 'Georgia', '"Times New Roman"', 'serif'],
+        mono:    ['"Red Hat Mono"', 'ui-monospace', '"SF Mono"', 'Menlo', 'Consolas', 'monospace'],
       },
       colors: {
         /* Prism light canvas */
@@ -57,53 +58,55 @@ export default {
         /* Decision state colors */
         deny:  "var(--deny)",
         state: {
-          act:    "var(--state-act)",
-          hold:   "var(--state-hold)",
-          defer:  "var(--state-defer)",
-          refuse: "var(--state-refuse)",
+          act:         "hsl(var(--st-act) / <alpha-value>)",
+          defer:       "hsl(var(--st-defer) / <alpha-value>)",
+          hold:        "hsl(var(--st-defer) / <alpha-value>)",
+          escalate:    "hsl(var(--st-escalate) / <alpha-value>)",
+          "fail-safe": "hsl(var(--st-failsafe) / <alpha-value>)",
+          refuse:      "hsl(var(--st-failsafe) / <alpha-value>)",
         },
-
         /* ShadCN / Tailwind compatibility */
-        border: "hsl(var(--border))",
-        input:  "hsl(var(--input))",
-        ring:   "hsl(var(--ring))",
-        background: "hsl(var(--background))",
-        foreground:  "hsl(var(--foreground))",
+        border: "hsl(var(--border) / <alpha-value>)",
+        input:  "hsl(var(--input) / <alpha-value>)",
+        ring:   "hsl(var(--ring) / <alpha-value>)",
+        background: "hsl(var(--background) / <alpha-value>)",
+        foreground:  "hsl(var(--foreground) / <alpha-value>)",
         primary: {
-          DEFAULT:    "hsl(var(--primary))",
-          foreground: "hsl(var(--primary-foreground))",
+          DEFAULT:    "hsl(var(--primary) / <alpha-value>)",
+          foreground: "hsl(var(--primary-foreground) / <alpha-value>)",
         },
         secondary: {
-          DEFAULT:    "hsl(var(--secondary))",
-          foreground: "hsl(var(--secondary-foreground))",
+          DEFAULT:    "hsl(var(--secondary) / <alpha-value>)",
+          foreground: "hsl(var(--secondary-foreground) / <alpha-value>)",
         },
         destructive: {
-          DEFAULT:    "hsl(var(--destructive))",
-          foreground: "hsl(var(--destructive-foreground))",
+          DEFAULT:    "hsl(var(--destructive) / <alpha-value>)",
+          foreground: "hsl(var(--destructive-foreground) / <alpha-value>)",
         },
         muted: {
-          DEFAULT:    "hsl(var(--muted))",
-          foreground: "hsl(var(--muted-foreground))",
+          DEFAULT:    "hsl(var(--muted) / <alpha-value>)",
+          foreground: "hsl(var(--muted-foreground) / <alpha-value>)",
         },
         accent: {
-          DEFAULT:    "hsl(var(--accent))",
-          foreground: "hsl(var(--accent-foreground))",
+          DEFAULT:    "hsl(var(--accent) / <alpha-value>)",
+          foreground: "hsl(var(--accent-foreground) / <alpha-value>)",
         },
         popover: {
-          DEFAULT:    "hsl(var(--popover))",
-          foreground: "hsl(var(--popover-foreground))",
+          DEFAULT:    "hsl(var(--popover) / <alpha-value>)",
+          foreground: "hsl(var(--popover-foreground) / <alpha-value>)",
         },
         card: {
-          DEFAULT:    "hsl(var(--card))",
-          foreground: "hsl(var(--card-foreground))",
+          DEFAULT:    "hsl(var(--card) / <alpha-value>)",
+          foreground: "hsl(var(--card-foreground) / <alpha-value>)",
         },
       },
       borderRadius: {
-        xs: "var(--r-xs, 4px)",
-        sm: "var(--r-sm, 6px)",
-        md: "var(--r-md, 10px)",
-        lg: "var(--r-lg, 16px)",
-        xl: "var(--r-xl, 24px)",
+        xs: "var(--k-radius-xs)",
+        sm: "var(--k-radius-sm)",
+        md: "var(--k-radius-md)",
+        lg: "var(--k-radius-lg)",
+        xl: "var(--k-radius-xl)",
+        "2xl": "var(--k-radius-2xl)",
       },
       animation: {
         "pulse-soft":  "pulse-soft 2s ease-in-out infinite",

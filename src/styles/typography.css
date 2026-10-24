@@ -1,116 +1,65 @@
 /* ─────────────────────────────────────────────────────────────────────────
-   TYPOGRAPHY — Epistemic Prism
-   Fonts: Geist (sans), JetBrains Mono (mono), Instrument Serif (serif)
+   TYPOGRAPHY — legacy class names re-expressed in the Kairos type system:
+   teimer-web (display, 300) for voice, legitima (500) for reading,
+   Red Hat Mono for labels and machinery. Fonts load in index.html / kairos-base.css.
    ───────────────────────────────────────────────────────────────────────── */
 
-@import url('https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap');
-
-/* ── TYPE CLASSES ───────────────────────────────────────────────────────── */
-
-/* Display — XL headlines with tight leading */
 .t-display {
-  font-family: var(--f-sans);
-  font-weight: 600;
-  font-size: clamp(32px, 6vw, 64px);
-  letter-spacing: -0.035em;
-  line-height: 0.95;
-  color: var(--ink-0);
+  font-family: var(--k-font-display);
+  font-weight: var(--k-weight-light);
+  font-size: var(--k-text-display);
+  letter-spacing: var(--k-tracking-display);
+  line-height: 1.1;
+  color: var(--k-color-text);
 }
 
-/* Headline — large headings */
 .t-headline {
-  font-family: var(--f-sans);
-  font-weight: 600;
-  font-size: clamp(20px, 4vw, 32px);
-  letter-spacing: -0.025em;
-  line-height: 1.05;
-  color: var(--ink-0);
+  font-family: var(--k-font-display);
+  font-weight: var(--k-weight-light);
+  font-size: var(--k-text-h2);
+  letter-spacing: var(--k-tracking-heading);
+  line-height: var(--k-leading-heading);
+  color: var(--k-color-text);
 }
 
-/* Monospace — code and metadata */
 .t-mono,
 .mono {
-  font-family: var(--f-mono);
-  font-feature-settings: "ss01", "ss02";
+  font-family: var(--k-font-mono);
   letter-spacing: 0;
 }
 
-/* Eyebrow — section labels and metadata */
+/* Eyebrow — mono uppercase label with the small accent diamond (matches .k-eyebrow) */
 .t-eyebrow {
-  font-family: var(--f-mono);
-  font-size: 11px;
-  letter-spacing: 0.16em;
+  font-family: var(--k-font-mono);
+  font-size: var(--k-text-label);
+  letter-spacing: var(--k-tracking-label);
   text-transform: uppercase;
-  color: var(--ink-3);
-  font-weight: 500;
+  color: var(--k-color-text-subtle);
+  font-weight: var(--k-weight-medium);
   display: inline-flex;
   align-items: center;
+  gap: var(--k-space-2);
 }
-
 .t-eyebrow .dot {
   display: inline-block;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--indigo);
-  box-shadow: 0 0 0 3px rgba(67,56,202,0.16);
-  margin-right: 10px;
-  vertical-align: middle;
-  margin-bottom: 2px;
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  transform: rotate(45deg);
+  background: var(--accent, var(--k-color-text));
   flex-shrink: 0;
 }
 
-/* ── HEADING UTILITIES ──────────────────────────────────────────────────── */
-
-.h1 {
-  font-family: var(--f-sans);
-  font-size: clamp(32px, 6vw, 48px);
-  font-weight: 600;
-  letter-spacing: -0.03em;
-  line-height: 1.1;
-  color: var(--ink-0);
+.h1, .h2, .h3 {
+  font-family: var(--k-font-display);
+  font-weight: var(--k-weight-light);
+  color: var(--k-color-text);
 }
+.h1 { font-size: var(--k-text-display); line-height: 1.1; letter-spacing: var(--k-tracking-display); }
+.h2 { font-size: var(--k-text-h2); line-height: var(--k-leading-heading); letter-spacing: var(--k-tracking-heading); }
+.h3 { font-size: var(--k-text-h3); line-height: var(--k-leading-heading); letter-spacing: var(--k-tracking-heading); }
 
-.h2 {
-  font-family: var(--f-sans);
-  font-size: clamp(24px, 4vw, 36px);
-  font-weight: 600;
-  letter-spacing: -0.025em;
-  line-height: 1.1;
-  color: var(--ink-0);
-}
-
-.h3 {
-  font-family: var(--f-sans);
-  font-size: clamp(18px, 3vw, 24px);
-  font-weight: 600;
-  letter-spacing: -0.015em;
-  line-height: 1.2;
-  color: var(--ink-0);
-}
-
-/* Body text */
-.body {
-  font-family: var(--f-sans);
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 1.6;
-  color: var(--ink-1);
-}
-
-.body-sm {
-  font-size: 14px;
-  line-height: 1.5;
-  color: var(--ink-2);
-}
-
-/* Serif for emphasis */
-.serif {
-  font-family: var(--f-serif);
-}
-
-/* Hint text */
-.hint {
-  color: var(--ink-4);
-  font-size: 0.9em;
-}
+.body { font-family: var(--k-font-body); font-size: var(--k-text-body); line-height: var(--k-leading-body); color: var(--k-color-text-muted); }
+.body-sm { font-size: var(--k-text-small); line-height: var(--k-leading-ui); color: var(--k-color-text-muted); }
+.serif { font-family: var(--k-font-display); }
+.hint { color: var(--k-color-text-subtle); font-size: var(--k-text-small); }

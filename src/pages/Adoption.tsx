@@ -91,11 +91,11 @@ const governance = [
 ];
 
 const Adoption = () => (
-  <div>
+  <div className="k-tw">
     {/* Hero */}
     <section className="px-6 pt-24 pb-16 md:pt-32 md:pb-20">
       <div className="max-w-3xl mx-auto">
-        <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight leading-tight mb-6 text-foreground">
+        <h1 className="k-page-title mb-6">
           Adoption Guide
         </h1>
         <p className="text-lg text-muted-foreground leading-relaxed">
@@ -167,7 +167,7 @@ const Adoption = () => (
     {/* KPIs */}
     <section className="px-6 pb-16">
       <div className="max-w-3xl mx-auto">
-        <h2 className="text-2xl font-semibold text-foreground mb-2">Manage by the right KPIs</h2>
+        <h2 className="mb-2">Manage by the right KPIs</h2>
         <p className="text-sm text-muted-foreground mb-6 leading-relaxed">
           Throughput KPIs such as alerts closed per hour push analysts toward accepting confident AI
           conclusions, which is the mechanism behind human–agent trust exploitation (OWASP ASI09). Deferral
@@ -199,7 +199,7 @@ const Adoption = () => (
     {/* Governance */}
     <section className="px-6 pb-24">
       <div className="max-w-3xl mx-auto">
-        <h2 className="text-2xl font-semibold text-foreground mb-2">Governance alignment</h2>
+        <h2 className="mb-2">Governance alignment</h2>
         <p className="text-sm text-muted-foreground mb-6 leading-relaxed">
           Kairos mechanisms produce evidence that supports conformity; they do not make a deployment compliant
           on their own. ISO/IEC 42001 does not prescribe ECE thresholds, cryptographic audit trails or particular

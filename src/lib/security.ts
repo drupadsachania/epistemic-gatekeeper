@@ -20,37 +20,24 @@ export interface SecurityHeaders {
  * Restricts resources to trusted sources
  */
 export function getContentSecurityPolicy(): string {
-  const isDev = config.debugMode;
-
+  // One list for every environment, each directive exactly once (browsers ignore repeats, so the old
+  // dev/prod concat silently kept the first, wrong value). Fonts: Adobe Fonts kit pww4pkx loads its CSS
+  // from use.typekit.net / p.typekit.net and font files from use.typekit.net; Red Hat Mono is self-hosted.
+  // 'unsafe-inline' styles are required: components use React style attributes and <style> blocks.
+  // index.html carries one inline script (first-paint theme + SPA redirect), hence 'unsafe-inline' scripts.
+  // frame-ancestors is omitted: browsers ignore it in a <meta> CSP.
   const directives = [
     "default-src 'self'",
-    "script-src 'self' 'unsafe-inline' 'unsafe-eval'", // Allow inline for dev, stricter in prod
-    "style-src 'self' 'unsafe-inline'",
+    "script-src 'self' 'unsafe-inline'",
+    "style-src 'self' 'unsafe-inline' https://use.typekit.net https://p.typekit.net",
+    "font-src 'self' data: https://use.typekit.net",
     "img-src 'self' data: https:",
-    "font-src 'self' data:",
-    "connect-src 'self' https:",
-    "frame-ancestors 'none'",
+    `connect-src 'self' https:${config.debugMode ? ' ws: http://localhost:*' : ''}`,
     "base-uri 'self'",
     "form-action 'self'",
   ];
 
-  // Relax CSP in development for hot module replacement
-  if (isDev) {
-    // Development-friendly CSP
-    return directives
-      .filter((d) => !d.includes("'unsafe-eval'"))
-      .join('; ');
-  }
-
-  // Strict CSP for production
-  return directives
-    .filter((d) => !d.includes("'unsafe-eval'") && !d.includes("'unsafe-inline'"))
-    .concat([
-      "script-src 'self' https://cdn.jsdelivr.net https://cdn.polyfill.io",
-      "style-src 'self' https://fonts.googleapis.com",
-      "font-src 'self' https://fonts.gstatic.com",
-    ])
-    .join('; ');
+  return directives.join('; ');
 }
 
 /**

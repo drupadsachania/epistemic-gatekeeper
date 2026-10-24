@@ -10,7 +10,7 @@
  */
 
 const CACHE_PREFIX = 'kairos-ecl-v';
-const CACHE_VERSION = '2.0.0';
+const CACHE_VERSION = '3.0.0';
 const RUNTIME_CACHE = `${CACHE_PREFIX}${CACHE_VERSION}`;
 const STATIC_ASSETS = `${CACHE_PREFIX}static-${CACHE_VERSION}`;
 const API_CACHE = `${CACHE_PREFIX}api-${CACHE_VERSION}`;
@@ -20,7 +20,7 @@ const STATIC_FILES = [
   '/',
   '/index.html',
   '/manifest.json',
-  '/kairos-logo.png',
+  '/brand/kairos-mark-320.png',
 ];
 
 // Cache duration (24 hours)

@@ -103,15 +103,15 @@ const examples = [
 ];
 
 const ArgusExamples = () => (
-  <div>
+  <div className="k-tw k-scope-argus">
     {/* Hero */}
     <section className="px-6 pt-24 pb-16 md:pt-32 md:pb-20">
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight leading-tight mb-6 text-foreground">
+        <h1 className="k-page-title mb-6">
           Argus Examples
         </h1>
         <p className="text-lg text-muted-foreground leading-relaxed">
-          Three SOC scenarios run through the Kairos v2 gates, each with its auditable decision trace.
+          Three SOC scenarios run through the Kairos gates, each with its auditable decision trace.
           Several end in more than one outcome, because each proposed action is gated separately.
         </p>
       </div>
@@ -135,7 +135,7 @@ const ArgusExamples = () => (
                   <div className="flex items-center gap-3 mb-3">
                     <ex.icon className="h-6 w-6 text-primary" />
                     <div>
-                      <h2 className="text-xl font-semibold text-foreground">{ex.title}</h2>
+                      <h2 className="">{ex.title}</h2>
                       <p className="text-sm text-muted-foreground">{ex.subtitle}</p>
                     </div>
                   </div>
@@ -144,7 +144,7 @@ const ArgusExamples = () => (
 
                 {/* Gate checks */}
                 <div>
-                  <h3 className="text-sm font-medium text-foreground mb-3 uppercase tracking-wide">Gate checks</h3>
+                  <h3 className="text-sm mb-3 uppercase tracking-wide">Gate checks</h3>
                   <div className="space-y-2">
                     {ex.checks.map((s) => (
                       <div key={s.name} className="flex flex-col sm:flex-row sm:items-start gap-1 sm:gap-4 border border-border rounded-lg p-3 card-hover">
@@ -170,11 +170,11 @@ const ArgusExamples = () => (
 
                 {/* Decision Trace */}
                 <div>
-                  <h3 className="text-sm font-medium text-foreground mb-3 uppercase tracking-wide">Policy trace</h3>
+                  <h3 className="text-sm mb-3 uppercase tracking-wide">Policy trace</h3>
                   <pre className="border border-border rounded-lg p-5 bg-secondary/20 font-mono text-xs text-muted-foreground overflow-x-auto">
                     {ex.trace}
                   </pre>
-                  <p className="text-xs text-muted-foreground mt-2">Illustrative values. v2 trace format; see Templates/policy-trace.template.json in kairos-core.</p>
+                  <p className="text-xs text-muted-foreground mt-2">Illustrative values. Trace format: see Templates/policy-trace.template.json in kairos-core.</p>
                 </div>
               </div>
             </TabsContent>

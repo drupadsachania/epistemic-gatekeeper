@@ -1,111 +1,39 @@
+/* Load order: design tokens → handoff base + components → Foundation additions → legacy bridge. */
+@import './kairos-tokens.css';
+@import './kairos-base.css';
+@import './kairos-site.css';
 @import './colors.css';
 @import './typography.css';
 @import './animations.css';
 
 /* ─────────────────────────────────────────────────────────────────────────
-   GLOBALS — Epistemic Prism light canvas
+   GLOBALS — warm paper, quiet ink
    ───────────────────────────────────────────────────────────────────────── */
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-html {
-  scroll-behavior: smooth;
-}
-
 html, body {
-  background: var(--bg);
-  color: var(--ink-0);
-  font-family: var(--f-sans);
-  font-size: 16px;
-  line-height: 1.5;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  background: var(--k-color-bg);
   overflow-x: hidden;
   text-rendering: optimizeLegibility;
-  font-feature-settings: "ss01", "cv11", "cv02";
 }
 
-/* Prism light background — indigo + amber radials over cool-white canvas */
-body {
-  background:
-    radial-gradient(ellipse 80vw 60vh at 15% 5%,  rgba(67,56,202,0.07), transparent 55%),
-    radial-gradient(ellipse 60vw 50vh at 100% 30%, rgba(245,158,11,0.05), transparent 55%),
-    radial-gradient(ellipse 70vw 50vh at 50% 100%, rgba(67,56,202,0.04), transparent 60%),
-    var(--bg);
-  background-attachment: fixed;
-}
-
-/* Prism beam canvas — fixed layer behind content, multiply blend */
-#prism-canvas {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  mix-blend-mode: multiply;
-  opacity: 0.85;
-}
-
-/* ── LAYOUT PRIMITIVES ──────────────────────────────────────────────────── */
-
-/* Shell: sits above prism canvas */
-.shell {
-  position: relative;
-  z-index: 2;
-}
-
-/* Wrap: max-width container */
+/* Legacy container: same width and gutter as .k-container */
 .wrap {
-  max-width: 1320px;
+  width: 100%;
+  max-width: calc(var(--k-layout-container) + 2 * var(--k-space-gutter));
   margin: 0 auto;
-  padding: 0 56px;
+  padding: 0 var(--k-space-gutter);
 }
 
-@media (max-width: 880px) {
-  .wrap { padding: 0 24px; }
-}
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: var(--k-color-surface); }
+::-webkit-scrollbar-thumb { background: var(--k-color-line); border-radius: var(--k-radius-pill); border: 2px solid var(--k-color-surface); }
+::-webkit-scrollbar-thumb:hover { background: var(--k-color-border); }
 
-/* ── SCROLLBAR ──────────────────────────────────────────────────────────── */
+/* ── SELECTION ── */
+::selection { background: var(--k-color-aegis-soft); color: var(--k-color-text); }
 
-::-webkit-scrollbar {
-  width: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--bg-tint);
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--hairline-strong);
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(67,56,202,0.28);
-}
-
-/* ── FOCUS & SELECTION ──────────────────────────────────────────────────── */
-
-:focus-visible {
-  outline: 2px solid var(--indigo-bright);
-  outline-offset: 3px;
-  border-radius: 2px;
-}
-
-::selection {
-  background: rgba(67,56,202,0.18);
-  color: var(--ink-0);
-}
-
-/* ── PERFORMANCE HINTS ──────────────────────────────────────────────────── */
-
-[class*="animate"] {
-  will-change: transform, opacity;
-}
-
+/* ── PERFORMANCE HINTS ── */
 [data-offscreen] {
   content-visibility: auto;
   contain-intrinsic-size: auto 500px;

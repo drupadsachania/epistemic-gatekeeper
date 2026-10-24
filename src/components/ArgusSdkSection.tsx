@@ -284,7 +284,7 @@ const ArgusSdkSection: React.FC = () => (
 
     <div className="wrap">
       <div className="section-meta">
-        <span className="num">03 / 03</span>
+        <span className="num">Argus · 02</span>
         <div className="meta-kv">
           <div><span className="k">Pillar</span><span className="v">Argus SDK</span></div>
           <div><span className="k">Type</span><span className="v">Shadow-AI visibility agent</span></div>
@@ -296,7 +296,6 @@ const ArgusSdkSection: React.FC = () => (
       <div className="lead-grid">
         <div>
           <span className="tag">
-            <img src="/argus-logo.png" alt="Argus" />
             <span className="dot" />PUBLIC BETA · WINDOWS-FIRST · APACHE 2.0
           </span>
           <h2>

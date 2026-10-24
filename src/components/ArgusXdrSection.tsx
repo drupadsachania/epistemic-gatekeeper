@@ -221,9 +221,9 @@ function LayerStack() {
             <div className="desc">// policy · alerts · response · feedback into the gate</div>
           </div>
           <div className="actions">
-            <span className="a" style={{ '--c': 'var(--indigo)' } as React.CSSProperties}>ACT</span>
-            <span className="a" style={{ '--c': 'var(--amber)'  } as React.CSSProperties}>DEFER</span>
-            <span className="a" style={{ '--c': 'var(--deny)'   } as React.CSSProperties}>ESCALATE</span>
+            <span className="a" style={{ '--c': 'var(--k-outcome-act)' } as React.CSSProperties}>ACT</span>
+            <span className="a" style={{ '--c': 'var(--k-outcome-defer)' } as React.CSSProperties}>DEFER</span>
+            <span className="a" style={{ '--c': 'var(--k-outcome-escalate)' } as React.CSSProperties}>ESCALATE</span>
           </div>
         </div>
       </div>
@@ -617,11 +617,11 @@ const ArgusXdrSection: React.FC = () => (
 
     <div className="wrap">
       <div className="section-meta">
-        <span className="num">02 / 03</span>
+        <span className="num">Argus · 01</span>
         <div className="meta-kv">
           <div><span className="k">Pillar</span><span className="v">Argus XDR</span></div>
-          <div><span className="k">Type</span><span className="v">Observability tool</span></div>
-          <div><span className="k">Type</span><span className="v">LLM observability tool</span></div>
+          <div><span className="k">Type</span><span className="v">LLM observability (XDR)</span></div>
+          <div><span className="k">Release</span><span className="v">v1.0.0</span></div>
           <div><span className="k">Licence</span><span className="v">Apache 2.0</span></div>
         </div>
       </div>
@@ -629,7 +629,6 @@ const ArgusXdrSection: React.FC = () => (
       <div className="section-head">
         <div>
           <span className="argus-brand-tag">
-            <img src="/argus-logo.png" alt="Argus" />
             <span className="dot" />
             ARGUS XDR · LLM OBSERVABILITY
           </span>
@@ -643,7 +642,7 @@ const ArgusXdrSection: React.FC = () => (
           <p className="tagline">Extended detection &amp; response, restated for the era of agentic systems.</p>
           <p className="lede">
             Argus instruments the full vertical stack — from GPU thermal events up to the
-            orchestrator's plan — and correlates them against the Kairos epistemic gate.
+            orchestrator's plan. An optional hook can send detections to a Kairos policy endpoint and record its decision (off by default).
             Detection runs in <em>four tiers</em>; verdicts ride the same bus as the signals.
           </p>
         </div>
@@ -655,7 +654,7 @@ const ArgusXdrSection: React.FC = () => (
       <div className="label-row">PERFORMANCE</div>
       <PerfCards />
 
-      <div className="label-row">THE KAIROS SIDECAR · LLM CALL, INSTRUMENTED</div>
+      <div className="label-row">ILLUSTRATIVE · A KAIROS SIDECAR ON AN LLM CALL</div>
       <SidecarCompare />
 
       <div className="label-row">INSTALL</div>

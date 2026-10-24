@@ -4,7 +4,7 @@ import { ArrowRight, Github, MessageCircle, Hash, ExternalLink, BookOpen, Code, 
 const repos = [
   {
     name: "kairos-core",
-    description: "Framework specs v2.0.0 (KAIROS-000 … 009): gates, uncertainty, risk tiers, failure modes, evaluation protocol, and templates.",
+    description: "Framework specs (KAIROS-000 … 009): gates, uncertainty, risk tiers, failure modes, evaluation protocol, and templates.",
     url: "https://github.com/kairos-dev-kairos-ecl/kairos-core",
     icon: BookOpen,
   },
@@ -47,11 +47,11 @@ const socials = [
 ];
 
 const Community = () => (
-  <div>
+  <div className="k-tw">
     {/* Hero */}
     <section className="px-6 pt-24 pb-16 md:pt-32 md:pb-20">
       <div className="max-w-3xl mx-auto">
-        <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight leading-tight mb-6 text-foreground">
+        <h1 className="k-page-title mb-6">
           Community
         </h1>
         <p className="text-lg text-muted-foreground leading-relaxed">
@@ -64,7 +64,7 @@ const Community = () => (
     {/* Social Channels */}
     <section className="px-6 pb-16">
       <div className="max-w-3xl mx-auto">
-        <h2 className="text-2xl font-semibold text-foreground mb-6">Connect</h2>
+        <h2 className="mb-6">Connect</h2>
         <div className="grid sm:grid-cols-3 gap-4 animate-stagger">
           {socials.map((s) => (
             <a
@@ -75,7 +75,7 @@ const Community = () => (
               className="group border border-border rounded-lg p-5 card-hover flex flex-col"
             >
               <s.icon className="h-7 w-7 text-primary mb-3" />
-              <h3 className="text-sm font-semibold text-foreground mb-1">{s.name}</h3>
+              <h3 className="text-sm mb-1">{s.name}</h3>
               <p className="text-xs text-muted-foreground mb-4 flex-1 leading-relaxed">{s.description}</p>
               <span className="inline-flex items-center gap-1 text-xs text-primary font-medium group-hover:gap-2 transition-all">
                 {s.cta} <ExternalLink className="h-3 w-3" />
@@ -89,7 +89,7 @@ const Community = () => (
     {/* Repositories */}
     <section className="px-6 pb-16">
       <div className="max-w-3xl mx-auto">
-        <h2 className="text-2xl font-semibold text-foreground mb-6">Repositories</h2>
+        <h2 className="mb-6">Repositories</h2>
         <div className="space-y-3 animate-stagger">
           {repos.map((repo) => (
             <a
@@ -116,7 +116,7 @@ const Community = () => (
     {/* Contribute */}
     <section className="px-6 pb-24">
       <div className="max-w-3xl mx-auto border-t border-border pt-10">
-        <h2 className="text-xl font-semibold text-foreground mb-4">How to Contribute</h2>
+        <h2 className="mb-4">How to Contribute</h2>
         <div className="space-y-4 text-sm text-muted-foreground leading-relaxed">
           <p>
             Kairos is licensed CC BY-SA 4.0. The reference implementations are open source.
@@ -129,7 +129,7 @@ const Community = () => (
             </div>
             <div className="border border-border rounded-lg p-4 card-hover">
               <p className="text-sm font-medium text-foreground mb-1">For engineers</p>
-              <p className="text-xs text-muted-foreground">Implement the [Specified v2] mechanisms (Gate 1 SSE, calibration service, capability tokens) or improve Argus integrations.</p>
+              <p className="text-xs text-muted-foreground">Implement the [Specified] mechanisms (Gate 1 SSE, calibration service, capability tokens) or improve Argus integrations.</p>
             </div>
           </div>
         </div>

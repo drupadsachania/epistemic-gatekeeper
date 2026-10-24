@@ -6,7 +6,7 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import EclipseFooter from '../components/EclipseFooter';
+import ArgusMark from '../components/brand/ArgusMark';
 import '../styles/docs.css';
 
 /* ── DOC LINK ROW ───────────────────────────────────────────────────────── */
@@ -52,9 +52,9 @@ function DocRow({ label, desc, to, tag, tagColor, featured, external }: DocLink)
 const KAIROS_LINKS: DocLink[] = [
   {
     label: 'Research & Findings',
-    desc: 'Preprint v2 (Oct 2026) · what v2 corrects · 2025–26 incidents · preliminary PoC 12% → 3% vs. same LLM',
+    desc: 'Preprint (Oct 2026) · what the paper corrects · 2025–26 incidents · preliminary PoC 12% → 3% vs. same LLM',
     to: '/research',
-    tag: 'ETRA-v2',
+    tag: 'PAPER',
     tagColor: 'var(--amber)',
     featured: true,
   },
@@ -72,7 +72,7 @@ const KAIROS_LINKS: DocLink[] = [
   },
   {
     label: 'Decision States & Risk Tiers',
-    desc: 'ACT · DEFER · ESCALATE · Tier 0–3 · 16-rule v2 policy · state machine with bounded re-orient',
+    desc: 'ACT · DEFER · ESCALATE · Tier 0–3 · 16-rule policy · state machine with bounded re-orient',
     to: '/kairos/decision-states',
     tag: 'KAIROS-003',
   },
@@ -98,7 +98,7 @@ const KAIROS_LINKS: DocLink[] = [
     label: 'kairos-core on GitHub',
     desc: 'Full specs KAIROS-000 … 009, changelog and templates (capability token, calibration certificate, …)',
     to: 'https://github.com/kairos-dev-kairos-ecl/kairos-core',
-    tag: 'SPEC v2.0.0',
+    tag: 'SPECS',
     external: true,
   },
   {
@@ -167,16 +167,19 @@ const Docs: React.FC = () => (
         <div className="docs-grid">
 
           {/* ── 01 KAIROS ── */}
-          <div className="docs-card">
+          <div className="docs-card k-accent-kairos">
             <div className="docs-card-head">
               <div className="docs-card-brand">
-                <img src="/kairos-logo.png" alt="Kairos" width={36} height={36} style={{ height: 36, width: 36, objectFit: 'contain', borderRadius: '50%', flexShrink: 0 }} />
+                <span className="glyph">
+                  <img className="k-theme-light-only" src="/brand/kairos-mark-320.png" width="43" height="40" alt="" />
+                  <img className="k-theme-dark-only" src="/brand/kairos-mark-dark-320.png" width="43" height="40" alt="" />
+                </span>
                 <span className="num">01 / 03</span>
-                <span className="pill">FRAMEWORK</span>
+                <span className="pill kairos">FRAMEWORK</span>
               </div>
               <h2>Kairos <em>ECL</em></h2>
               <p>
-                Epistemic control loop v2.0 — gates, uncertainty, decision states, risk tiers and
+                Epistemic control loop — gates, uncertainty, decision states, risk tiers and
                 the research behind them. Each mechanism is marked implemented or specified.
               </p>
             </div>
@@ -188,12 +191,12 @@ const Docs: React.FC = () => (
           </div>
 
           {/* ── 02 ARGUS XDR ── */}
-          <div className="docs-card">
+          <div className="docs-card k-accent-argus">
             <div className="docs-card-head">
               <div className="docs-card-brand">
-                <img src="/argus-logo.png" alt="Argus" width={36} height={36} style={{ height: 36, width: 36, objectFit: 'contain', borderRadius: '50%', flexShrink: 0 }} />
+                <span className="glyph"><ArgusMark size={36} /></span>
                 <span className="num">02 / 03</span>
-                <span className="pill">XDR</span>
+                <span className="pill argus">XDR</span>
               </div>
               <h2>Argus <em>XDR</em></h2>
               <p>
@@ -209,12 +212,12 @@ const Docs: React.FC = () => (
           </div>
 
           {/* ── 03 ARGUS SDK ── */}
-          <div className="docs-card">
-            <div className="docs-card-head" style={{ borderBottomColor: 'rgba(245,158,11,0.20)' }}>
+          <div className="docs-card k-accent-argus">
+            <div className="docs-card-head">
               <div className="docs-card-brand">
-                <img src="/argus-logo.png" alt="Argus SDK" width={36} height={36} style={{ height: 36, width: 36, objectFit: 'contain', borderRadius: '50%', flexShrink: 0 }} />
+                <span className="glyph"><ArgusMark size={36} /></span>
                 <span className="num">03 / 03</span>
-                <span className="pill amber">SDK · BETA</span>
+                <span className="pill argus">SDK · BETA</span>
               </div>
               <h2>Argus <em>SDK</em></h2>
               <p>
@@ -233,7 +236,6 @@ const Docs: React.FC = () => (
       </div>
     </div>
 
-    <EclipseFooter />
   </>
 );
 

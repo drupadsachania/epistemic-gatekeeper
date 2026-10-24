@@ -1,30 +1,26 @@
 /**
- * Layout.tsx — Prism design shell.
- * PrismBackground (z-index 0, multiply blend) + EclipseNav + Outlet.
- * EclipseFooter is rendered per-page so sections can sit above it.
+ * Layout.tsx — Kairos design language shell: skip link + sticky nav, main, footer band.
+ * Reveal-on-scroll runs once per route.
  */
 
-import { Outlet } from 'react-router-dom';
-import EclipseNav from './EclipseNav';
-import PrismBackground from './PrismBackground';
-import MobileBottomNav from './MobileBottomNav';
+import { Outlet, useLocation } from 'react-router-dom';
+import SiteNav from './SiteNav';
+import SiteFooter from './SiteFooter';
+import { useReveal } from '@/lib/kairos';
 
-const Layout = () => (
-  <>
-    {/* Fixed prism beam canvas — behind all content, multiply blend */}
-    <PrismBackground />
+const Layout = () => {
+  const { pathname } = useLocation();
+  useReveal(pathname);
 
-    {/* All visible content: nav + pages + footer */}
-    <div className="shell">
-      <EclipseNav />
-      <main>
+  return (
+    <>
+      <SiteNav />
+      <main id="main" tabIndex={-1}>
         <Outlet />
       </main>
-    </div>
-
-    {/* Fixed bottom nav — mobile only, rendered outside .shell so z-index is clean */}
-    <MobileBottomNav />
-  </>
-);
+      <SiteFooter />
+    </>
+  );
+};
 
 export default Layout;

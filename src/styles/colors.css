@@ -1,79 +1,70 @@
 /*
- * KAIROS FOUNDATION — Canonical Design Tokens
- * THE EPISTEMIC PRISM — light clinical canvas, glass-morphic surfaces.
- * Single source of truth. Do NOT override these values inline.
+ * LEGACY BRIDGE — maps the old Epistemic Prism variable names onto the Kairos design tokens
+ * (kairos-tokens.css). Older components still read --ink-*, --indigo, --surface etc.; pointing them
+ * here gives them the warm-paper palette and the dark theme for free. New code should use --k-* only.
  */
 
 :root {
-  /* ── CANVAS ──────────────────────────────────────────────────────── */
-  --bg:               #F5F6FA;
-  --bg-tint:          #EEF0F7;
-  --surface:          rgba(255, 255, 255, 0.65);
-  --surface-strong:   rgba(255, 255, 255, 0.85);
-  --hairline:         rgba(15, 13, 27, 0.06);
-  --hairline-strong:  rgba(15, 13, 27, 0.12);
+  /* ── CANVAS ── */
+  --bg:               var(--k-color-bg);
+  --bg-tint:          var(--k-color-surface);
+  --surface:          var(--k-color-surface);
+  --surface-strong:   var(--k-color-surface-raised);
+  --hairline:         var(--k-color-line);
+  --hairline-strong:  var(--k-color-line);
 
-  /* ── FOREGROUND ──────────────────────────────────────────────────── */
-  --ink-0:  #09090B;   /* primary text — stark */
-  --ink-1:  #29263C;   /* body */
-  --ink-2:  #524C9A;   /* secondary indigo-tinted */
-  --ink-3:  #71717A;   /* muted */
-  --ink-4:  #A4A0BF;   /* hint */
+  /* ── FOREGROUND ── */
+  --ink-0:  var(--k-color-text);
+  --ink-1:  var(--k-color-text);
+  --ink-2:  var(--k-color-text-muted);
+  --ink-3:  var(--k-color-text-subtle);
+  --ink-4:  var(--k-color-text-subtle);
 
-  /* ── BRAND ACCENTS ───────────────────────────────────────────────── */
-  --indigo:         #0E21A0;
-  --indigo-rgb:     14 33 160;
-  --indigo-bright:  #4D2FB2;
-  --purple:         #4D2FB2;
-  --purple-rgb:     77 47 178;
-  --magenta:        #B153D7;
-  --magenta-rgb:    177 83 215;
-  --amber:          #F375C2;
-  --amber-rgb:      243 117 194;
-  --amber-soft:     #F399D1;
+  /* ── ACCENTS ── the Foundation is ink; a product section can re-scope --accent. */
+  --indigo:         var(--accent, var(--k-color-foundation));
+  --indigo-bright:  var(--k-color-text-muted);
+  --purple:         var(--k-color-text-muted);
+  --magenta:        var(--k-color-aegis-ink);
+  --amber:          var(--k-color-warning);
+  --amber-soft:     var(--k-color-warning-bg);
 
-  /* ── DECISION STATE COLORS ───────────────────────────────────────── */
-  /* 4 states: ACT / HOLD / DEFER / REFUSE                             */
-  --state-act:    #0E21A0;   /* indigo  */
-  --state-hold:   #F375C2;   /* magenta */
-  --state-defer:  #F375C2;   /* magenta */
-  --state-refuse: #E11D48;   /* rose    */
-  --deny:         #E11D48;   /* alias for refuse color */
+  /* ── DECISION OUTCOMES (see kairos-site.css) ── */
+  --state-act:      var(--k-outcome-act);
+  --state-hold:     var(--k-outcome-defer);
+  --state-defer:    var(--k-outcome-defer);
+  --state-escalate: var(--k-outcome-escalate);
+  --state-refuse:   var(--k-outcome-failsafe);
+  --deny:           var(--k-outcome-failsafe);
 
-  /* ── DARK SURFACES (terminal blocks ONLY) ───────────────────────── */
-  --ink-dark-0:   #09090B;
-  --ink-dark-1:   #18181B;
-  --ink-dark-2:   #27272A;
-  --on-dark:      #F4F4F5;
+  /* ── TERMINAL SURFACES (dark in both themes) ── */
+  --ink-dark-0:   var(--k-color-code-bg);
+  --ink-dark-1:   var(--k-color-code-bg);
+  --ink-dark-2:   color-mix(in srgb, var(--k-color-code-text) 14%, var(--k-color-code-bg));
+  --on-dark:      var(--k-color-code-text);
 
-  /* ── TYPOGRAPHY ──────────────────────────────────────────────────── */
-  --f-sans:   "Geist", ui-sans-serif, system-ui, -apple-system, sans-serif;
-  --f-mono:   "JetBrains Mono", "Geist Mono", ui-monospace, "SF Mono", Menlo, monospace;
-  --f-serif:  "Instrument Serif", "Times New Roman", serif;
+  /* ── TYPOGRAPHY ── serif for voice, mono for machinery */
+  --f-sans:   var(--k-font-body);
+  --f-mono:   var(--k-font-mono);
+  --f-serif:  var(--k-font-display);
 
-  /* ── ELEVATION / SHADOW ──────────────────────────────────────────── */
-  --shadow-card:          0 1px 0 rgba(255,255,255,0.6) inset,
-                          0 4px 24px rgba(15,13,27,0.04),
-                          0 1px 2px rgba(15,13,27,0.03);
-  --shadow-lift:          0 12px 40px rgba(14,33,160,0.12),
-                          0 4px 16px rgba(15,13,27,0.06);
-  --shadow-glow-indigo:   0 0 0 1px rgba(14,33,160,0.20),
-                          0 16px 40px rgba(14,33,160,0.20);
-  --shadow-glow-amber:    0 0 0 1px rgba(243,117,194,0.22),
-                          0 12px 30px rgba(243,117,194,0.20);
+  /* ── ELEVATION ── mostly flat */
+  --shadow-card:          none;
+  --shadow-lift:          var(--k-shadow-lift);
+  --shadow-glow-indigo:   var(--k-shadow-lift);
+  --shadow-glow-amber:    var(--k-shadow-lift);
 
-  /* ── RADII ───────────────────────────────────────────────────────── */
-  --r-xs:  4px;
-  --r-sm:  6px;
-  --r-md:  10px;
-  --r-lg:  16px;
-  --r-xl:  24px;
+  /* ── RADII ── */
+  --r-xs:  var(--k-radius-xs);
+  --r-sm:  var(--k-radius-sm);
+  --r-md:  var(--k-radius-md);
+  --r-lg:  var(--k-radius-xl);
+  --r-xl:  var(--k-radius-2xl);
 
-  /* ── RULES ───────────────────────────────────────────────────────── */
-  --rule:         0.5px solid var(--hairline);
-  --rule-strong:  0.5px solid var(--hairline-strong);
+  /* ── RULES ── */
+  --rule:         1px solid var(--k-color-line);
+  --rule-strong:  1px solid var(--k-color-line);
 
-  /* ── EASING ──────────────────────────────────────────────────────── */
-  --ease-out:     cubic-bezier(0.16, 1, 0.3, 1);
-  --ease-in-out:  cubic-bezier(0.65, 0, 0.35, 1);
+  /* ── EASING ── */
+  --ease-out:     var(--k-ease-smooth);
+  --ease-in-out:  var(--k-ease-fold);
 }

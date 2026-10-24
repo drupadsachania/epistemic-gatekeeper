@@ -64,18 +64,18 @@ const protocol = [
 ];
 
 const relatedDocs = [
-  { title: "Decision States & Policy", description: "ACT / DEFER / ESCALATE, risk tiers 0–3, and the 16-rule v2 policy table", link: "/kairos/decision-states" },
+  { title: "Decision States & Policy", description: "ACT / DEFER / ESCALATE, risk tiers 0–3, and the 16-rule policy table", link: "/kairos/decision-states" },
   { title: "Gates & Uncertainty", description: "Triple gate, provenance veto, and the three-level uncertainty model", link: "/kairos/gates" },
   { title: "Threat Model & Failure Modes", description: "2025–2026 incidents, OWASP Agentic Top 10, and the 13 named failure types", link: "/kairos/problem" },
   { title: "Framework specs on GitHub", description: "KAIROS-000 … 009 and the security profile KAIROS-SEC-001 … 005", link: "https://github.com/kairos-dev-kairos-ecl/kairos-core", external: true },
 ];
 
 const Research = () => (
-  <div>
+  <div className="k-tw">
     {/* Hero */}
     <section className="px-6 pt-24 pb-16 md:pt-32 md:pb-20">
       <div className="max-w-3xl mx-auto">
-        <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight leading-tight mb-6 text-foreground">
+        <h1 className="k-page-title mb-6">
           Research & Papers
         </h1>
         <p className="text-lg text-muted-foreground leading-relaxed">
@@ -93,7 +93,7 @@ const Research = () => (
             <FileText className="h-8 w-8 text-primary flex-shrink-0 mt-1" />
             <div className="flex-1 min-w-0">
               <p className="text-xs font-mono text-muted-foreground mb-2">Preprint · Version 2 · October 2026 (Version 1: April 2026)</p>
-              <h2 className="text-xl font-semibold text-foreground mb-2 leading-snug">
+              <h2 className="mb-2">
                 Earning the Right to Act: Epistemic Control Loops for Trustworthy Agentic Security Operations
               </h2>
               <p className="text-sm text-muted-foreground mb-4">Drupad H. Sachania · Independent Researcher, Bengaluru</p>
@@ -102,7 +102,7 @@ const Research = () => (
                 system knows when not to believe it."
               </blockquote>
               <div className="border-t border-border pt-4">
-                <h3 className="text-sm font-medium text-foreground mb-2">Abstract</h3>
+                <h3 className="text-sm mb-2">Abstract</h3>
                 <p className="text-sm text-muted-foreground leading-relaxed mb-3">
                   SOCs are adopting agentic AI faster than they are learning to govern it: 79% use AI or
                   machine learning, but only 36% have integrated it into defined workflows (SANS 2026).
@@ -128,7 +128,7 @@ const Research = () => (
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1.5 text-sm text-primary font-medium hover:gap-2.5 transition-all"
                 >
-                  Read preprint v2 <ExternalLink className="h-3.5 w-3.5" />
+                  Read the preprint <ExternalLink className="h-3.5 w-3.5" />
                 </a>
                 <a
                   href="/EARNING_THE_RIGHT_TO_ACT_v1.pdf"
@@ -148,7 +148,7 @@ const Research = () => (
     {/* Contributions */}
     <section className="px-6 pb-16">
       <div className="max-w-3xl mx-auto">
-        <h2 className="text-2xl font-semibold text-foreground mb-2">Five contributions</h2>
+        <h2 className="mb-2">Five contributions</h2>
         <p className="text-sm text-muted-foreground mb-6">
           The thesis: a system must be able to know, measure and act on what it does not know.
         </p>
@@ -172,7 +172,7 @@ const Research = () => (
     {/* Preliminary results */}
     <section className="px-6 pb-16">
       <div className="max-w-3xl mx-auto">
-        <h2 className="text-2xl font-semibold text-foreground mb-2">Preliminary results</h2>
+        <h2 className="mb-2">Preliminary results</h2>
         <div className="flex items-start gap-3 border border-state-escalate/30 bg-state-escalate/5 rounded-lg p-4 mb-6">
           <AlertTriangle className="h-4 w-4 text-state-escalate flex-shrink-0 mt-0.5" />
           <p className="text-sm text-muted-foreground leading-relaxed">
@@ -225,7 +225,7 @@ const Research = () => (
     <section className="px-6 pb-16">
       <div className="max-w-3xl mx-auto">
         <p className="text-xs font-mono uppercase tracking-wider text-primary mb-2">Between v1 and v2</p>
-        <h2 className="text-2xl font-semibold text-foreground mb-2">The risks in the paper became incident reports</h2>
+        <h2 className="mb-2">The risks in the paper became incident reports</h2>
         <p className="text-sm text-muted-foreground mb-6 leading-relaxed">
           Every input-borne incident below succeeded because untrusted content reached a sink: an egress
           channel, a shell, a tool configuration. Filters reduced how often the attacks worked but never
@@ -254,7 +254,7 @@ const Research = () => (
     <section className="px-6 pb-16">
       <div className="max-w-3xl mx-auto">
         <p className="text-xs font-mono uppercase tracking-wider text-primary mb-2">Correcting my own paper</p>
-        <h2 className="text-2xl font-semibold text-foreground mb-6">What v1 got wrong, and what v2 says instead</h2>
+        <h2 className="mb-6">What v1 got wrong, and what v2 says instead</h2>
         <div className="space-y-3">
           {corrections.map((c) => (
             <div key={c.topic} className="border border-border rounded-lg p-4">
@@ -273,7 +273,7 @@ const Research = () => (
     {/* Calibration context */}
     <section className="px-6 pb-16">
       <div className="max-w-3xl mx-auto">
-        <h2 className="text-2xl font-semibold text-foreground mb-2">Capability is not calibration</h2>
+        <h2 className="mb-2">Capability is not calibration</h2>
         <p className="text-sm text-muted-foreground mb-6 leading-relaxed">
           Accuracy on Humanity's Last Exam has risen substantially since April 2026; calibration error mostly
           has not. One model reaches 20%, so good calibration is achievable, but it does not come
@@ -310,7 +310,7 @@ const Research = () => (
     {/* Evaluation protocol */}
     <section className="px-6 pb-16">
       <div className="max-w-3xl mx-auto">
-        <h2 className="text-2xl font-semibold text-foreground mb-2">Evaluation protocol for independent validation</h2>
+        <h2 className="mb-2">Evaluation protocol for independent validation</h2>
         <p className="text-sm text-muted-foreground mb-6 leading-relaxed">
           To make the claims falsifiable, the paper specifies what a full study must report (KAIROS-009).
         </p>
@@ -323,7 +323,7 @@ const Research = () => (
           ))}
         </div>
         <div className="border-t border-border mt-8 pt-6">
-          <h3 className="text-sm font-medium text-foreground mb-3">Known limitations</h3>
+          <h3 className="text-sm mb-3">Known limitations</h3>
           <ul className="space-y-2 text-sm text-muted-foreground leading-relaxed">
             <li>• Adjudicated outcomes lag by days and are themselves noisy; certification is sensitive to label quality.</li>
             <li>• Risk-controlled thresholds assume exchangeability, which campaign-driven distribution shift violates.</li>
@@ -338,7 +338,7 @@ const Research = () => (
     {/* Related */}
     <section className="px-6 pb-24">
       <div className="max-w-3xl mx-auto border-t border-border pt-10">
-        <h2 className="text-xl font-semibold text-foreground mb-6">Related Documentation</h2>
+        <h2 className="mb-6">Related Documentation</h2>
         <div className="space-y-3">
           {relatedDocs.map((doc) => {
             const inner = (

@@ -21,7 +21,7 @@ type Failure = {
   severity: "CRITICAL" | "NON-CRITICAL";
   description: string;
   override: string;
-  v2?: boolean;
+  specified?: boolean;
 };
 
 const failureModes: Failure[] = [
@@ -36,20 +36,20 @@ const failureModes: Failure[] = [
   { id: "contradictory", name: "CONTRADICTORY_HYPOTHESES", severity: "NON-CRITICAL", override: "ESCALATE",
     description: "Mutually exclusive interpretations that survive Gate 1 and that no available evidence can tell apart. Competing hypotheses are expected; contradictions nobody can resolve need a human." },
   { id: "overconfident", name: "OVERCONFIDENT_OUTPUT", severity: "NON-CRITICAL", override: "DEFER",
-    description: "Two or more certainty markers (\"definitely\", \"confirmed\") without the evidence to back them. In v2, analyst-facing verbal certainty is replaced by calibrated confidence shown with evidence gaps." },
+    description: "Two or more certainty markers (\"definitely\", \"confirmed\") without the evidence to back them. Analyst-facing verbal certainty is replaced by calibrated confidence shown with evidence gaps." },
   { id: "superficial", name: "SUPERFICIAL_REASONING", severity: "NON-CRITICAL", override: "DEFER",
     description: "More than half the hypotheses are classification labels (\"suspicious activity\") rather than mechanisms that explain why, how and through what path." },
   { id: "degenerate", name: "DEGENERATE_OUTPUT", severity: "CRITICAL", override: "FAIL_SAFE",
     description: "Token repetition above 0.60 or byte-identical agent outputs. The reasoning component itself has failed, so nothing it produces can be trusted." },
-  { id: "anchoring", name: "NARRATIVE_ANCHORING", severity: "NON-CRITICAL", override: "DEFER", v2: true,
+  { id: "anchoring", name: "NARRATIVE_ANCHORING", severity: "NON-CRITICAL", override: "DEFER", specified: true,
     description: "Fewer than k competing hypotheses, or no benign explanation. This is the precondition for narrative hardening: the first AI hypothesis becomes the organisation's working truth." },
-  { id: "infeasible", name: "STRUCTURALLY_INFEASIBLE", severity: "NON-CRITICAL", override: "INVALID → re-orient", v2: true,
+  { id: "infeasible", name: "STRUCTURALLY_INFEASIBLE", severity: "NON-CRITICAL", override: "INVALID → re-orient", specified: true,
     description: "Gate 1 found the attack path impossible under the topology, identity graph or policy. Unconstrained models present these fluently, with no sign that anything is wrong." },
-  { id: "trajectory", name: "TRAJECTORY_UNCERTAINTY_EXCEEDED", severity: "NON-CRITICAL", override: "ESCALATE", v2: true,
+  { id: "trajectory", name: "TRAJECTORY_UNCERTAINTY_EXCEEDED", severity: "NON-CRITICAL", override: "ESCALATE", specified: true,
     description: "Each step looked acceptable, but the conclusion inherited compounding uncertainty from earlier steps: the cascading-failure mechanism (OWASP ASI08)." },
-  { id: "tainted", name: "TAINTED_JUSTIFICATION", severity: "CRITICAL", override: "ESCALATE", v2: true,
+  { id: "tainted", name: "TAINTED_JUSTIFICATION", severity: "CRITICAL", override: "ESCALATE", specified: true,
     description: "The justification depends on untrusted inputs and the action reaches an execution, egress or state-changing sink. Critical because it may be a compromise; ESCALATE because the reasoning is intact, only the provenance is not." },
-  { id: "uncertified", name: "CALIBRATION_UNCERTIFIED", severity: "NON-CRITICAL", override: "ESCALATE (Tier ≥ 1)", v2: true,
+  { id: "uncertified", name: "CALIBRATION_UNCERTIFIED", severity: "NON-CRITICAL", override: "ESCALATE (Tier ≥ 1)", specified: true,
     description: "No valid calibration certificate covers this deployment, or drift revoked it. Without certification, ĉ(h) has no guaranteed meaning." },
 ];
 
@@ -80,11 +80,11 @@ const overrideClass = (o: string) =>
   : "text-state-defer";
 
 const Problem = () => (
-  <div>
+  <div className="k-tw">
     {/* Hero */}
     <section className="px-6 pt-24 pb-16 md:pt-32 md:pb-20">
       <div className="max-w-3xl mx-auto">
-        <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight leading-tight mb-6 text-foreground">
+        <h1 className="k-page-title mb-6">
           Unearned Confidence
         </h1>
         <p className="text-lg text-muted-foreground leading-relaxed">
@@ -99,7 +99,7 @@ const Problem = () => (
       <div className="max-w-3xl mx-auto">
         <div className="flex items-center gap-3 mb-6">
           <Eye className="h-6 w-6 text-primary" />
-          <h2 className="text-2xl font-semibold text-foreground">One root cause</h2>
+          <h2 className="">One root cause</h2>
         </div>
         <div className="space-y-4 text-muted-foreground leading-relaxed">
           <p>
@@ -129,7 +129,7 @@ const Problem = () => (
       <div className="max-w-3xl mx-auto">
         <div className="flex items-center gap-3 mb-6">
           <Zap className="h-6 w-6 text-primary" />
-          <h2 className="text-2xl font-semibold text-foreground">Narrative hardening</h2>
+          <h2 className="">Narrative hardening</h2>
         </div>
         <div className="space-y-4 text-muted-foreground leading-relaxed">
           <p>
@@ -162,7 +162,7 @@ const Problem = () => (
       <div className="max-w-3xl mx-auto">
         <div className="flex items-center gap-3 mb-6">
           <BarChart3 className="h-6 w-6 text-primary" />
-          <h2 className="text-2xl font-semibold text-foreground">Governance lags deployment</h2>
+          <h2 className="">Governance lags deployment</h2>
         </div>
         <div className="grid sm:grid-cols-2 gap-4">
           {governance.map((g) => (
@@ -182,7 +182,7 @@ const Problem = () => (
       <div className="max-w-3xl mx-auto">
         <div className="flex items-center gap-3 mb-6">
           <Crosshair className="h-6 w-6 text-primary" />
-          <h2 className="text-2xl font-semibold text-foreground">Threat model</h2>
+          <h2 className="">Threat model</h2>
         </div>
         <div className="border border-border rounded-lg divide-y divide-border text-sm">
           {[
@@ -199,7 +199,7 @@ const Problem = () => (
           ))}
         </div>
 
-        <h3 className="text-lg font-semibold text-foreground mt-10 mb-2">OWASP Top 10 for Agentic Applications</h3>
+        <h3 className="text-lg mt-10 mb-2">OWASP Top 10 for Agentic Applications</h3>
         <p className="text-sm text-muted-foreground mb-4 leading-relaxed">
           Kairos is designed primarily around ASI08 and ASI09, the epistemic risks most product-level controls
           leave unaddressed. For the rest it relies on established security engineering.
@@ -232,11 +232,11 @@ const Problem = () => (
       <div className="max-w-3xl mx-auto">
         <div className="flex items-center gap-3 mb-6">
           <AlertTriangle className="h-6 w-6 text-primary" />
-          <h2 className="text-2xl font-semibold text-foreground">Epistemic failure modes</h2>
+          <h2 className="">Epistemic failure modes</h2>
         </div>
         <p className="text-muted-foreground leading-relaxed mb-6">
           A closed taxonomy of thirteen named failures. Eight are implemented in the reference engine; five come
-          from the v2 gates and provenance controls. An unnamed failure is a critical system defect, and each
+          from the gates and provenance controls, and are specified but not yet implemented. An unnamed failure is a critical system defect, and each
           failure carries a mandatory override, applied regardless of confidence.
         </p>
         <Accordion type="multiple" className="space-y-2 animate-stagger">
@@ -258,14 +258,13 @@ const Problem = () => (
                   >
                     {mode.severity}
                   </span>
-                  {mode.v2 && <span className="text-[10px] font-mono px-1.5 py-0.5 rounded border border-primary/30 text-primary">v2</span>}
                 </div>
               </AccordionTrigger>
               <AccordionContent>
                 <p className="text-sm text-muted-foreground leading-relaxed mb-3">{mode.description}</p>
                 <p className="text-xs font-mono">
                   Policy override: <span className={overrideClass(mode.override)}>{mode.override}</span>
-                  <span className="ml-3 text-muted-foreground/70">{mode.v2 ? "[Specified v2]" : "[Implemented]"}</span>
+                  <span className="ml-3 text-muted-foreground/70">{mode.specified ? "[Specified]" : "[Implemented]"}</span>
                 </p>
               </AccordionContent>
             </AccordionItem>
@@ -284,7 +283,7 @@ const Problem = () => (
       <div className="max-w-3xl mx-auto">
         <div className="flex items-center gap-3 mb-6">
           <ShieldAlert className="h-6 w-6 text-primary" />
-          <h2 className="text-2xl font-semibold text-foreground">The cost of getting it wrong</h2>
+          <h2 className="">The cost of getting it wrong</h2>
         </div>
         <div className="grid sm:grid-cols-3 gap-4 animate-stagger text-muted-foreground">
           <div className="border border-border rounded-lg p-4 card-hover">

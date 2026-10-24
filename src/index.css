@@ -2,50 +2,66 @@
    INDEX.CSS — Tailwind directives + Epistemic Prism components
    ───────────────────────────────────────────────────────────────────────── */
 
-@import url('https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
+  /* Tailwind / shadcn variables (HSL triplets) generated from kairos-tokens.css so opacity modifiers work.
+     Light is the default; dark only via data-theme="dark" on <html>. */
   :root {
-    /* ShadCN / Tailwind HSL variables — Prism light theme */
-    --background:          228 20% 97%;   /* #F5F6FA */
-    --foreground:          240  6%  4%;   /* #09090B */
+    --background: 42 89% 96%;
+    --foreground: 24 15% 20%;
+    --card: 42 56% 93%;
+    --card-foreground: 24 15% 20%;
+    --popover: 42 89% 96%;
+    --popover-foreground: 24 15% 20%;
+    --primary: 229 68% 52%;            /* link blue: sub-pages use text-primary for links */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 38 65% 91%;
+    --secondary-foreground: 24 15% 20%;
+    --muted: 42 56% 93%;
+    --muted-foreground: 23 11% 33%;
+    --accent: 38 65% 91%;
+    --accent-foreground: 24 15% 20%;
+    --destructive: 4 76% 40%;
+    --destructive-foreground: 42 89% 96%;
+    --border: 41 29% 79%;
+    --input: 29 10% 50%;
+    --ring: 229 68% 52%;
+    --radius: 0.75rem;
 
-    --card:                  0  0% 100%;
-    --card-foreground:     240  6%  4%;
+    /* Decision outcomes: ACT success, DEFER warning, ESCALATE Themis blue, FAIL_SAFE danger */
+    --st-act: 143 60% 26%;
+    --st-defer: 39 100% 27%;
+    --st-escalate: 229 68% 52%;
+    --st-failsafe: 4 76% 40%;
+  }
+  :root[data-theme="dark"] {
+    --background: 212 87% 6%;
+    --foreground: 43 48% 89%;
+    --card: 209 80% 10%;
+    --card-foreground: 43 48% 89%;
+    --popover: 209 80% 10%;
+    --popover-foreground: 43 48% 89%;
+    --primary: 241 74% 77%;
+    --primary-foreground: 212 87% 6%;
+    --secondary: 210 73% 15%;
+    --secondary-foreground: 43 48% 89%;
+    --muted: 209 80% 10%;
+    --muted-foreground: 42 22% 73%;
+    --accent: 210 73% 15%;
+    --accent-foreground: 43 48% 89%;
+    --destructive: 5 100% 75%;
+    --destructive-foreground: 212 87% 6%;
+    --border: 213 41% 20%;
+    --input: 213 14% 50%;
+    --ring: 45 73% 59%;
 
-    --popover:               0  0% 100%;
-    --popover-foreground:  240  6%  4%;
-
-    --primary:             230 91% 34%;   /* #0E21A0 deep blue */
-    --primary-foreground:    0  0% 100%;
-
-    --secondary:           228 22% 95%;   /* #EEF0F7 */
-    --secondary-foreground: 240 6%  4%;
-
-    --muted:               228 22% 95%;
-    --muted-foreground:    240  4% 45%;   /* #71717A */
-
-    --accent:              322 87% 68%;
-    --accent-foreground:     0  0% 100%;
-
-    --destructive:         346 77% 49%;   /* #E11D48 */
-    --destructive-foreground: 0 0% 98%;
-
-    --border:              240  5% 90%;   /* light hairline */
-    --input:               240  5% 90%;
-    --ring:                230 91% 34%;
-
-    --radius: 0.625rem;
-
-    /* Decision state HSL aliases */
-    --state-act:     230 91% 34%;   /* deep blue */
-    --state-hold:    322 87% 68%;   /* hot pink */
-    --state-defer:   322 87% 68%;   /* hot pink */
-    --state-refuse:  346 77% 49%;   /* rose     */
+    --st-act: 137 50% 62%;
+    --st-defer: 42 74% 57%;
+    --st-escalate: 241 74% 77%;
+    --st-failsafe: 5 100% 75%;
   }
 }
 
@@ -55,12 +71,17 @@
   }
 
   body {
-    @apply bg-background text-foreground antialiased;
-    font-family: var(--f-sans, 'Geist', system-ui, sans-serif);
+    @apply antialiased;
+    background: var(--k-color-bg);
+    color: var(--k-color-text-muted);
+    font-family: var(--k-font-body);
   }
 
-  html {
-    scroll-behavior: smooth;
+  /* Headings speak in the display serif (teimer-web 300). */
+  h1, h2, h3 {
+    font-family: var(--k-font-display);
+    font-weight: var(--k-weight-light);
+    color: var(--k-color-text);
   }
 }
 
@@ -79,132 +100,56 @@
   }
 
   /* ── DARK TERMINAL (only intentional dark surface) ─────────────────── */
+  /* Terminal window: the handoff code window (dark in both themes, three muted dots, gold prompt).
+     Syntax colours are fixed light-on-dark values because code-bg is dark in both themes. */
   .term {
     position: relative;
-    background: #09090B;
-    color: #F4F4F5;
-    border-radius: var(--r-lg, 16px);
-    border: 1px solid #27272A;
-    box-shadow: 0 24px 60px rgba(15,13,27,0.16), 0 4px 12px rgba(15,13,27,0.08);
+    background: var(--k-color-code-bg);
+    color: var(--k-color-code-text);
+    border-radius: var(--k-radius-lg);
+    border: 1px solid color-mix(in srgb, var(--k-color-code-text) 12%, transparent);
     overflow: hidden;
-    font-family: var(--f-mono, 'JetBrains Mono', monospace);
+    font-family: var(--k-font-mono);
   }
-
   .term-head {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 14px 18px;
-    border-bottom: 1px solid rgba(255,255,255,0.06);
-    font-family: var(--f-mono, 'JetBrains Mono', monospace);
-    font-size: 12px;
-    color: rgba(255,255,255,0.5);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: var(--k-space-3) var(--k-space-4);
+    font-family: var(--k-font-mono); font-size: var(--k-text-label);
+    color: color-mix(in srgb, var(--k-color-code-text) 60%, transparent);
   }
-
-  .term-head .dots {
-    display: flex;
-    gap: 7px;
-  }
-
-  .term-head .dots i {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    display: block;
-  }
-
-  .term-head .file {
-    font-family: var(--f-mono, 'JetBrains Mono', monospace);
-    font-size: 12px;
-    color: rgba(255,255,255,0.45);
-  }
-
+  .term-head .dots { display: flex; gap: 6px; }
+  .term-head .dots i { width: 10px; height: 10px; border-radius: 50%; display: block;
+    background: color-mix(in srgb, var(--k-color-code-text) 25%, transparent) !important; }
+  .term-head .file { font-size: var(--k-text-label); color: color-mix(in srgb, var(--k-color-code-text) 55%, transparent); }
   .term-head .copy {
-    appearance: none;
-    background: rgba(255,255,255,0.06);
-    border: 1px solid rgba(255,255,255,0.10);
-    border-radius: var(--r-sm, 6px);
-    color: rgba(255,255,255,0.7);
-    font-family: var(--f-mono, 'JetBrains Mono', monospace);
-    font-size: 11px;
-    letter-spacing: 0.04em;
-    padding: 5px 10px;
-    cursor: pointer;
-    display: inline-flex;
-    gap: 6px;
-    align-items: center;
-    transition: all 0.15s;
+    appearance: none; display: inline-flex; gap: 6px; align-items: center; min-height: 2rem; padding: 0 var(--k-space-3);
+    background: transparent; border: 1px solid color-mix(in srgb, var(--k-color-code-text) 25%, transparent);
+    border-radius: var(--k-radius-pill); color: var(--k-color-code-text); cursor: pointer;
+    font-family: var(--k-font-mono); font-size: var(--k-text-label); letter-spacing: 0.04em;
   }
+  .term-head .copy:hover { background: color-mix(in srgb, var(--k-color-code-text) 10%, transparent); }
+  .term-head .copy.copied { color: #E3BD48; border-color: #E3BD48; }
+  .term-body { padding: 0 var(--k-space-5) var(--k-space-5); font-family: var(--k-font-mono); font-size: var(--k-text-small); line-height: var(--k-leading-code); overflow-x: auto; }
+  .term-body .com    { color: color-mix(in srgb, var(--k-color-code-text) 55%, transparent); }
+  .term-body .kw     { color: #9C9AF0; }
+  .term-body .str    { color: #E3BD48; }
+  .term-body .fn     { color: #6CD0C3; }
+  .term-body .pkg    { color: #9C9AF0; }
+  .term-body .prompt { color: #E3BD48; user-select: none; }
 
-  .term-head .copy:hover {
-    background: rgba(255,255,255,0.10);
-    color: #fff;
-  }
-
-  .term-head .copy.copied {
-    background: rgba(245,158,11,0.25);
-    color: #F59E0B;
-    border-color: rgba(245,158,11,0.40);
-  }
-
-  .term-body {
-    padding: 18px 22px;
-    font-family: var(--f-mono, 'JetBrains Mono', monospace);
-    font-size: 13px;
-    line-height: 1.65;
-    overflow-x: auto;
-  }
-
-  .term-body .com    { color: rgba(244,244,245,0.40); font-style: italic; }
-  .term-body .kw     { color: #C084FC; }
-  .term-body .str    { color: #86EFAC; }
-  .term-body .fn     { color: #FDBA74; }
-  .term-body .pkg    { color: #93C5FD; }
-  .term-body .prompt { color: rgba(244,244,245,0.30); user-select: none; }
-
-  /* ── BUTTONS ────────────────────────────────────────────────────────── */
+  /* Legacy buttons render as the handoff pill buttons (mono label, pill shape). */
   .btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    padding: 12px 18px;
-    font-family: var(--f-sans, 'Geist', sans-serif);
-    font-size: 14px;
-    font-weight: 600;
-    letter-spacing: -0.005em;
-    text-decoration: none;
-    border-radius: var(--r-sm, 6px);
-    cursor: pointer;
-    transition: all 0.2s var(--ease-out, ease-out);
-    border: 0;
-    background: transparent;
-    color: var(--ink-0, #09090B);
+    display: inline-flex; align-items: center; gap: var(--k-space-2);
+    min-height: var(--k-layout-target-min); padding: 0 var(--k-space-5);
+    font-family: var(--k-font-mono); font-size: var(--k-text-small); font-weight: var(--k-weight-medium);
+    text-decoration: none; border-radius: var(--k-radius-pill); cursor: pointer;
+    border: 1px solid transparent; background: transparent; color: var(--k-color-text);
   }
-
-  .btn-primary {
-    background: var(--indigo, #4338CA);
-    color: #fff;
-    box-shadow: 0 1px 2px rgba(15,13,27,0.10), 0 0 0 1px rgba(67,56,202,0.40);
-  }
-
-  .btn-primary:hover {
-    background: var(--indigo-bright, #4F46E5);
-    box-shadow: 0 4px 16px rgba(67,56,202,0.35), 0 0 0 1px rgba(67,56,202,0.50);
-    transform: translateY(-1px);
-  }
-
-  .btn-ghost {
-    background: var(--surface, rgba(255,255,255,0.65));
-    color: var(--ink-0, #09090B);
-    border: 1px solid var(--hairline-strong, rgba(15,13,27,0.12));
-    backdrop-filter: blur(8px);
-  }
-
-  .btn-ghost:hover {
-    background: var(--surface-strong, rgba(255,255,255,0.85));
-    border-color: rgba(67,56,202,0.30);
-    color: var(--indigo, #4338CA);
-  }
+  .btn-primary { background: var(--accent, var(--k-color-foundation)); color: var(--k-color-on-foundation); }
+  .k-scope-argus .btn-primary { background: var(--k-color-argus); color: var(--k-color-on-argus); }
+  .btn-primary:hover { filter: brightness(1.08); }
+  .btn-ghost { background: transparent; color: var(--k-color-text); border-color: var(--k-color-border); }
+  .btn-ghost:hover { background: var(--k-color-surface-raised); }
 
   /* ── STATE PILLS ────────────────────────────────────────────────────── */
   .state-pill {

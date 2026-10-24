@@ -112,11 +112,11 @@ const stateMachine = `ALERT_RECEIVED
 Any processing state may exit early to FAILED_SAFE or DEFERRED.`;
 
 const DecisionStates = () => (
-  <div>
+  <div className="k-tw">
     {/* Hero */}
     <section className="px-6 pt-24 pb-16 md:pt-32 md:pb-20">
       <div className="max-w-3xl mx-auto">
-        <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight leading-tight mb-6 text-foreground">
+        <h1 className="k-page-title mb-6">
           Decision States
         </h1>
         <p className="text-lg text-muted-foreground leading-relaxed">
@@ -165,11 +165,11 @@ const DecisionStates = () => (
     {/* Risk tiers */}
     <section className="px-6 pb-16">
       <div className="max-w-4xl mx-auto">
-        <h2 className="text-2xl font-semibold text-foreground mb-2">Action risk tiers</h2>
+        <h2 className="mb-2">Action risk tiers</h2>
         <p className="text-sm text-muted-foreground mb-6 leading-relaxed">
           Passing every gate makes an action eligible for autonomy only up to its tier. Thresholds tighten
           with tier. Tier 3 is never autonomous, and any action without a tier assignment is treated as Tier 3.
-          <span className="ml-2 font-mono text-xs text-state-escalate">[Specified v2]</span>
+          <span className="ml-2 font-mono text-xs text-state-escalate">[Specified]</span>
         </p>
         <div className="border border-border rounded-lg overflow-x-auto">
           <Table>
@@ -216,7 +216,7 @@ const DecisionStates = () => (
     {/* Policy Table */}
     <section className="px-6 pb-16">
       <div className="max-w-4xl mx-auto">
-        <h2 className="text-2xl font-semibold text-foreground mb-2">Decision policy</h2>
+        <h2 className="mb-2">Decision policy</h2>
         <p className="text-sm text-muted-foreground mb-6 leading-relaxed">
           Ordered rules, first match wins, and the rule order is the security policy. No LLM output reaches
           this layer. When several ESCALATE rules fire, all of them are listed for the approver, so a Tier 2
@@ -224,7 +224,7 @@ const DecisionStates = () => (
         </p>
         <Tabs defaultValue="v2">
           <TabsList>
-            <TabsTrigger value="v2">v2 spec · 16 rules</TabsTrigger>
+            <TabsTrigger value="v2">Specified · 16 rules</TabsTrigger>
             <TabsTrigger value="v1">Code · 8 rules</TabsTrigger>
           </TabsList>
           <TabsContent value="v2">
@@ -295,9 +295,9 @@ const DecisionStates = () => (
     {/* State machine */}
     <section className="px-6 pb-24">
       <div className="max-w-4xl mx-auto">
-        <h2 className="text-2xl font-semibold text-foreground mb-2">State machine</h2>
+        <h2 className="mb-2">State machine</h2>
         <p className="text-sm text-muted-foreground mb-6 leading-relaxed">
-          Twelve states, five terminal. v2 adds exactly one backward edge, the bounded re-orient, with its own
+          Twelve states, five terminal. The specification adds exactly one backward edge, the bounded re-orient, with its own
           invariant (RT-6). No state skipping, no transitions out of a terminal state, and every transition is
           logged with a sequence number on an append-only, hash-chained history.
         </p>

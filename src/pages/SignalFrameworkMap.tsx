@@ -18,7 +18,7 @@ type MapEntry = {
   oodaPhase: string;
   where: string;
   owasp: string;
-  status: "Implemented" | "Specified v2";
+  status: "Implemented" | "Specified";
   description: string;
 };
 
@@ -39,23 +39,23 @@ const entries: MapEntry[] = [
     description: "Classification labels instead of causal mechanisms." },
   { check: "Failure screen", name: "DEGENERATE_OUTPUT", severity: "CRITICAL", override: "FAIL_SAFE", oodaPhase: "ORIENT", where: "epistemic_failure_engine.py", owasp: "—", status: "Implemented",
     description: "Repetition collapse or byte-identical agents." },
-  { check: "NCE", name: "NARRATIVE_ANCHORING", severity: "NON-CRITICAL", override: "DEFER", oodaPhase: "ORIENT", where: "KAIROS-005 §4.9", owasp: "ASI09", status: "Specified v2",
+  { check: "NCE", name: "NARRATIVE_ANCHORING", severity: "NON-CRITICAL", override: "DEFER", oodaPhase: "ORIENT", where: "KAIROS-005 §4.9", owasp: "ASI09", status: "Specified",
     description: "Fewer than k competing hypotheses, or none benign." },
-  { check: "Gate 1", name: "STRUCTURALLY_INFEASIBLE", severity: "NON-CRITICAL", override: "INVALID → re-orient", oodaPhase: "DECIDE", where: "Structural Simulation Engine", owasp: "ASI08", status: "Specified v2",
+  { check: "Gate 1", name: "STRUCTURALLY_INFEASIBLE", severity: "NON-CRITICAL", override: "INVALID → re-orient", oodaPhase: "DECIDE", where: "Structural Simulation Engine", owasp: "ASI08", status: "Specified",
     description: "Attack path impossible under topology, identity graph or policy." },
-  { check: "Gate 2", name: "CALIBRATED_CONFIDENCE_LOW", severity: "—", override: "DEFER", oodaPhase: "DECIDE", where: "Calibration service · policy rule 9", owasp: "ASI09", status: "Specified v2",
+  { check: "Gate 2", name: "CALIBRATED_CONFIDENCE_LOW", severity: "—", override: "DEFER", oodaPhase: "DECIDE", where: "Calibration service · policy rule 9", owasp: "ASI09", status: "Specified",
     description: "ĉ(h) = g(s(h)) below the tier threshold τ_r." },
-  { check: "Level 1", name: "ALEATORIC_UNCERTAINTY_RESIDUAL", severity: "—", override: "DEFER", oodaPhase: "DECIDE", where: "Uncertainty engine · rule 8", owasp: "—", status: "Specified v2",
+  { check: "Level 1", name: "ALEATORIC_UNCERTAINTY_RESIDUAL", severity: "—", override: "DEFER", oodaPhase: "DECIDE", where: "Uncertainty engine · rule 8", owasp: "—", status: "Specified",
     description: "Telemetry insufficient after the retrieval budget: request telemetry." },
-  { check: "Gate 3", name: "TRAJECTORY_UNCERTAINTY_EXCEEDED", severity: "NON-CRITICAL", override: "ESCALATE", oodaPhase: "DECIDE", where: "Uncertainty engine (UProp / RUPA)", owasp: "ASI08 · ASI07", status: "Specified v2",
+  { check: "Gate 3", name: "TRAJECTORY_UNCERTAINTY_EXCEEDED", severity: "NON-CRITICAL", override: "ESCALATE", oodaPhase: "DECIDE", where: "Uncertainty engine (UProp / RUPA)", owasp: "ASI08 · ASI07", status: "Specified",
     description: "Inherited uncertainty across the investigation above κ_r." },
-  { check: "Veto", name: "TAINTED_JUSTIFICATION", severity: "CRITICAL", override: "ESCALATE", oodaPhase: "DECIDE", where: "Taint tracker · rule 11", owasp: "ASI01 · ASI02 · ASI05 · LLM01", status: "Specified v2",
+  { check: "Veto", name: "TAINTED_JUSTIFICATION", severity: "CRITICAL", override: "ESCALATE", oodaPhase: "DECIDE", where: "Taint tracker · rule 11", owasp: "ASI01 · ASI02 · ASI05 · LLM01", status: "Specified",
     description: "Untrusted provenance reaching an execution, egress or state-change sink." },
-  { check: "Level 2", name: "CALIBRATION_UNCERTIFIED", severity: "NON-CRITICAL", override: "ESCALATE", oodaPhase: "DECIDE", where: "Calibration service · rule 12", owasp: "ASI09", status: "Specified v2",
+  { check: "Level 2", name: "CALIBRATION_UNCERTIFIED", severity: "NON-CRITICAL", override: "ESCALATE", oodaPhase: "DECIDE", where: "Calibration service · rule 12", owasp: "ASI09", status: "Specified",
     description: "No valid certificate for the deployment tuple; Tier ≥ 1 only." },
-  { check: "Tiers", name: "TIER_2_DUAL_KEY", severity: "—", override: "ESCALATE", oodaPhase: "ACT", where: "Policy rule 14 · gate service", owasp: "ASI02", status: "Specified v2",
+  { check: "Tiers", name: "TIER_2_DUAL_KEY", severity: "—", override: "ESCALATE", oodaPhase: "ACT", where: "Policy rule 14 · gate service", owasp: "ASI02", status: "Specified",
     description: "Isolation, account disablement, firewall block need two approvers." },
-  { check: "Tiers", name: "TIER_3_HUMAN_ONLY", severity: "—", override: "ESCALATE", oodaPhase: "ACT", where: "Policy rule 13", owasp: "ASI02 · ASI10", status: "Specified v2",
+  { check: "Tiers", name: "TIER_3_HUMAN_ONLY", severity: "—", override: "ESCALATE", oodaPhase: "ACT", where: "Policy rule 13", owasp: "ASI02 · ASI10", status: "Specified",
     description: "Irreversible actions: the agent may prepare, never execute." },
   { check: "Heuristic", name: "HIGH_EPISTEMIC_RISK", severity: "—", override: "DEFER", oodaPhase: "DECIDE", where: "uncertainty_engine.py", owasp: "—", status: "Implemented",
     description: "Uncalibrated 4D composite ≥ 0.60; a backstop once Gate 2 exists." },
@@ -85,11 +85,11 @@ const SignalFrameworkMap = () => {
   );
 
   return (
-    <div>
+    <div className="k-tw">
       {/* Hero */}
       <section className="px-6 pt-24 pb-16 md:pt-32 md:pb-20">
         <div className="max-w-5xl mx-auto">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight leading-tight mb-6 text-foreground">
+          <h1 className="k-page-title mb-6">
             Framework Cross-Reference
           </h1>
           <p className="text-lg text-muted-foreground leading-relaxed">

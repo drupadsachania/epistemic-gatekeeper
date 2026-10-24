@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kairos Foundation — design language starter</title>
+  <!-- First paint: apply a stored dark theme before the page renders. Light is the default; the OS setting is never read. -->
+  <script>try{if(localStorage.getItem('kairos-theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+  <link rel="preconnect" href="https://use.typekit.net" crossorigin>
+  <link rel="preconnect" href="https://p.typekit.net" crossorigin>
+  <link rel="stylesheet" href="https://use.typekit.net/pww4pkx.css">
+  <link rel="preload" href="fonts/red-hat-mono-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="kairos-tokens.css">
+  <link rel="stylesheet" href="kairos-base.css">
+  <script src="kairos.js" defer></script>
+</head>
+<body>
+  <a class="k-skip" href="#main">Skip to content</a>
+
+  <header class="k-nav">
+    <div class="k-container k-nav__inner">
+      <a class="k-wordmark" href="#">Kairos <em>Foundation</em></a>
+      <ul class="k-nav__links">
+        <li><a href="#projects" aria-current="page">Projects</a></li>
+        <li><a href="#principles">Principles</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <button class="k-theme-toggle" type="button" aria-pressed="false" aria-label="Dark theme"></button>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- Hero: serif voice, one italic accent phrase, mono eyebrow -->
+    <section class="k-section">
+      <div class="k-container k-hero">
+        <div>
+          <span class="k-eyebrow k-accent-foundation">Kairos Foundation</span>
+          <h1>Open tools for defenders, <em>made with care.</em></h1>
+          <p style="font-size:var(--k-text-body-l)">Placeholder copy: one or two plain sentences on what the Foundation does and why. Concrete nouns and verbs; no fear, war metaphors or hype.</p>
+          <div style="display:flex;gap:var(--k-space-3);flex-wrap:wrap;margin-top:var(--k-space-5)">
+            <a class="k-btn k-btn--primary" href="#projects">See the projects <span class="k-arrow" aria-hidden="true">→</span></a>
+            <a class="k-btn k-btn--secondary" href="#principles">Our principles</a>
+          </div>
+        </div>
+        <div class="k-code" role="region" aria-label="Example command">
+          <div class="k-code__bar" aria-hidden="true"><span></span><span></span><span></span></div>
+          <pre><span class="k-prompt">$</span> npx aegis-skills install --platform claude
+  MCP: registered "aegis"
+✓ Claude Code: 24 skills installed</pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- Projects: one card per product, each scoped to its own accent; the Foundation itself stays ink -->
+    <section class="k-section k-section--band" id="projects">
+      <div class="k-container">
+        <span class="k-eyebrow">#1 Projects</span>
+        <h2>Named for the <em>old myths</em></h2>
+        <ul class="k-grid k-stagger" style="list-style:none;padding:0;margin:var(--k-space-6) 0 0">
+          <li class="k-card k-card--accent k-accent-aegis" data-reveal style="--i:0">
+            <img class="k-theme-light-only" src="assets/aegis-mark-320.webp" width="120" height="104" alt="Aegis mark">
+            <img class="k-theme-dark-only" src="assets/aegis-mark-dark-320.webp" width="120" height="105" alt="Aegis mark">
+            <span class="k-pill k-pill--live">Live</span>
+            <h3><a class="k-card__link" href="https://aegis-skills.vercel.app">Aegis</a></h3>
+            <p>Athena's shield. An open library of defensive security skills for AI assistants.</p>
+          </li>
+          <li class="k-card k-card--accent k-accent-themis" data-reveal style="--i:1">
+            <img class="k-theme-light-only" src="assets/themis-mark-320.webp" width="120" height="105" alt="Themis mark">
+            <img class="k-theme-dark-only" src="assets/themis-mark-dark-320.webp" width="120" height="106" alt="Themis mark">
+            <span class="k-pill k-pill--building">In development</span>
+            <h3><a class="k-card__link" href="https://aegis-skills.vercel.app/themis">Themis</a></h3>
+            <p>The scales of order. A governed security-operations agent where a person approves every action.</p>
+          </li>
+          <li class="k-card k-card--accent k-accent-foundation" data-reveal style="--i:2">
+            <span class="k-pill">Planned</span>
+            <h3><a class="k-card__link" href="#">Argus</a></h3>
+            <p>The all-seeing watchman. Placeholder: no artwork or accent colour exists yet (see README, open decisions).</p>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Principles: plain list, callouts carry tone with a label, never colour alone -->
+    <section class="k-section" id="principles">
+      <div class="k-container">
+        <span class="k-eyebrow">#2 Principles</span>
+        <h2>Warm paper, <em>quiet ink</em></h2>
+        <div class="k-grid" style="margin-top:var(--k-space-6)">
+          <div class="k-callout k-callout--note" data-reveal><strong>Open</strong><span>Source you can read, licences stated where they matter.</span></div>
+          <div class="k-callout k-callout--tip" data-reveal><strong>Governed</strong><span>People approve what changes systems; the tools say what they do and do not do.</span></div>
+          <div class="k-callout k-callout--warning" data-reveal><strong>Accessible</strong><span>WCAG 2.2 AA by construction: contrast, focus, reflow and reduced motion.</span></div>
+        </div>
+        <p style="margin-top:var(--k-space-6)">Read more in the <a class="k-link" href="#">design notes</a>.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="k-footer" id="contact">
+    <div class="k-container">
+      <p><span class="k-wordmark" style="font-size:1.125rem">Kairos Foundation</span></p>
+      <p>Placeholder: contact, licence line and links. <a href="mailto:support@kairos-foundation.org">support@kairos-foundation.org</a></p>
+    </div>
+  </footer>
+</body>
+</html>

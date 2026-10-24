@@ -1,0 +1,94 @@
+/* Argus page — brings ArgusXdrSection / ArgusSdkSection into the Kairos design language.
+   Their component <style> blocks load later in the DOM, so every rule here is scoped under .k-scope-argus
+   to win on specificity. Tokens only; the Argus accent is peacock teal. */
+
+.k-scope-argus .argus-sec,
+.k-scope-argus .sdk-sec { padding-block: var(--k-space-section); }
+.k-scope-argus .sdk-sec { background: var(--k-color-surface); border-top: 0; }
+
+/* Headlines: teimer 300, one italic accent phrase in Argus ink (never gradient text) */
+.k-scope-argus .argus-sec h2,
+.k-scope-argus .sdk-sec h2 {
+  font-family: var(--k-font-display); font-weight: var(--k-weight-light);
+  font-size: var(--k-text-display); line-height: 1.1; letter-spacing: var(--k-tracking-display);
+  color: var(--k-color-text);
+}
+.k-scope-argus .argus-sec h2 .em,
+.k-scope-argus .sdk-sec h2 .em,
+.k-scope-argus .sdk-sec .closing .quote .a {
+  background: none; -webkit-background-clip: border-box; background-clip: border-box;
+  color: var(--k-color-argus-ink); font-family: var(--k-font-display); font-style: italic; font-weight: var(--k-weight-light);
+}
+.k-scope-argus .argus-sec .tagline { font-family: var(--k-font-display); font-weight: var(--k-weight-light); font-size: var(--k-text-h3); color: var(--k-color-text); }
+.k-scope-argus .argus-sec .lede,
+.k-scope-argus .sdk-sec .lede { font-size: var(--k-text-body-l); color: var(--k-color-text-muted); }
+.k-scope-argus .argus-sec .lede em,
+.k-scope-argus .sdk-sec .lede em { font-family: var(--k-font-body); color: var(--k-color-text); }
+
+/* Small headings inside cards speak in the display serif */
+.k-scope-argus .ls-decision .name,
+.k-scope-argus .sc-panel .head .ttl,
+.k-scope-argus .install-side h4,
+.k-scope-argus .ocsf-core .name,
+.k-scope-argus .perf-card .big {
+  font-family: var(--k-font-display); font-weight: var(--k-weight-light); letter-spacing: var(--k-tracking-heading);
+}
+.k-scope-argus .ocsf-core .name em { font-family: var(--k-font-display); color: var(--k-color-argus-ink); }
+
+/* Brand tags become eyebrows: mono label + accent diamond, no product logo image */
+.k-scope-argus .argus-sec .argus-brand-tag,
+.k-scope-argus .sdk-sec .tag {
+  background: none; border: 0; padding: 0; gap: var(--k-space-2); -webkit-backdrop-filter: none; backdrop-filter: none;
+  font-size: var(--k-text-label); letter-spacing: var(--k-tracking-label); color: var(--k-color-text-subtle);
+}
+.k-scope-argus .argus-sec .argus-brand-tag .dot,
+.k-scope-argus .sdk-sec .tag .dot {
+  width: 8px; height: 8px; border-radius: 2px; transform: rotate(45deg); box-shadow: none; background: var(--k-color-argus);
+}
+
+/* Replace the old indigo / amber washes with flat Argus tints */
+.k-scope-argus .ls-decision { background: var(--k-color-argus-soft); border-top: 1px solid var(--k-color-line); }
+.k-scope-argus .ls-decision::before { background: none; }
+.k-scope-argus .ls-decision .n { color: var(--k-color-argus-ink); }
+.k-scope-argus .perf-card .progress { background: var(--k-color-line); }
+.k-scope-argus .perf-card .progress .fill,
+.k-scope-argus .perf-card.amber .progress .fill { background: var(--k-color-argus); }
+.k-scope-argus .perf-card .scan { display: none; }
+.k-scope-argus .ocsf::before { background: none; }
+.k-scope-argus .ocsf-chip { background: var(--k-color-bg); border-color: var(--k-color-line); box-shadow: none; color: var(--k-color-text); }
+.k-scope-argus .ocsf-chip .tag { color: var(--k-color-argus-ink); background: var(--k-color-argus-soft); border-color: currentColor; border-radius: var(--k-radius-pill); }
+.k-scope-argus .ocsf-chip .tag.ok { color: var(--k-color-text-muted); background: var(--k-color-surface-raised); border-color: var(--k-color-line); }
+.k-scope-argus .ocsf-core { background: var(--k-color-argus-soft); border-color: var(--k-color-argus); box-shadow: none; border-radius: var(--k-radius-lg); }
+.k-scope-argus .ocsf-core .schema { color: var(--k-color-argus-ink); }
+.k-scope-argus .ocsf-core .lang { border-top-color: var(--k-color-line); }
+.k-scope-argus .ocsf-arrow { background: var(--k-color-argus); background-size: auto; animation: none; opacity: 0.5; }
+.k-scope-argus .sdk-feat .icon { background: var(--k-color-argus-soft); color: var(--k-color-argus-ink); }
+.k-scope-argus .sdk-sec .closing button { background: var(--k-color-argus); color: var(--k-color-on-argus); font-family: var(--k-font-mono); }
+.k-scope-argus .sdk-sec .closing button:hover { background: var(--k-color-argus-hover); }
+
+/* Legacy surfaces: flat cards on paper (no glass blur) */
+.k-scope-argus .perf-card,
+.k-scope-argus .sc-panel,
+.k-scope-argus .install-side,
+.k-scope-argus .sdk-feat,
+.k-scope-argus .ocsf {
+  -webkit-backdrop-filter: none; backdrop-filter: none; box-shadow: none;
+  background: var(--k-color-bg); border-color: var(--k-color-line); border-radius: var(--k-radius-xl);
+}
+.k-scope-argus .sdk-sec .sdk-feat,
+.k-scope-argus .sdk-sec .ocsf { background: var(--k-color-bg); }
+
+/* Layer stack reflow at phone widths (320 px target): drop the pillar column and row pills;
+   each row's L-number and name still identify the layer. */
+@media (max-width: 30rem) {
+  .k-scope-argus .layer-stack { grid-template-columns: 1fr; }
+  .k-scope-argus .ls-pillars, .k-scope-argus .ls-lanes, .k-scope-argus .ls-row .pill { display: none; }
+  .k-scope-argus .ls-row { grid-template-columns: 2.5rem minmax(0, 1fr) !important; padding-inline: var(--k-space-4); }
+  .k-scope-argus .ls-decision { grid-template-columns: 1fr; gap: var(--k-space-2); }
+  .k-scope-argus .ls-decision .actions { flex-wrap: wrap; }
+}
+
+/* Continuous loops are reserved for "something is working" (handoff §9): calm the decorative ones. */
+@media (prefers-reduced-motion: reduce) {
+  .k-scope-argus *, .k-scope-argus *::before, .k-scope-argus *::after { animation: none !important; }
+}

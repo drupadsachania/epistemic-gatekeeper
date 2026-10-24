@@ -5,7 +5,6 @@
 
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import EclipseFooter from '../components/EclipseFooter';
 import '../styles/argus-overview.css';
 
 /* ── DATA ────────────────────────────────────────────────────────────────── */
@@ -31,11 +30,11 @@ const FAILURE_MODES = [
   { id: 'FM-06', name: 'OVERCONFIDENT_OUTPUT',       desc: 'Certainty language without evidence to back it · DEFER' },
   { id: 'FM-07', name: 'SUPERFICIAL_REASONING',      desc: 'Classification labels instead of causal mechanisms · DEFER' },
   { id: 'FM-08', name: 'DEGENERATE_OUTPUT',          desc: 'Repetition collapse or byte-identical agents · FAIL_SAFE' },
-  { id: 'FM-09', name: 'NARRATIVE_ANCHORING',        desc: 'v2 · fewer than k hypotheses, or no benign one · DEFER' },
-  { id: 'FM-10', name: 'STRUCTURALLY_INFEASIBLE',    desc: 'v2 · Gate 1: impossible attack path · INVALID → re-orient' },
-  { id: 'FM-11', name: 'TRAJECTORY_UNCERTAINTY_EXCEEDED', desc: 'v2 · Gate 3: inherited uncertainty above κ · ESCALATE' },
-  { id: 'FM-12', name: 'TAINTED_JUSTIFICATION',      desc: 'v2 · untrusted provenance reaching a sink · ESCALATE' },
-  { id: 'FM-13', name: 'CALIBRATION_UNCERTIFIED',    desc: 'v2 · no valid certificate for the deployment · ESCALATE' },
+  { id: 'FM-09', name: 'NARRATIVE_ANCHORING',        desc: 'Specified · fewer than k hypotheses, or no benign one · DEFER' },
+  { id: 'FM-10', name: 'STRUCTURALLY_INFEASIBLE',    desc: 'Specified · Gate 1: impossible attack path · INVALID → re-orient' },
+  { id: 'FM-11', name: 'TRAJECTORY_UNCERTAINTY_EXCEEDED', desc: 'Specified · Gate 3: inherited uncertainty above κ · ESCALATE' },
+  { id: 'FM-12', name: 'TAINTED_JUSTIFICATION',      desc: 'Specified · untrusted provenance reaching a sink · ESCALATE' },
+  { id: 'FM-13', name: 'CALIBRATION_UNCERTIFIED',    desc: 'Specified · no valid certificate for the deployment · ESCALATE' },
 ];
 
 const TIERS = [
@@ -65,7 +64,7 @@ const ArgusOverview: React.FC = () => {
 
   return (
     <>
-      <div className="argus-doc">
+      <div className="argus-doc k-scope-argus">
 
         {/* ── HERO ─────────────────────────────────────────────────────────── */}
         <div className="argus-doc-hero">
@@ -80,7 +79,6 @@ const ArgusOverview: React.FC = () => {
 
             <div style={{ marginTop: 28 }}>
               <div className="eyebrow">
-                <img src="/argus-logo.png" alt="Argus" width={22} height={22} style={{ height: 22, width: 22, objectFit: 'contain', borderRadius: '50%' }} />
                 <span className="dot" />
                 ARGUS XDR · TECHNICAL DOCUMENTATION
               </div>
@@ -125,20 +123,20 @@ const ArgusOverview: React.FC = () => {
 {'           ▼\n'}
 <span className="phase">  [OBSERVE]  </span><span className="fn">resolve_context()</span>{'\n'}
 {'             └─ gather evidence from SIEM · EDR · IAM · retrieval\n'}
-{'             └─ '}<span className="com"># v2: provenance label + taint ID on every datum</span>{'\n'}
+{'             └─ '}<span className="com"># specified: provenance label + taint ID on every datum</span>{'\n'}
 {'           │\n'}
 {'           ▼\n'}
-<span className="phase">  [ORIENT]   </span><span className="fn">generate_hypotheses()</span>{' '}<span className="com"># LLM — UNTRUSTED, no tools · v2: ≥k competing</span>{'\n'}
+<span className="phase">  [ORIENT]   </span><span className="fn">generate_hypotheses()</span>{' '}<span className="com"># LLM — UNTRUSTED, no tools · specified: ≥k competing</span>{'\n'}
 {'             └─ '}<span className="fn">run_meta_reasoning()</span>{' '}<span className="com"># quality reflection — ADVISORY only</span>{'\n'}
 {'           │\n'}
 {'           ▼\n'}
 <span className="phase">  [DECIDE]   </span><span className="fn">test_evidence()</span>{' '}<span className="com"># correlate hypotheses ↔ evidence</span>{'\n'}
-{'             ├─ '}<span className="fn">compute_uncertainty()</span>{'  '}<span className="com"># 4D heuristic · v2: L1 + L3 uncertainty</span>{'\n'}
-{'             ├─ '}<span className="fn">detect_failures()</span>{'     '}<span className="com"># 8 named failures (13 in v2)</span>{'\n'}
-{'             └─ '}<span className="fn">evaluate_policy()</span>{'     '}<span className="com"># v2: G1 · G2 · G3 · provenance veto · tiers</span>{'\n'}
+{'             ├─ '}<span className="fn">compute_uncertainty()</span>{'  '}<span className="com"># 4D heuristic · specified: L1 + L3 uncertainty</span>{'\n'}
+{'             ├─ '}<span className="fn">detect_failures()</span>{'     '}<span className="com"># 8 named failures (13 specified)</span>{'\n'}
+{'             └─ '}<span className="fn">evaluate_policy()</span>{'     '}<span className="com"># specified: G1 · G2 · G3 · provenance veto · tiers</span>{'\n'}
 {'           │\n'}
 {'           ▼\n'}
-<span className="phase">  [ACT]      </span><span className="fn">finalize()</span>{' → '}<span className="state-act">ACT</span>{' · '}<span className="state-defer">DEFER</span>{' · '}<span className="state-refuse">ESCALATE</span>{' · '}<span className="state-hold">FAIL_SAFE</span>
+<span className="phase">  [ACT]      </span><span className="fn">finalize()</span>{' → '}<span className="state-act">ACT</span>{' · '}<span className="state-defer">DEFER</span>{' · '}<span className="state-escalate">ESCALATE</span>{' · '}<span className="state-refuse">FAIL_SAFE</span>
               </pre>
             </div>
           </div>
@@ -186,7 +184,7 @@ const ArgusOverview: React.FC = () => {
             <h2 className="sec-title">13 Named Failure Modes</h2>
             <p className="sec-body">
               The Kairos failure taxonomy is closed: an unnamed failure is a system defect. Eight types are
-              implemented in the reference engine; five more come from the v2 gates and provenance controls.
+              implemented in the reference engine; five more come from the gates and provenance controls and are specified, not yet implemented.
               Each carries a mandatory override, applied regardless of confidence.
             </p>
             <div className="failure-grid">
@@ -348,7 +346,6 @@ const ArgusOverview: React.FC = () => {
 
         </div>
       </div>
-      <EclipseFooter />
     </>
   );
 };

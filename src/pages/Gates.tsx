@@ -93,11 +93,11 @@ const v1Formula = `epistemic_risk = 0.30 × disagreement
                + meta_penalty  (max 0.35)          ≥ 0.60 → DEFER`;
 
 const Gates = () => (
-  <div>
+  <div className="k-tw">
     {/* Hero */}
     <section className="px-6 pt-24 pb-16 md:pt-32 md:pb-20">
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight leading-tight mb-6 text-foreground">
+        <h1 className="k-page-title mb-6">
           Gates &amp; Uncertainty
         </h1>
         <p className="text-lg text-muted-foreground leading-relaxed">
@@ -115,7 +115,7 @@ const Gates = () => (
           <div key={g.id} className="border border-border rounded-lg p-6">
             <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1 mb-4">
               <span className="text-xs font-mono font-semibold text-primary">{g.id}</span>
-              <h3 className="text-lg font-semibold text-foreground">{g.question}</h3>
+              <h3 className="text-lg">{g.question}</h3>
               <span className="text-xs font-mono text-muted-foreground">{g.name}</span>
             </div>
             <div className="grid md:grid-cols-2 gap-x-8 gap-y-4">
@@ -140,7 +140,7 @@ const Gates = () => (
           <span className="text-foreground font-medium">Gates are independent.</span> There is no compensatory
           scoring: strength at one gate cannot mask weakness at another. Passing all four makes an action eligible
           for autonomy only up to its risk tier (Tier 0–1 ACT, Tier 2 dual-key, Tier 3 human-only).
-          <span className="ml-2 font-mono text-xs text-state-escalate">[Specified v2]</span>
+          <span className="ml-2 font-mono text-xs text-state-escalate">[Specified]</span>
         </div>
       </div>
     </section>
@@ -148,17 +148,17 @@ const Gates = () => (
     {/* Three-level UQ */}
     <section className="px-6 pb-16">
       <div className="max-w-4xl mx-auto">
-        <h2 className="text-2xl font-semibold text-foreground mb-2">Uncertainty in three levels</h2>
+        <h2 className="mb-2">Uncertainty in three levels</h2>
         <p className="text-sm text-muted-foreground mb-6 leading-relaxed">
           v1 applied Expected Calibration Error as a per-hypothesis gate. That was a category error: ECE and the
           Brier score are statistics over many predictions with known outcomes and cannot be computed for one
-          unresolved hypothesis. v2 separates three levels.
+          unresolved hypothesis. The framework now separates three levels.
         </p>
 
         <div className="space-y-6">
           <div className="border border-border rounded-lg p-5">
             <p className="text-xs font-mono text-primary mb-1">LEVEL 1 · PER HYPOTHESIS · ONLINE</p>
-            <h3 className="text-base font-semibold text-foreground mb-3">Decompose: is the uncertainty reducible?</h3>
+            <h3 className="text-base mb-3">Decompose: is the uncertainty reducible?</h3>
             <pre className="border border-border rounded-md p-4 bg-secondary/20 font-mono text-xs text-muted-foreground overflow-x-auto mb-4">{level1}</pre>
             <div className="grid sm:grid-cols-2 gap-3 text-sm">
               <div className="border border-border rounded-md p-3">
@@ -175,7 +175,7 @@ const Gates = () => (
 
           <div className="border border-border rounded-lg p-5">
             <p className="text-xs font-mono text-primary mb-1">LEVEL 2 · POPULATION · OFFLINE, ROLLING</p>
-            <h3 className="text-base font-semibold text-foreground mb-3">Certify: do this deployment's scores mean what they say?</h3>
+            <h3 className="text-base mb-3">Certify: do this deployment's scores mean what they say?</h3>
             <pre className="border border-border rounded-md p-4 bg-secondary/20 font-mono text-xs text-muted-foreground overflow-x-auto mb-4">{level2}</pre>
             <ul className="space-y-2 text-sm text-muted-foreground leading-relaxed">
               <li>• A <span className="text-foreground">deployment</span> is the tuple (model ensemble, prompts, retrieval corpus, s, g). It is certified on held-out adjudicated incidents, not per model family.</li>
@@ -186,7 +186,7 @@ const Gates = () => (
 
           <div className="border border-border rounded-lg p-5">
             <p className="text-xs font-mono text-primary mb-1">LEVEL 3 · TRAJECTORY · ONLINE</p>
-            <h3 className="text-base font-semibold text-foreground mb-3">Propagate: has uncertainty accumulated across the investigation?</h3>
+            <h3 className="text-base mb-3">Propagate: has uncertainty accumulated across the investigation?</h3>
             <pre className="border border-border rounded-md p-4 bg-secondary/20 font-mono text-xs text-muted-foreground overflow-x-auto mb-4">{level3}</pre>
             <p className="text-sm text-muted-foreground leading-relaxed">
               Uncertainty can vanish at agent hand-offs: orchestrator and sub-agent uncertainty correlate only weakly
@@ -202,7 +202,7 @@ const Gates = () => (
     {/* Analyst view */}
     <section className="px-6 pb-16">
       <div className="max-w-4xl mx-auto">
-        <h2 className="text-2xl font-semibold text-foreground mb-2">What the analyst sees</h2>
+        <h2 className="mb-2">What the analyst sees</h2>
         <p className="text-sm text-muted-foreground mb-6 leading-relaxed">
           Calibrated confidence is never shown alone, only with the evidence gaps. People overestimate what an
           LLM knows when its explanation sounds authoritative, and that is how analysts end up rubber-stamping
@@ -215,7 +215,7 @@ const Gates = () => (
     {/* Provenance */}
     <section className="px-6 pb-16">
       <div className="max-w-4xl mx-auto">
-        <h2 className="text-2xl font-semibold text-foreground mb-2">Provenance, taint and sinks</h2>
+        <h2 className="mb-2">Provenance, taint and sinks</h2>
         <p className="text-sm text-muted-foreground mb-6 leading-relaxed">
           Every datum is labelled <code className="font-mono text-foreground">TRUSTED</code> (generated by authenticated
           internal systems with integrity protection) or <code className="font-mono text-foreground">UNTRUSTED</code>, which
@@ -255,13 +255,13 @@ const Gates = () => (
     {/* v1 heuristics */}
     <section className="px-6 pb-24">
       <div className="max-w-4xl mx-auto">
-        <h2 className="text-2xl font-semibold text-foreground mb-2">
+        <h2 className="mb-2">
           The v1 heuristic vector <span className="ml-2 align-middle font-mono text-xs text-state-act">[Implemented]</span>
         </h2>
         <p className="text-sm text-muted-foreground mb-4 leading-relaxed">
           The reference code computes four interpretable signals from two agents' outputs: model disagreement,
           lexical agreement, evidence grounding and antonym contradiction. They are not calibrated probabilities.
-          In v2 they serve as analyst explanation, as candidate features of s(h), and as a conservative backstop
+          In the specification they serve as analyst explanation, as candidate features of s(h), and as a conservative backstop
           (policy rule 5) until a calibration certificate exists.
         </p>
         <pre className="border border-border rounded-lg p-5 bg-secondary/20 font-mono text-xs sm:text-sm text-muted-foreground overflow-x-auto">{v1Formula}</pre>

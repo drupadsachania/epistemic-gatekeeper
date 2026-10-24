@@ -3,24 +3,32 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Kairos — Open Epistemic Decision Framework</title>
-    <meta name="description" content="Kairos is an open epistemic decision framework for autonomous systems in high-stakes domains. Know when to act. Know when not to." />
-    <meta name="author" content="Kairos Framework" />
+    <!-- First paint: apply a stored dark theme before the page renders. Light is the default; the OS setting is never read. -->
+    <script>try{if(localStorage.getItem('kairos-theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+    <title>Kairos Foundation — know when to act, know when not to</title>
+    <meta name="description" content="Kairos is an open epistemic control framework: an AI hypothesis has to earn the right to act. Research, specifications and the Kairos stack: Argus, Aegis and Themis." />
+    <meta name="author" content="Kairos Foundation" />
 
-    <meta name="theme-color" content="#000000" />
+    <meta name="theme-color" content="#FEF9ED" />
 
-    <meta property="og:title" content="Kairos — Open Epistemic Decision Framework" />
+    <!-- Typography: teimer-web + legitima (Adobe Fonts kit), Red Hat Mono (self-hosted, SIL OFL) -->
+    <link rel="preconnect" href="https://use.typekit.net" crossorigin />
+    <link rel="preconnect" href="https://p.typekit.net" crossorigin />
+    <link rel="stylesheet" href="https://use.typekit.net/pww4pkx.css" />
+    <link rel="preload" href="/fonts/red-hat-mono-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin />
+
+    <meta property="og:title" content="Kairos Foundation — know when to act, know when not to" />
     <meta property="og:description" content="Know when to act. Know when not to. An open epistemic decision framework for autonomous systems in high-stakes domains." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://kairos-foundation.org" />
-    <meta property="og:image" content="https://kairos-foundation.org/kairos-logo.png" />
+    <meta property="og:image" content="https://kairos-foundation.org/brand/kairos-mark-320.png" />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@KairosDev" />
-    <meta name="twitter:title" content="Kairos — Epistemic Governance for Autonomous Systems" />
+    <meta name="twitter:title" content="Kairos Foundation — an AI hypothesis has to earn the right to act" />
     <meta name="twitter:description" content="An AI hypothesis has to earn the right to act. Three gates and a provenance veto outside the LLM; autonomy bounded by risk tier." />
-    <meta name="twitter:image" content="https://kairos-foundation.org/kairos-logo.png" />
-    <link rel="icon" type="image/png" href="/kairos-logo.png" />
+    <meta name="twitter:image" content="https://kairos-foundation.org/brand/kairos-mark-320.png" />
+    <link rel="icon" type="image/png" href="/brand/kairos-mark-320.png" />
     <link rel="manifest" href="/manifest.json" />
     <script>
       (function() {
